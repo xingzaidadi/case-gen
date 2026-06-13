@@ -509,6 +509,51 @@
       "owner": "product"
     }
   ],
+  "suite_layers": {
+    "smoke": [
+      "TC-JOB-001",
+      "TC-JOB-002",
+      "TC-JOB-003",
+      "TC-JOB-005"
+    ],
+    "p0_gate": [
+      "TC-JOB-001",
+      "TC-JOB-002",
+      "TC-JOB-003",
+      "TC-JOB-004",
+      "TC-JOB-005"
+    ],
+    "regression": [
+      "TC-JOB-001",
+      "TC-JOB-002",
+      "TC-JOB-003",
+      "TC-JOB-004",
+      "TC-JOB-005",
+      "TC-JOB-006"
+    ],
+    "full": [
+      "TC-JOB-001",
+      "TC-JOB-002",
+      "TC-JOB-003",
+      "TC-JOB-004",
+      "TC-JOB-005",
+      "TC-JOB-006"
+    ],
+    "exploratory": []
+  },
+  "pruning_notes": {
+    "generated": 6,
+    "smoke": 4,
+    "p0_gate": 5,
+    "regression": 6,
+    "full": 6,
+    "pruned_or_merged": 0,
+    "deferred": 0,
+    "rationale": [
+      "P0 security and idempotency combinations are kept explicit.",
+      "Concurrent idempotency is P1 regression because it is slower and environment-sensitive."
+    ]
+  },
   "quality_gates": {
     "p0_sources_covered": true,
     "no_happy_path_only": true,

@@ -17,9 +17,14 @@ case-gen/
 │   ├── industry-methods.md
 │   ├── vaf-case-flow.md
 │   ├── vcb-case-patterns.md
-│   └── case-schema.md
+│   ├── case-schema.md
+│   ├── case-pruning.md
+│   └── execution-feedback-loop.md
 ├── scripts/
-│   └── validate_cases.py
+│   ├── validate_cases.py
+│   ├── coverage_check.py
+│   ├── render_markdown.py
+│   └── render_gherkin.py
 ├── evals/
 │   ├── evals.json
 │   └── sample_cases.json
@@ -42,7 +47,10 @@ Validate structured cases:
 ```powershell
 python C:\Users\MI\.codex\skills\case-gen\scripts\validate_cases.py C:\Users\MI\.codex\skills\case-gen\evals\sample_cases.json
 python C:\Users\MI\.codex\skills\case-gen\scripts\coverage_check.py C:\Users\MI\.codex\skills\case-gen\evals\sample_cases.json
+python C:\Users\MI\.codex\skills\case-gen\scripts\validate_cases.py C:\Users\MI\.codex\skills\case-gen\evals\vcb-like-backend\expected_cases.json
 python C:\Users\MI\.codex\skills\case-gen\scripts\coverage_check.py C:\Users\MI\.codex\skills\case-gen\evals\vcb-like-backend\expected_cases.json
+python C:\Users\MI\.codex\skills\case-gen\scripts\render_markdown.py C:\Users\MI\.codex\skills\case-gen\evals\vcb-like-backend\expected_cases.json -o C:\Users\MI\.codex\skills\case-gen\evals\vcb-like-backend\rendered.md
+python C:\Users\MI\.codex\skills\case-gen\scripts\render_gherkin.py C:\Users\MI\.codex\skills\case-gen\evals\vcb-like-backend\expected_cases.json -o C:\Users\MI\.codex\skills\case-gen\evals\vcb-like-backend\rendered.feature
 ```
 
 ## Current P0 Capability
@@ -52,6 +60,9 @@ python C:\Users\MI\.codex\skills\case-gen\scripts\coverage_check.py C:\Users\MI\
 - Quality gates: records whether P0 coverage, traceability, observability, boundary values, state checks, and security negative cases are present.
 - `coverage_check.py`: performs coverage-quality checks beyond structural validation.
 - `evals/vcb-like-backend`: a realistic VCB-like backend adapter eval with design input, controller input, and expected cases.
+- Case pruning and suite layering: smoke, P0 gate, regression, full, exploratory.
+- Execution feedback loop: failure classification and defect-to-regression flow.
+- Renderers: Markdown and Gherkin output from structured case JSON/YAML.
 
 ## Sync Policy
 

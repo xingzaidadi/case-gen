@@ -37,6 +37,8 @@ Load only the references needed for the task:
 | Apply VAF-style staged case-generation workflow | `references/vaf-case-flow.md` |
 | Target is VCB or similar Java backend control-plane | `references/vcb-case-patterns.md` |
 | Need structured output or validation | `references/case-schema.md` |
+| Need to control suite size or split smoke/regression/full | `references/case-pruning.md` |
+| Have execution results, failed cases, defects, or flaky tests | `references/execution-feedback-loop.md` |
 
 ## Workflow
 
@@ -142,6 +144,21 @@ Before finalizing, run this checklist:
 
 If structured case files are produced, run `scripts/validate_cases.py` when practical. Run `scripts/coverage_check.py` for suites with `coverage_map`, P0 requirements, security/control cases, state transitions, or boundary-heavy rules.
 
+### 8. Prune And Layer The Suite
+
+For non-trivial outputs, read `references/case-pruning.md` and assign each case to one or more suite layers:
+- smoke
+- p0_gate
+- regression
+- full
+- exploratory
+
+Merge duplicate cases only when setup, action, expected result, priority, and failure diagnosis are the same. Split cases when risk, state, boundary, actor, or observable result differs.
+
+### 9. Execution Feedback
+
+When the user provides test results, failed cases, flaky behavior, or defect ids, read `references/execution-feedback-loop.md`. Classify failures before changing cases. Convert fixed defects into regression cases.
+
 ## Output Contract
 
 For full case generation, produce:
@@ -171,6 +188,8 @@ For maintainable outputs, also include:
 - `coverage_map`
 - `open_questions`
 - `quality_gates`
+- suite layers or pruning notes when the case set is large
+- execution feedback analysis when results are provided
 
 ## Boundaries
 

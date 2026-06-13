@@ -184,6 +184,43 @@ def validate_quality(data: dict[str, Any]) -> list[str]:
             if value is False:
                 errors.append(f"Quality gate is false: {gate}.")
 
+    errors.extend(validate_suite_layers(data, cases_by_id))
+
+    return errors
+
+
+def validate_suite_layers(data: dict[str, Any], cases_by_id: dict[str, dict[str, Any]]) -> list[str]:
+    errors: list[str] = []
+    layers = data.get("suite_layers")
+    if not isinstance(layers, dict):
+        return errors
+
+    known = set(cases_by_id)
+    all_layer_cases: set[str] = set()
+    for layer_name, case_ids in layers.items():
+        if not isinstance(case_ids, list):
+            errors.append(f"suite_layers.{layer_name} must be a list.")
+            continue
+        for case_id in case_ids:
+            case_id = str(case_id)
+            all_layer_cases.add(case_id)
+            if case_id not in known and not case_id.startswith("CHARTER-"):
+                errors.append(f"suite_layers.{layer_name} references unknown case {case_id}.")
+
+    p0_gate = {str(case_id) for case_id in as_list(layers.get("p0_gate"))}
+    for case_id, case in cases_by_id.items():
+        if case.get("priority") == "P0" and case_id not in p0_gate:
+            errors.append(f"P0 case {case_id} is not in suite_layers.p0_gate.")
+
+    full = {str(case_id) for case_id in as_list(layers.get("full"))}
+    for case_id, case in cases_by_id.items():
+        if case.get("status") != "blocked" and case_id not in full:
+            errors.append(f"Executable case {case_id} is not in suite_layers.full.")
+
+    for case_id, case in cases_by_id.items():
+        if case_id not in all_layer_cases and case.get("status") != "blocked":
+            errors.append(f"Executable case {case_id} is not assigned to any suite layer.")
+
     return errors
 
 

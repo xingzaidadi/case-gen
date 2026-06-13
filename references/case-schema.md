@@ -90,6 +90,43 @@ open_questions:
     impact: blocks_p0|affects_p1|nice_to_have
     owner: user|dev|qa|product|unknown
 
+suite_layers:
+  smoke:
+    - TC-001
+  p0_gate:
+    - TC-001
+  regression:
+    - TC-001
+  full:
+    - TC-001
+  exploratory:
+    - CHARTER-001
+
+pruning_notes:
+  generated: 0
+  smoke: 0
+  p0_gate: 0
+  regression: 0
+  full: 0
+  pruned_or_merged: 0
+  deferred: 0
+  rationale:
+    - string
+
+execution_results:
+  run_id: string
+  environment: string
+  started_at: string
+  cases:
+    - case_id: TC-001
+      result: pass|fail|blocked|skipped|flaky
+      failure_class: product_bug|test_case_bug|test_data_issue|environment_issue|flaky_test|obsolete_expectation|null
+      evidence:
+        - type: response|log|metric|screenshot|trace|db
+          ref: string
+      defect_id: string|null
+      notes: string
+
 quality_gates:
   p0_sources_covered: true|false
   no_happy_path_only: true|false
@@ -170,6 +207,27 @@ Technique-specific gates:
 - Boundary cases must contain concrete values such as `9/10/11`, `2026-06-13T10:00:00Z`, or `N-1/N/N+1`.
 - State transition cases must include at least one invalid transition and terminal-state behavior when a state model exists.
 - Security/control suites must include missing identity, wrong identity/role, and cross-resource or cross-tenant access where applicable.
+
+## Suite Layer Rules
+
+Use `suite_layers` when the case set is intended to be run repeatedly.
+
+Rules:
+- Every P0 case should be in `p0_gate`.
+- Smoke should be small and should not include broad P2 compatibility cases.
+- Regression should include fixed defect cases and high-value P1 cases.
+- Full should include all non-deferred executable cases.
+- Cases in no layer need a pruning reason or should be removed.
+
+## Execution Result Rules
+
+Use `execution_results` when the user provides run results.
+
+Rules:
+- Failed P0 cases must remain visible.
+- A failure must be classified before changing the case.
+- Fixed defects should add or update regression cases.
+- Flaky cases need stabilization notes, not silent pass/fail rewriting.
 
 ## Markdown Rendering Template
 
