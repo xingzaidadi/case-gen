@@ -1,0 +1,317 @@
+{
+  "metadata": {
+    "suite_id": "finance-rulepack-eval",
+    "title": "Finance Rulepack Reference Eval",
+    "source_files": [
+      {
+        "path": "evals/finance-rulepack/sample_rulepack.json",
+        "lines": "1-180"
+      }
+    ],
+    "generated_at": "2026-06-13",
+    "mode": "mixed",
+    "assumptions": [
+      "Rulepack contains placeholder internal rules for validation only."
+    ]
+  },
+  "test_model": {
+    "actors": [
+      {
+        "id": "ACT-MDM",
+        "role": "supplier master-data maintainer"
+      },
+      {
+        "id": "ACT-APPROVER",
+        "role": "independent finance approver"
+      }
+    ],
+    "risks": [
+      {
+        "id": "INC-DUP-PAYMENT-PLACEHOLDER",
+        "description": "Duplicate payment placeholder incident becomes regression coverage.",
+        "priority": "P0"
+      }
+    ],
+    "test_points": [
+      {
+        "id": "TP-RULEPACK-001",
+        "view": "layered",
+        "title": "Rulepack ids drive case traceability and observability",
+        "source": [
+          {
+            "type": "rule",
+            "ref": "SOD-SUPPLIER-BANK-PAYMENT"
+          }
+        ],
+        "priority": "P0"
+      }
+    ]
+  },
+  "coverage_map": {
+    "sources": [
+      {
+        "id": "SOD-SUPPLIER-BANK-PAYMENT",
+        "title": "Supplier bank account change and payment release conflict",
+        "priority": "P0",
+        "cases": [
+          "TC-RULEPACK-001"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "CTRL-CLOSED-PERIOD-NO-POST",
+        "title": "Closed period mutation control",
+        "priority": "P0",
+        "cases": [
+          "TC-RULEPACK-002"
+        ],
+        "status": "covered"
+      }
+    ],
+    "test_points": [
+      {
+        "id": "TP-RULEPACK-001",
+        "cases": [
+          "TC-RULEPACK-001",
+          "TC-RULEPACK-002"
+        ],
+        "status": "covered"
+      }
+    ],
+    "cross_view": [
+      {
+        "e2e": "TP-RULEPACK-001",
+        "layered": [
+          "TP-RULEPACK-001"
+        ],
+        "status": "linked"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "id": "TC-RULEPACK-001",
+      "title": "Supplier bank account change uses internal SoD, duplicate payment, bank callback, and audit observability rules",
+      "priority": "P0",
+      "level": "security",
+      "type": "security",
+      "traceability": {
+        "requirements": [
+          "LE-XM-CN-01"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "SOD-SUPPLIER-BANK-PAYMENT",
+          "CTRL-DUPLICATE-PAYMENT",
+          "INT-BANK-PAYMENT-CALLBACK",
+          "OBS-AUDIT-LOG"
+        ],
+        "risks": [
+          "INC-DUP-PAYMENT-PLACEHOLDER"
+        ],
+        "test_points": [
+          "TP-RULEPACK-001"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Supplier S001 belongs to LE-XM-CN-01 and has pending bank account change.",
+        "Payment request uses duplicate payment key from CTRL-DUPLICATE-PAYMENT."
+      ],
+      "data": [
+        {
+          "name": "rulepack_refs",
+          "value": "SOD-SUPPLIER-BANK-PAYMENT, CTRL-DUPLICATE-PAYMENT, INT-BANK-PAYMENT-CALLBACK, OBS-AUDIT-LOG",
+          "source": "sample_rulepack.json"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Attempt same-maintainer approval and payment release.",
+          "input": "actor=ACT-MDM, supplier=S001"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "Same-maintainer approval is denied by SOD-SUPPLIER-BANK-PAYMENT.",
+          "observable": "response"
+        },
+        {
+          "assertion": "Duplicate payment prevention uses CTRL-DUPLICATE-PAYMENT and payment status remains not released.",
+          "observable": "payment_status"
+        },
+        {
+          "assertion": "Bank gateway receives no outgoing instruction for this denied release.",
+          "observable": "bank_statement"
+        },
+        {
+          "assertion": "Audit evidence follows OBS-AUDIT-LOG with actor, timestamp, old/new value, and denied rule id.",
+          "observable": "audit_evidence"
+        },
+        {
+          "assertion": "Security log records wrong role / SoD denial.",
+          "observable": "log"
+        }
+      ],
+      "finance": {
+        "process": "ap_payment",
+        "business_event": "supplier bank account change before payment",
+        "accounting_event": "no_posting",
+        "financial_assertions": [
+          "no_duplicate_payment",
+          "no_bank_release",
+          "idempotency"
+        ],
+        "control_assertions": [
+          "SOD-SUPPLIER-BANK-PAYMENT",
+          "CTRL-DUPLICATE-PAYMENT",
+          "OBS-AUDIT-LOG"
+        ],
+        "regulatory_refs": [
+          "CIC-BASIC"
+        ]
+      },
+      "automation_candidate": "high",
+      "status": "ready",
+      "notes": []
+    },
+    {
+      "id": "TC-RULEPACK-002",
+      "title": "Closed-period posting uses internal period, voucher, account, and tax rulepack ids",
+      "priority": "P0",
+      "level": "integration",
+      "type": "state_transition",
+      "traceability": {
+        "requirements": [
+          "LE-XM-CN-01"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "POLICY-PERIOD-CUTOFF",
+          "CTRL-CLOSED-PERIOD-NO-POST",
+          "OBS-VOUCHER-TABLE",
+          "ACC-AP-PAYABLE",
+          "TAX-VAT-IN-06"
+        ],
+        "risks": [],
+        "test_points": [
+          "TP-RULEPACK-001"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Period 2026-05 is hard_closed by POLICY-PERIOD-CUTOFF.",
+        "Voucher observability uses OBS-VOUCHER-TABLE."
+      ],
+      "data": [
+        {
+          "name": "cutoff_times",
+          "value": "2026-05-31T23:59:59 / 2026-06-01T00:00:00 / 2026-06-01T00:00:01",
+          "source": "POLICY-PERIOD-CUTOFF"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Attempt AP posting with input VAT into hard_closed period.",
+          "input": "period=2026-05, account=ACC-AP-PAYABLE, tax_code=TAX-VAT-IN-06"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "Invalid posting transition is rejected by CTRL-CLOSED-PERIOD-NO-POST and period remains terminal hard_closed.",
+          "observable": "period_status"
+        },
+        {
+          "assertion": "Invoice status remains validated_not_posted and is not moved to posted in the closed period.",
+          "observable": "invoice_status"
+        },
+        {
+          "assertion": "No voucher row is created in OBS-VOUCHER-TABLE; debit_credit_balance is unchanged.",
+          "observable": "journal_voucher"
+        },
+        {
+          "assertion": "No tax amount is recognized for TAX-VAT-IN-06 in the closed period.",
+          "observable": "tax_amount"
+        },
+        {
+          "assertion": "AP payable account ACC-AP-PAYABLE and GL balance remain unchanged.",
+          "observable": "general_ledger_balance"
+        },
+        {
+          "assertion": "Invoice, AP subledger, tax amount, and GL reconciliation remain unchanged with zero unauthorized difference.",
+          "observable": "reconciliation_result"
+        },
+        {
+          "assertion": "Audit evidence records closed-period denial and rulepack ids.",
+          "observable": "audit_evidence"
+        }
+      ],
+      "finance": {
+        "process": "ap_payment",
+        "business_event": "closed-period AP posting with rulepack account and tax code",
+        "accounting_event": "no_posting",
+        "financial_assertions": [
+          "CTRL-CLOSED-PERIOD-NO-POST",
+          "ACC-AP-PAYABLE",
+          "TAX-VAT-IN-06",
+          "debit_credit_balance"
+        ],
+        "control_assertions": [
+          "POLICY-PERIOD-CUTOFF",
+          "OBS-VOUCHER-TABLE"
+        ],
+        "regulatory_refs": [
+          "LAW-ACCOUNTING"
+        ]
+      },
+      "automation_candidate": "high",
+      "status": "ready",
+      "notes": []
+    }
+  ],
+  "open_questions": [
+    {
+      "id": "Q-RULEPACK-001",
+      "question": "Replace placeholder rulepack ids with approved Xiaomi internal ids before production use.",
+      "impact": "blocks_p0",
+      "owner": "finance"
+    }
+  ],
+  "suite_layers": {
+    "smoke": [
+      "TC-RULEPACK-001"
+    ],
+    "p0_gate": [
+      "TC-RULEPACK-001",
+      "TC-RULEPACK-002"
+    ],
+    "regression": [
+      "TC-RULEPACK-001",
+      "TC-RULEPACK-002"
+    ],
+    "full": [
+      "TC-RULEPACK-001",
+      "TC-RULEPACK-002"
+    ],
+    "exploratory": [
+      "CHARTER-RULEPACK-001"
+    ]
+  },
+  "quality_gates": {
+    "p0_sources_covered": true,
+    "no_happy_path_only": true,
+    "all_cases_have_traceability": true,
+    "all_cases_have_observable_expected": true,
+    "boundary_cases_have_concrete_values": true,
+    "state_cases_include_invalid_transitions": true,
+    "security_cases_include_negative_authorization": true,
+    "e2e_layer_cross_check_complete": true,
+    "finance_voucher_or_ledger_asserted": true,
+    "finance_debit_credit_balance_asserted": true,
+    "finance_period_cutoff_asserted": true,
+    "finance_reconciliation_asserted": true,
+    "finance_control_evidence_asserted": true
+  }
+}

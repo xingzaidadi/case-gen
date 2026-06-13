@@ -78,6 +78,16 @@
       "files": [
         "evals/finance-core-processes/input-requirement.md"
       ]
+    },
+    {
+      "id": 10,
+      "name": "finance_project_rulepack",
+      "prompt": "基于一个小米财务规则包生成或评审用例，要求 P0 财务用例引用内部规则 ID，例如法人、科目、税码、审批矩阵、SoD、控制、接口事件、观测表和历史事故。",
+      "expected_output": "Validates the project rulepack and checks generated finance cases reference internal rulepack ids instead of only generic finance rules.",
+      "files": [
+        "evals/finance-rulepack/sample_rulepack.json",
+        "evals/finance-rulepack/rulepack_cases.json"
+      ]
     }
   ]
 }

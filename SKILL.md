@@ -38,6 +38,7 @@ Load only the references needed for the task:
 | Apply VAF-style staged case-generation workflow | `references/vaf-case-flow.md` |
 | Target is VCB or similar Java backend control-plane | `references/vcb-case-patterns.md` |
 | Target is a finance system, accounting flow, payment, invoice, tax, budget, treasury, or financial-control workflow | `references/adapters/finance-system.md`, then load the specific finance adapter files listed there |
+| Finance target has company-specific rules, account mappings, tax codes, approval matrices, systems, tables, incidents, or test data | `references/adapters/finance-project-rulepack.md` |
 | Need structured output or validation | `references/case-schema.md` |
 | Need to control suite size or split smoke/regression/full | `references/case-pruning.md` |
 | Have execution results, failed cases, defects, or flaky tests | `references/execution-feedback-loop.md` |
@@ -69,6 +70,7 @@ Gather evidence before inventing cases:
 - Runtime assumptions: environments, test data, identities, feature flags
 - Domain rules: auth, roles, state machine, idempotency, audit, metrics, compliance
 - Finance rules when applicable: source document, accounting event, voucher/journal, period, currency, tax, subledger/GL, reconciliation, approval matrix, SoD, audit evidence
+- Project rulepack when available: legal entity, account policy, tax code, approval/SoD matrix, integration event, observability table, historical incident, reusable test data
 
 Every case must trace to at least one of:
 - `REQ-*`: requirement or acceptance criterion
@@ -163,6 +165,8 @@ If structured case files are produced, run `scripts/validate_cases.py` when prac
 
 For finance structured case files, also run `scripts/finance_coverage_check.py` when practical.
 
+When a finance project rulepack is provided, run `scripts/finance_rulepack_check.py` on the rulepack and `scripts/finance_case_rulepack_check.py` on the generated cases plus the rulepack.
+
 ### 8. Prune And Layer The Suite
 
 For non-trivial outputs, read `references/case-pruning.md` and assign each case to one or more suite layers:
@@ -219,6 +223,8 @@ For finance outputs, include adapter-specific finance annotations when the outpu
 - `finance.financial_assertions`
 - `finance.control_assertions`
 - `finance.regulatory_refs`
+
+If a project rulepack is available, P0 finance cases should reference internal rulepack IDs in `traceability.rules`, `traceability.risks`, finance assertions, or notes. Missing internal rules should become `open_questions`.
 
 ## Boundaries
 
