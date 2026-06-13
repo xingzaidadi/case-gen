@@ -42,6 +42,15 @@
       "files": [
         "evals/execution-feedback/results_sample.json"
       ]
+    },
+    {
+      "id": 6,
+      "name": "finance_ap_payment_adapter",
+      "prompt": "根据小米财务共享的供应商发票付款需求生成 AP 付款测试用例，必须覆盖发票、审批、预算占用、银行付款、凭证、借贷平衡、账期截止、对账、重复付款、SoD 和审计证据。",
+      "expected_output": "Uses the finance adapter to produce structured cases with finance annotations, accounting assertions, control assertions, reconciliation, audit evidence, and finance coverage gates.",
+      "files": [
+        "evals/finance-ap-payment/input-requirement.md"
+      ]
     }
   ]
 }

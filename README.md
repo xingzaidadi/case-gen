@@ -7,6 +7,7 @@ It is designed as a general case-generation system, not a VCB-only generator:
 - VAF provides the workflow skeleton: test admission, context loading, dual-view test-point design, staged case construction, and self-check.
 - Industry test design methods provide the technique base: equivalence partitioning, boundary value analysis, decision tables, state transition testing, pairwise/combinatorial testing, risk-based prioritization, and Given-When-Then case expression.
 - VCB provides an optional domain adapter for backend control-plane systems with auth, approval, scope, idempotency, audit, and metrics risks.
+- Finance provides an optional domain adapter for AP/AR/GL, payment, invoice, tax, voucher/journal, ledger, period close, budget, reconciliation, SoD, and audit-control risks.
 
 ## Layout
 
@@ -56,6 +57,9 @@ python C:\Users\MI\.codex\skills\case-gen\scripts\render_markdown.py C:\Users\MI
 python C:\Users\MI\.codex\skills\case-gen\scripts\render_gherkin.py C:\Users\MI\.codex\skills\case-gen\evals\vcb-like-backend\expected_cases.json -o C:\Users\MI\.codex\skills\case-gen\evals\vcb-like-backend\rendered.feature
 python C:\Users\MI\.codex\skills\case-gen\scripts\create_case_skeleton.py C:\Users\MI\.codex\skills\case-gen\evals\skeleton\test_points.json -o C:\Users\MI\.codex\skills\case-gen\evals\skeleton\generated_skeleton.json --suite-id skeleton-eval
 python C:\Users\MI\.codex\skills\case-gen\scripts\execution_feedback_check.py C:\Users\MI\.codex\skills\case-gen\evals\execution-feedback\results_sample.json
+python C:\Users\MI\.codex\skills\case-gen\scripts\validate_cases.py C:\Users\MI\.codex\skills\case-gen\evals\finance-ap-payment\expected_cases.json
+python C:\Users\MI\.codex\skills\case-gen\scripts\coverage_check.py C:\Users\MI\.codex\skills\case-gen\evals\finance-ap-payment\expected_cases.json
+python C:\Users\MI\.codex\skills\case-gen\scripts\finance_coverage_check.py C:\Users\MI\.codex\skills\case-gen\evals\finance-ap-payment\expected_cases.json
 ```
 
 ## Current P0 Capability
@@ -71,6 +75,7 @@ python C:\Users\MI\.codex\skills\case-gen\scripts\execution_feedback_check.py C:
 - Excel export: xlsx output for QA/test-management handoff when `openpyxl` is available.
 - Skeleton generation: T04.1 draft cases from test points.
 - Execution feedback validation: checks failed/blocked/flaky cases have classification and evidence.
+- Finance Domain Adapter v1: finance model, event model, process patterns, control matrix, finance assertion library, regulatory-source labels, AP payment eval, and `finance_coverage_check.py`.
 
 ## Sync Policy
 

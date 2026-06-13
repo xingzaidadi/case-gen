@@ -1,0 +1,966 @@
+{
+  "metadata": {
+    "suite_id": "finance-ap-payment",
+    "title": "Finance AP Payment Domain Coverage Eval",
+    "source_files": [
+      {
+        "path": "evals/finance-ap-payment/input-requirement.md",
+        "lines": "1-24"
+      }
+    ],
+    "generated_at": "2026-06-13",
+    "mode": "mixed",
+    "assumptions": [
+      "Accounting policy and exact account codes are project-specific and represented as RULE-AP-POSTING.",
+      "Budget control is enabled for this eval."
+    ]
+  },
+  "test_model": {
+    "actors": [
+      {
+        "id": "ACT-REQUESTER",
+        "role": "finance requester"
+      },
+      {
+        "id": "ACT-REVIEWER",
+        "role": "finance reviewer"
+      },
+      {
+        "id": "ACT-MANAGER",
+        "role": "finance manager"
+      },
+      {
+        "id": "ACT-TREASURY",
+        "role": "treasury payment releaser"
+      }
+    ],
+    "risks": [
+      {
+        "id": "RISK-001",
+        "description": "Duplicate invoice or duplicate payment causes overpayment.",
+        "priority": "P0"
+      },
+      {
+        "id": "RISK-002",
+        "description": "Posting to a hard-closed period corrupts financial cut-off.",
+        "priority": "P0"
+      },
+      {
+        "id": "RISK-003",
+        "description": "Requester self-approval bypasses segregation of duties.",
+        "priority": "P0"
+      }
+    ],
+    "test_points": [
+      {
+        "id": "TP-E2E-AP-001",
+        "view": "e2e",
+        "title": "Approved supplier payment settles AP, posts voucher, and reconciles bank/AP/GL",
+        "source": [
+          {
+            "type": "requirement",
+            "ref": "REQ-AP-001"
+          }
+        ],
+        "priority": "P0"
+      },
+      {
+        "id": "TP-CTRL-AP-001",
+        "view": "layered",
+        "title": "Duplicate invoice and payment keys prevent overpayment",
+        "source": [
+          {
+            "type": "risk",
+            "ref": "RISK-001"
+          }
+        ],
+        "priority": "P0"
+      },
+      {
+        "id": "TP-CTRL-AP-002",
+        "view": "layered",
+        "title": "Approval matrix and SoD are enforced with audit evidence",
+        "source": [
+          {
+            "type": "rule",
+            "ref": "RULE-CIC-BASIC"
+          }
+        ],
+        "priority": "P0"
+      },
+      {
+        "id": "TP-ACCT-AP-001",
+        "view": "layered",
+        "title": "Voucher, debit-credit balance, period, subledger, and GL are asserted",
+        "source": [
+          {
+            "type": "rule",
+            "ref": "RULE-AP-POSTING"
+          }
+        ],
+        "priority": "P0"
+      }
+    ]
+  },
+  "coverage_map": {
+    "sources": [
+      {
+        "id": "REQ-AP-001",
+        "title": "Supplier invoice payment E2E flow",
+        "priority": "P0",
+        "cases": [
+          "TC-FIN-AP-001",
+          "TC-FIN-AP-006"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "REQ-AP-002",
+        "title": "Approval boundary at 1000.00 CNY",
+        "priority": "P0",
+        "cases": [
+          "TC-FIN-AP-003"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "REQ-AP-003",
+        "title": "Hard-closed periods reject posting and reversal",
+        "priority": "P0",
+        "cases": [
+          "TC-FIN-AP-005"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "RULE-CIC-BASIC",
+        "title": "Control activities and segregation of duties",
+        "priority": "P0",
+        "cases": [
+          "TC-FIN-AP-004",
+          "TC-FIN-AP-008"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "RULE-AP-POSTING",
+        "title": "AP settlement creates balanced posting and reconciliation",
+        "priority": "P0",
+        "cases": [
+          "TC-FIN-AP-001",
+          "TC-FIN-AP-005",
+          "TC-FIN-AP-006"
+        ],
+        "status": "covered"
+      }
+    ],
+    "test_points": [
+      {
+        "id": "TP-E2E-AP-001",
+        "cases": [
+          "TC-FIN-AP-001"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "TP-CTRL-AP-001",
+        "cases": [
+          "TC-FIN-AP-002"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "TP-CTRL-AP-002",
+        "cases": [
+          "TC-FIN-AP-003",
+          "TC-FIN-AP-004",
+          "TC-FIN-AP-008"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "TP-ACCT-AP-001",
+        "cases": [
+          "TC-FIN-AP-001",
+          "TC-FIN-AP-005",
+          "TC-FIN-AP-006"
+        ],
+        "status": "covered"
+      }
+    ],
+    "cross_view": [
+      {
+        "e2e": "TP-E2E-AP-001",
+        "layered": [
+          "TP-CTRL-AP-001",
+          "TP-CTRL-AP-002",
+          "TP-ACCT-AP-001"
+        ],
+        "status": "linked"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "id": "TC-FIN-AP-001",
+      "title": "Approved supplier payment posts balanced AP settlement and reconciles bank/AP/GL",
+      "priority": "P0",
+      "level": "e2e",
+      "type": "happy_path",
+      "traceability": {
+        "requirements": [
+          "REQ-AP-001"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "RULE-AP-POSTING",
+          "LAW-ACCOUNTING",
+          "CIC-BASIC"
+        ],
+        "risks": [],
+        "test_points": [
+          "TP-E2E-AP-001",
+          "TP-ACCT-AP-001"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Accounting period 2026-06 is open.",
+        "Supplier invoice INV-AP-001 is validated, not paid, and has tax amount 60.00 CNY.",
+        "Budget center BUD-AP-001 has available budget above 1060.00 CNY."
+      ],
+      "data": [
+        {
+          "name": "payment_amount",
+          "value": "1060.00 CNY",
+          "source": "REQ-AP-001"
+        },
+        {
+          "name": "tax_amount",
+          "value": "60.00 CNY",
+          "source": "REQ-AP-001"
+        },
+        {
+          "name": "accounting_period",
+          "value": "2026-06",
+          "source": "RULE-AP-POSTING"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Create AP payment request from validated supplier invoice INV-AP-001.",
+          "input": "payment_amount=1060.00 CNY, tax_amount=60.00 CNY, period=2026-06"
+        },
+        {
+          "action": "Approve the request with finance manager and release payment to bank.",
+          "input": "manager=ACT-MANAGER, releaser=ACT-TREASURY"
+        },
+        {
+          "action": "Receive bank accepted result and run AP settlement posting.",
+          "input": "bank_reference=BNK-AP-001"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "Invoice status becomes paid and remains linked to payment request PAY-AP-001.",
+          "observable": "invoice_status"
+        },
+        {
+          "assertion": "Approval chain records requester, finance manager, treasury releaser, timestamps, and no self-approval.",
+          "observable": "approval_chain"
+        },
+        {
+          "assertion": "Budget occupation is created before bank release and consumed after successful settlement.",
+          "observable": "budget_occupation"
+        },
+        {
+          "assertion": "Payment status reaches paid with bank reference BNK-AP-001.",
+          "observable": "payment_status"
+        },
+        {
+          "assertion": "Bank receipt amount, payee, bank account, currency, and external reference match the approved request.",
+          "observable": "bank_receipt"
+        },
+        {
+          "assertion": "Journal voucher is generated exactly once in period 2026-06 and debit_credit_balance holds: debit equals credit for 1060.00 CNY.",
+          "observable": "journal_voucher"
+        },
+        {
+          "assertion": "AP subledger open item is cleared and GL control account balance reflects the settlement.",
+          "observable": "subledger_balance"
+        },
+        {
+          "assertion": "Invoice, payment, bank receipt, AP subledger, GL, and report line reconcile with zero difference.",
+          "observable": "reconciliation_result"
+        }
+      ],
+      "finance": {
+        "process": "ap_payment",
+        "business_event": "supplier invoice payment settlement",
+        "accounting_event": "settlement",
+        "financial_assertions": [
+          "voucher_generated",
+          "debit_credit_balance",
+          "subledger_gl_reconciled",
+          "bank_payment_reconciled",
+          "tax_amount_asserted"
+        ],
+        "control_assertions": [
+          "approval_matrix",
+          "segregation_of_duties",
+          "audit_evidence"
+        ],
+        "regulatory_refs": [
+          "LAW-ACCOUNTING",
+          "CIC-BASIC"
+        ]
+      },
+      "automation_candidate": "high",
+      "status": "ready",
+      "notes": []
+    },
+    {
+      "id": "TC-FIN-AP-002",
+      "title": "Duplicate invoice and duplicate payment keys prevent overpayment",
+      "priority": "P0",
+      "level": "api",
+      "type": "negative",
+      "traceability": {
+        "requirements": [
+          "REQ-AP-001"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "CIC-BASIC"
+        ],
+        "risks": [
+          "RISK-001"
+        ],
+        "test_points": [
+          "TP-CTRL-AP-001"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Supplier invoice INV-DUP-001 already has paid payment request PAY-DUP-001."
+      ],
+      "data": [
+        {
+          "name": "business_key",
+          "value": "supplier=S001, invoice_number=INV-DUP-001, legal_entity=XM-CN-01",
+          "source": "RISK-001"
+        },
+        {
+          "name": "request_id",
+          "value": "REQ-DUP-001",
+          "source": "RISK-001"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Submit a second payment request for the same supplier invoice.",
+          "input": "business_key=same, request_id=REQ-DUP-002"
+        },
+        {
+          "action": "Retry the first request id after timeout.",
+          "input": "request_id=REQ-DUP-001"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "Second business-key duplicate is rejected with a safe duplicate-payment error and no new payment is created.",
+          "observable": "response"
+        },
+        {
+          "assertion": "Retry with same request id is idempotent and returns existing payment PAY-DUP-001.",
+          "observable": "payment_status"
+        },
+        {
+          "assertion": "Invoice status remains paid and no duplicate invoice settlement is created.",
+          "observable": "invoice_status"
+        },
+        {
+          "assertion": "Control evidence records duplicate invoice/payment prevention decision.",
+          "observable": "control_evidence"
+        }
+      ],
+      "finance": {
+        "process": "ap_payment",
+        "business_event": "duplicate supplier invoice payment request",
+        "accounting_event": "no_posting",
+        "financial_assertions": [
+          "no_duplicate_payment",
+          "no_duplicate_settlement"
+        ],
+        "control_assertions": [
+          "duplicate_prevention",
+          "idempotency"
+        ],
+        "regulatory_refs": [
+          "CIC-BASIC"
+        ]
+      },
+      "automation_candidate": "high",
+      "status": "ready",
+      "notes": []
+    },
+    {
+      "id": "TC-FIN-AP-003",
+      "title": "Approval matrix boundary at 1000.00 CNY selects correct approver",
+      "priority": "P0",
+      "level": "integration",
+      "type": "boundary",
+      "traceability": {
+        "requirements": [
+          "REQ-AP-002"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "CIC-BASIC"
+        ],
+        "risks": [],
+        "test_points": [
+          "TP-CTRL-AP-002"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Approval limit is 1000.00 CNY."
+      ],
+      "data": [
+        {
+          "name": "approval_amounts",
+          "value": "999.99/1000.00/1000.01 CNY",
+          "source": "REQ-AP-002"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Create payment requests at 999.99, 1000.00, and 1000.01 CNY.",
+          "input": "amounts=999.99/1000.00/1000.01"
+        },
+        {
+          "action": "Inspect assigned approver role for each request.",
+          "input": "approval_matrix=default"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "999.99 and 1000.00 CNY route to finance reviewer; 1000.01 CNY routes to finance manager.",
+          "observable": "approval_chain"
+        },
+        {
+          "assertion": "Control evidence records the limit rule, selected branch, and amount used for the decision.",
+          "observable": "control_evidence"
+        }
+      ],
+      "finance": {
+        "process": "ap_payment",
+        "business_event": "payment approval routing",
+        "accounting_event": "no_posting",
+        "financial_assertions": [
+          "amount_boundary_checked"
+        ],
+        "control_assertions": [
+          "approval_matrix",
+          "limit_boundary"
+        ],
+        "regulatory_refs": [
+          "CIC-BASIC"
+        ]
+      },
+      "automation_candidate": "high",
+      "status": "ready",
+      "notes": []
+    },
+    {
+      "id": "TC-FIN-AP-004",
+      "title": "Requester self-approval is forbidden and recorded as SoD control denial",
+      "priority": "P0",
+      "level": "security",
+      "type": "security",
+      "traceability": {
+        "requirements": [
+          "REQ-AP-001"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "CIC-BASIC",
+          "OWASP-API-2023"
+        ],
+        "risks": [
+          "RISK-003"
+        ],
+        "test_points": [
+          "TP-CTRL-AP-002"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Requester ACT-REQUESTER created payment request PAY-SOD-001."
+      ],
+      "data": [
+        {
+          "name": "actor",
+          "value": "ACT-REQUESTER attempts to approve own request",
+          "source": "RISK-003"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Call approve payment as the same requester.",
+          "input": "actor=ACT-REQUESTER, payment=PAY-SOD-001"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "Approval is forbidden with wrong role / self-approval error; payment status remains submitted.",
+          "observable": "response"
+        },
+        {
+          "assertion": "Approval chain has no approval node from ACT-REQUESTER.",
+          "observable": "approval_chain"
+        },
+        {
+          "assertion": "Audit evidence records segregation of duties denial with actor, payment id, timestamp, and reason.",
+          "observable": "audit_evidence"
+        },
+        {
+          "assertion": "Security metric/log is emitted for SoD denial.",
+          "observable": "log"
+        }
+      ],
+      "finance": {
+        "process": "ap_payment",
+        "business_event": "payment approval",
+        "accounting_event": "no_posting",
+        "financial_assertions": [
+          "no_payment_release",
+          "no_posting"
+        ],
+        "control_assertions": [
+          "segregation_of_duties",
+          "self_approval_denied",
+          "audit_evidence"
+        ],
+        "regulatory_refs": [
+          "CIC-BASIC",
+          "OWASP-API-2023"
+        ]
+      },
+      "automation_candidate": "high",
+      "status": "ready",
+      "notes": []
+    },
+    {
+      "id": "TC-FIN-AP-005",
+      "title": "Hard-closed period rejects invalid posting transition and preserves cut-off",
+      "priority": "P0",
+      "level": "integration",
+      "type": "state_transition",
+      "traceability": {
+        "requirements": [
+          "REQ-AP-003"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "RULE-AP-POSTING",
+          "LAW-ACCOUNTING"
+        ],
+        "risks": [
+          "RISK-002"
+        ],
+        "test_points": [
+          "TP-ACCT-AP-001"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Accounting period 2026-05 is hard_closed.",
+        "Payment request PAY-CLOSE-001 is approved but not posted."
+      ],
+      "data": [
+        {
+          "name": "posting_time",
+          "value": "2026-05-31T23:59:59 / 2026-06-01T00:00:00 / 2026-06-01T00:00:01",
+          "source": "REQ-AP-003"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Attempt to post AP settlement into hard_closed period 2026-05.",
+          "input": "period=2026-05, posting_time=2026-06-01T00:00:00"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "Invalid transition from approved to posted is rejected because period 2026-05 is hard_closed.",
+          "observable": "period_status"
+        },
+        {
+          "assertion": "No journal voucher is generated in the closed period; debit_credit_balance is not affected.",
+          "observable": "journal_voucher"
+        },
+        {
+          "assertion": "AP subledger and GL balances remain unchanged for period 2026-05.",
+          "observable": "general_ledger_balance"
+        },
+        {
+          "assertion": "Audit evidence records closed-period posting denial and required reopen workflow.",
+          "observable": "audit_evidence"
+        }
+      ],
+      "finance": {
+        "process": "ap_payment",
+        "business_event": "closed-period AP settlement posting",
+        "accounting_event": "no_posting",
+        "financial_assertions": [
+          "period_cutoff",
+          "no_closed_period_posting",
+          "debit_credit_balance"
+        ],
+        "control_assertions": [
+          "closed_period_control",
+          "audit_evidence"
+        ],
+        "regulatory_refs": [
+          "LAW-ACCOUNTING",
+          "CIC-BASIC"
+        ]
+      },
+      "automation_candidate": "high",
+      "status": "ready",
+      "notes": [
+        "Terminal state hard_closed is treated as protected unless reopen workflow is tested separately."
+      ]
+    },
+    {
+      "id": "TC-FIN-AP-006",
+      "title": "Bank rejection does not clear AP or create settlement voucher",
+      "priority": "P0",
+      "level": "integration",
+      "type": "negative",
+      "traceability": {
+        "requirements": [
+          "REQ-AP-001"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "RULE-AP-POSTING"
+        ],
+        "risks": [],
+        "test_points": [
+          "TP-E2E-AP-001",
+          "TP-ACCT-AP-001"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Payment request PAY-BANK-REJ-001 is approved and sent to bank in open period 2026-06."
+      ],
+      "data": [
+        {
+          "name": "bank_result",
+          "value": "rejected: invalid supplier bank account",
+          "source": "REQ-AP-001"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Receive bank rejection callback.",
+          "input": "bank_reference=BNK-REJ-001, reason=invalid_account"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "Payment status becomes bank_rejected and AP open item remains unpaid.",
+          "observable": "payment_status"
+        },
+        {
+          "assertion": "Bank statement records rejected instruction and no bank receipt is attached as paid evidence.",
+          "observable": "bank_statement"
+        },
+        {
+          "assertion": "No settlement journal voucher is posted in period 2026-06; debit_credit_balance remains unchanged.",
+          "observable": "journal_voucher"
+        },
+        {
+          "assertion": "Subledger and GL reconciliation shows no clearing difference and no orphan settlement item.",
+          "observable": "reconciliation_result"
+        },
+        {
+          "assertion": "Audit evidence links bank rejection to payment request and exception workflow.",
+          "observable": "audit_evidence"
+        }
+      ],
+      "finance": {
+        "process": "ap_payment",
+        "business_event": "bank payment rejection",
+        "accounting_event": "no_posting",
+        "financial_assertions": [
+          "no_settlement_on_bank_rejection",
+          "debit_credit_balance",
+          "subledger_gl_reconciled"
+        ],
+        "control_assertions": [
+          "exception_workflow",
+          "audit_evidence"
+        ],
+        "regulatory_refs": [
+          "CIC-BASIC"
+        ]
+      },
+      "automation_candidate": "high",
+      "status": "ready",
+      "notes": []
+    },
+    {
+      "id": "TC-FIN-AP-007",
+      "title": "Red-letter supplier invoice reverses tax and accounting impact with traceability",
+      "priority": "P1",
+      "level": "integration",
+      "type": "state_transition",
+      "traceability": {
+        "requirements": [
+          "REQ-AP-001"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "STA-INVOICE",
+          "RULE-AP-POSTING"
+        ],
+        "risks": [],
+        "test_points": [
+          "TP-ACCT-AP-001"
+        ],
+        "inferred": true
+      },
+      "preconditions": [
+        "Original supplier invoice INV-RED-001 is paid and posted in open period 2026-06."
+      ],
+      "data": [
+        {
+          "name": "red_letter_amount",
+          "value": "1060.00 CNY including tax_amount=60.00 CNY",
+          "source": "INF:invoice reversal path inferred from finance adapter"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Create red-letter invoice for the original paid supplier invoice.",
+          "input": "original_invoice=INV-RED-001, red_letter_amount=1060.00"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "Invoice status moves through valid reversal transition and terminal red_lettered state; invalid over-red-letter amount is rejected.",
+          "observable": "invoice_status"
+        },
+        {
+          "assertion": "Tax amount is reversed for 60.00 CNY with traceability to original invoice.",
+          "observable": "tax_amount"
+        },
+        {
+          "assertion": "Reversal journal voucher is generated exactly once in period 2026-06 and debit_credit_balance holds.",
+          "observable": "journal_voucher"
+        },
+        {
+          "assertion": "Original and reversal documents reconcile to zero net payable and zero net tax impact.",
+          "observable": "reconciliation_result"
+        }
+      ],
+      "finance": {
+        "process": "ap_payment",
+        "business_event": "red-letter supplier invoice",
+        "accounting_event": "reversal",
+        "financial_assertions": [
+          "tax_amount_asserted",
+          "voucher_generated",
+          "debit_credit_balance",
+          "reversal_reconciled"
+        ],
+        "control_assertions": [
+          "audit_trace_to_original_invoice"
+        ],
+        "regulatory_refs": [
+          "STA-INVOICE",
+          "LAW-ACCOUNTING"
+        ]
+      },
+      "automation_candidate": "medium",
+      "status": "ready",
+      "notes": [
+        "Specific VAT deduction behavior needs project tax policy confirmation."
+      ]
+    },
+    {
+      "id": "TC-FIN-AP-008",
+      "title": "Supplier bank account change blocks payment until independent approval",
+      "priority": "P0",
+      "level": "security",
+      "type": "security",
+      "traceability": {
+        "requirements": [
+          "REQ-AP-001"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "CIC-BASIC",
+          "OWASP-API-2023"
+        ],
+        "risks": [
+          "RISK-003"
+        ],
+        "test_points": [
+          "TP-CTRL-AP-002"
+        ],
+        "inferred": true
+      },
+      "preconditions": [
+        "Supplier S001 bank account was changed by ACT-REQUESTER and is pending independent approval.",
+        "Payment PAY-BANK-CHANGE-001 references supplier S001."
+      ],
+      "data": [
+        {
+          "name": "supplier_bank_account_status",
+          "value": "changed_pending_approval",
+          "source": "INF:sensitive master-data control"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Attempt to release payment to bank before independent approval of supplier bank account change.",
+          "input": "actor=ACT-TREASURY, payment=PAY-BANK-CHANGE-001"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "Payment release is forbidden until independent supplier bank account approval is complete.",
+          "observable": "response"
+        },
+        {
+          "assertion": "Payment status remains approved_not_released and no bank instruction is sent.",
+          "observable": "payment_status"
+        },
+        {
+          "assertion": "Control evidence records sensitive master-data approval dependency and segregation of duties rule.",
+          "observable": "control_evidence"
+        },
+        {
+          "assertion": "Audit evidence links supplier bank account change, approver requirement, and payment release denial.",
+          "observable": "audit_evidence"
+        }
+      ],
+      "finance": {
+        "process": "ap_payment",
+        "business_event": "payment release after supplier bank account change",
+        "accounting_event": "no_posting",
+        "financial_assertions": [
+          "no_bank_release",
+          "no_posting"
+        ],
+        "control_assertions": [
+          "sensitive_master_data_control",
+          "segregation_of_duties",
+          "audit_evidence"
+        ],
+        "regulatory_refs": [
+          "CIC-BASIC",
+          "OWASP-API-2023"
+        ]
+      },
+      "automation_candidate": "medium",
+      "status": "ready",
+      "notes": []
+    }
+  ],
+  "open_questions": [
+    {
+      "id": "Q-001",
+      "question": "What are the exact AP account codes, tax accounts, and bank clearing accounts for each legal entity?",
+      "impact": "affects_p1",
+      "owner": "finance"
+    },
+    {
+      "id": "Q-002",
+      "question": "Should AP settlement voucher be posted at bank acceptance or bank reconciliation?",
+      "impact": "blocks_p0",
+      "owner": "product"
+    }
+  ],
+  "suite_layers": {
+    "smoke": [
+      "TC-FIN-AP-001",
+      "TC-FIN-AP-002",
+      "TC-FIN-AP-004"
+    ],
+    "p0_gate": [
+      "TC-FIN-AP-001",
+      "TC-FIN-AP-002",
+      "TC-FIN-AP-003",
+      "TC-FIN-AP-004",
+      "TC-FIN-AP-005",
+      "TC-FIN-AP-006",
+      "TC-FIN-AP-008"
+    ],
+    "regression": [
+      "TC-FIN-AP-001",
+      "TC-FIN-AP-002",
+      "TC-FIN-AP-003",
+      "TC-FIN-AP-004",
+      "TC-FIN-AP-005",
+      "TC-FIN-AP-006",
+      "TC-FIN-AP-007",
+      "TC-FIN-AP-008"
+    ],
+    "full": [
+      "TC-FIN-AP-001",
+      "TC-FIN-AP-002",
+      "TC-FIN-AP-003",
+      "TC-FIN-AP-004",
+      "TC-FIN-AP-005",
+      "TC-FIN-AP-006",
+      "TC-FIN-AP-007",
+      "TC-FIN-AP-008"
+    ],
+    "exploratory": [
+      "CHARTER-FIN-AP-001"
+    ]
+  },
+  "pruning_notes": {
+    "generated": 8,
+    "smoke": 3,
+    "p0_gate": 7,
+    "regression": 8,
+    "full": 8,
+    "pruned_or_merged": 0,
+    "deferred": 0,
+    "rationale": [
+      "AP payment is high risk; P0 cases preserve separate failure diagnosis for duplicate, SoD, closed-period, bank-rejection, and master-data-control paths."
+    ]
+  },
+  "quality_gates": {
+    "p0_sources_covered": true,
+    "no_happy_path_only": true,
+    "all_cases_have_traceability": true,
+    "all_cases_have_observable_expected": true,
+    "boundary_cases_have_concrete_values": true,
+    "state_cases_include_invalid_transitions": true,
+    "security_cases_include_negative_authorization": true,
+    "e2e_layer_cross_check_complete": true,
+    "finance_voucher_or_ledger_asserted": true,
+    "finance_debit_credit_balance_asserted": true,
+    "finance_period_cutoff_asserted": true,
+    "finance_reconciliation_asserted": true,
+    "finance_control_evidence_asserted": true
+  }
+}
+

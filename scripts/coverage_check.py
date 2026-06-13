@@ -95,7 +95,7 @@ def is_negative_security(case: dict[str, Any]) -> bool:
 def has_concrete_boundary(case: dict[str, Any]) -> bool:
     haystack = text_of(case)
     patterns = [
-        r"\b\d+\s*/\s*\d+\s*/\s*\d+\b",
+        r"\b\d+(?:\.\d+)?\s*/\s*\d+(?:\.\d+)?\s*/\s*\d+(?:\.\d+)?\b",
         r"\bN-1\s*/\s*N\s*/\s*N\+1\b",
         r"\bmin-1\b|\bmin\+1\b|\bmax-1\b|\bmax\+1\b",
         r"\b\d{4}-\d{2}-\d{2}T\d{2}:\d{2}",

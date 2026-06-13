@@ -78,7 +78,14 @@ cases:
         input: string
     expected:
       - assertion: string
-        observable: response|db|event|log|metric|ui|file
+        observable: response|db|event|log|metric|ui|file|source_document|invoice_status|payment_status|bank_receipt|bank_statement|journal_voucher|ledger_entry|subledger_balance|general_ledger_balance|reconciliation_result|tax_amount|budget_occupation|period_status|exchange_rate|financial_report_line|approval_chain|audit_evidence|control_evidence
+    finance:
+      process: ap_payment|expense_reimbursement|ar_receipt|gl_journal|fixed_asset|tax|treasury|budget|consolidation|other
+      business_event: string
+      accounting_event: voucher_required|no_posting|reversal|accrual|settlement|adjustment|revaluation|unknown
+      financial_assertions: []
+      control_assertions: []
+      regulatory_refs: []
     automation_candidate: high|medium|low
     status: draft|ready|blocked
     notes:

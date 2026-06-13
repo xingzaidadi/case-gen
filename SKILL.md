@@ -1,6 +1,6 @@
 ---
 name: case-gen
-description: Use when the user asks to design, generate, review, or improve test cases, test scenarios, acceptance checks, unit-test matrices, E2E cases, API cases, regression cases, or QA plans. Use this skill even when the user says "生成用例", "测试点", "case", "验收清单", "单测场景", "E2E", "回归用例", or asks whether coverage is complete. Do not default to VCB-specific rules unless the target system is VCB or a similar Java backend control-plane with auth, approval, scope, idempotency, audit, or metrics risks.
+description: Use when the user asks to design, generate, review, or improve test cases, test scenarios, acceptance checks, unit-test matrices, E2E cases, API cases, regression cases, or QA plans. Use this skill even when the user says "生成用例", "测试点", "case", "验收清单", "单测场景", "E2E", "回归用例", or asks whether coverage is complete. Also use it for finance-system cases involving AP, AR, GL, payment, invoice, tax, voucher, ledger, reconciliation, period close, budget, or audit controls. Do not default to VCB-specific rules unless the target system is VCB or a similar Java backend control-plane with auth, approval, scope, idempotency, audit, or metrics risks.
 ---
 
 # Case Gen
@@ -10,6 +10,7 @@ Design professional test cases from requirements, code, API contracts, existing 
 This is not a VCB-only skill. VCB and VAF are reference systems:
 - Use VAF as the workflow skeleton: admission, context loading, dual-view test-point design, case construction, self-check, execution feedback.
 - Use VCB as a domain adapter only when the target resembles VCB: Java backend control plane, auth/resource/scope/idempotency/approval/audit/metrics.
+- Use the finance adapter when the target touches AP/AR/GL, payment, invoice, tax, voucher/journal, subledger/GL, period close, budget, treasury, reconciliation, or financial controls.
 
 ## First Move
 
@@ -36,6 +37,7 @@ Load only the references needed for the task:
 | Choose professional case design techniques | `references/industry-methods.md` |
 | Apply VAF-style staged case-generation workflow | `references/vaf-case-flow.md` |
 | Target is VCB or similar Java backend control-plane | `references/vcb-case-patterns.md` |
+| Target is a finance system, accounting flow, payment, invoice, tax, budget, treasury, or financial-control workflow | `references/adapters/finance-system.md`, then load the specific finance adapter files listed there |
 | Need structured output or validation | `references/case-schema.md` |
 | Need to control suite size or split smoke/regression/full | `references/case-pruning.md` |
 | Have execution results, failed cases, defects, or flaky tests | `references/execution-feedback-loop.md` |
@@ -66,6 +68,7 @@ Gather evidence before inventing cases:
 - Existing tests: naming style, fixture style, mock strategy
 - Runtime assumptions: environments, test data, identities, feature flags
 - Domain rules: auth, roles, state machine, idempotency, audit, metrics, compliance
+- Finance rules when applicable: source document, accounting event, voucher/journal, period, currency, tax, subledger/GL, reconciliation, approval matrix, SoD, audit evidence
 
 Every case must trace to at least one of:
 - `REQ-*`: requirement or acceptance criterion
@@ -89,6 +92,13 @@ Create a compact test model before writing cases:
 | Risk model | impact, likelihood, detectability, rollback need |
 
 If there is not enough context for one model, mark it `unknown` and continue with available evidence.
+
+For finance targets, also build the finance model from `references/adapters/finance-system.md`:
+- Business flow model
+- Accounting event model
+- Control model
+- Reconciliation model
+- Audit evidence model
 
 ### 4. Generate Test Points In Two Views
 
@@ -147,8 +157,11 @@ Before finalizing, run this checklist:
 - Security/control features include negative authorization cases.
 - E2E and layered test points have been cross-checked.
 - Generated cases are executable enough for a tester or automation engineer to follow.
+- Finance cases assert business document, accounting event, control decision, ledger impact, reconciliation, and audit evidence when applicable.
 
 If structured case files are produced, run `scripts/validate_cases.py` when practical. Run `scripts/coverage_check.py` for suites with `coverage_map`, P0 requirements, security/control cases, state transitions, or boundary-heavy rules.
+
+For finance structured case files, also run `scripts/finance_coverage_check.py` when practical.
 
 ### 8. Prune And Layer The Suite
 
@@ -199,11 +212,20 @@ For maintainable outputs, also include:
 - suite layers or pruning notes when the case set is large
 - execution feedback analysis when results are provided
 
+For finance outputs, include adapter-specific finance annotations when the output format allows it:
+- `finance.process`
+- `finance.business_event`
+- `finance.accounting_event`
+- `finance.financial_assertions`
+- `finance.control_assertions`
+- `finance.regulatory_refs`
+
 ## Boundaries
 
 Do not:
 - Treat VCB-specific auth/scope/approval rules as universal.
 - Invent business rules without marking them as inferred.
+- Invent accounting entries, tax treatment, or report-line impact without a requirement, accounting policy, or explicit inferred marker.
 - Generate only happy paths unless the user explicitly asks for smoke tests.
 - Modify production code while designing cases unless the user asks for test implementation.
 - Claim coverage is complete without a traceability map.
