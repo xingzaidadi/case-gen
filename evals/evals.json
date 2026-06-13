@@ -69,6 +69,15 @@
       "files": [
         "evals/finance-period-close/input-requirement.md"
       ]
+    },
+    {
+      "id": 9,
+      "name": "finance_core_processes_adapter",
+      "prompt": "根据小米财务共享的核心流程需求生成测试用例，覆盖供应商主数据/银行账号变更、税票红冲、AR 回款、GL 手工凭证、固定资产、预算控制、跨期截止、凭证借贷平衡、对账、SoD、幂等和审计证据。",
+      "expected_output": "Uses the finance adapter across supplier MDM, tax invoice, AR, GL, fixed asset, budget, and cut-off processes with structured finance assertions and coverage gates.",
+      "files": [
+        "evals/finance-core-processes/input-requirement.md"
+      ]
     }
   ]
 }

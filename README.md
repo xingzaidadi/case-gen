@@ -66,6 +66,9 @@ python C:\Users\MI\.codex\skills\case-gen\scripts\finance_coverage_check.py C:\U
 python C:\Users\MI\.codex\skills\case-gen\scripts\validate_cases.py C:\Users\MI\.codex\skills\case-gen\evals\finance-period-close\expected_cases.json
 python C:\Users\MI\.codex\skills\case-gen\scripts\coverage_check.py C:\Users\MI\.codex\skills\case-gen\evals\finance-period-close\expected_cases.json
 python C:\Users\MI\.codex\skills\case-gen\scripts\finance_coverage_check.py C:\Users\MI\.codex\skills\case-gen\evals\finance-period-close\expected_cases.json
+python C:\Users\MI\.codex\skills\case-gen\scripts\validate_cases.py C:\Users\MI\.codex\skills\case-gen\evals\finance-core-processes\expected_cases.json
+python C:\Users\MI\.codex\skills\case-gen\scripts\coverage_check.py C:\Users\MI\.codex\skills\case-gen\evals\finance-core-processes\expected_cases.json
+python C:\Users\MI\.codex\skills\case-gen\scripts\finance_coverage_check.py C:\Users\MI\.codex\skills\case-gen\evals\finance-core-processes\expected_cases.json
 ```
 
 ## Current P0 Capability
@@ -81,7 +84,7 @@ python C:\Users\MI\.codex\skills\case-gen\scripts\finance_coverage_check.py C:\U
 - Excel export: xlsx output for QA/test-management handoff when `openpyxl` is available.
 - Skeleton generation: T04.1 draft cases from test points.
 - Execution feedback validation: checks failed/blocked/flaky cases have classification and evidence.
-- Finance Domain Adapter v1: finance model, event model, process patterns, control matrix, finance assertion library, regulatory-source labels, AP payment / expense reimbursement / period close evals, and `finance_coverage_check.py`.
+- Finance Domain Adapter v1: finance model, event model, process patterns, control matrix, finance assertion library, regulatory-source labels, AP payment / expense reimbursement / period close / core-process evals, and `finance_coverage_check.py`.
 
 ## Sync Policy
 

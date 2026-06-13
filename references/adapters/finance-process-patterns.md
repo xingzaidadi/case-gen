@@ -137,3 +137,45 @@ Required variants:
 - red-letter after deduction/payment
 - audit trace to original invoice
 
+## Supplier Master Data / Bank Account Change
+
+Flow:
+
+```text
+supplier master-data change
+-> sensitive-field validation
+-> independent approval
+-> SoD check
+-> payment-release dependency check
+-> audit evidence
+```
+
+Required variants:
+
+- supplier bank account changed by payment requester
+- same maintainer attempts approval
+- payment release before bank account approval
+- duplicate or replayed master-data change request
+- frozen or blacklisted supplier
+- old/new bank account audit evidence
+
+## Budget Control
+
+Flow:
+
+```text
+business request
+-> budget availability check
+-> budget occupation
+-> approval/payment/posting
+-> budget consumption or release
+```
+
+Required variants:
+
+- exactly enough budget
+- over budget by 0.01
+- cancellation before payment releases budget
+- failed payment/posting releases or preserves budget according to policy
+- repeated cancellation does not double release
+- frozen budget blocks occupation

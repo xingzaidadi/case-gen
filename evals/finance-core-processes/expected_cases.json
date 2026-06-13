@@ -1,0 +1,934 @@
+{
+  "metadata": {
+    "suite_id": "finance-core-processes",
+    "title": "Finance Core Processes Domain Coverage Eval",
+    "source_files": [
+      {
+        "path": "evals/finance-core-processes/input-requirement.md",
+        "lines": "1-21"
+      }
+    ],
+    "generated_at": "2026-06-13",
+    "mode": "mixed",
+    "assumptions": [
+      "Exact account codes and tax policy are project-specific and represented by RULE-* labels.",
+      "The suite intentionally covers multiple finance domains to validate adapter breadth."
+    ]
+  },
+  "test_model": {
+    "actors": [
+      {
+        "id": "ACT-MDM",
+        "role": "supplier master-data maintainer"
+      },
+      {
+        "id": "ACT-FIN-APPROVER",
+        "role": "independent finance approver"
+      },
+      {
+        "id": "ACT-TREASURY",
+        "role": "treasury payment releaser"
+      },
+      {
+        "id": "ACT-GL",
+        "role": "GL accountant"
+      },
+      {
+        "id": "ACT-AR",
+        "role": "AR accountant"
+      },
+      {
+        "id": "ACT-FA",
+        "role": "fixed asset accountant"
+      },
+      {
+        "id": "ACT-BUDGET",
+        "role": "budget controller"
+      }
+    ],
+    "risks": [
+      {
+        "id": "RISK-CORE-001",
+        "description": "Supplier bank account change enables fraudulent payment.",
+        "priority": "P0"
+      },
+      {
+        "id": "RISK-CORE-002",
+        "description": "Invoice red-letter or tax reversal corrupts accounting and tax impact.",
+        "priority": "P0"
+      },
+      {
+        "id": "RISK-CORE-003",
+        "description": "Manual journal or closed-period mutation changes financial reports without control.",
+        "priority": "P0"
+      },
+      {
+        "id": "RISK-CORE-004",
+        "description": "Budget is overused or released twice after cancellation/failure.",
+        "priority": "P0"
+      }
+    ],
+    "test_points": [
+      {
+        "id": "TP-CORE-001",
+        "view": "e2e",
+        "title": "Supplier bank account change is independently approved before payment release",
+        "source": [
+          {
+            "type": "requirement",
+            "ref": "REQ-CORE-001"
+          }
+        ],
+        "priority": "P0"
+      },
+      {
+        "id": "TP-CORE-002",
+        "view": "layered",
+        "title": "Tax invoice red-letter creates traceable reversal with tax and voucher assertions",
+        "source": [
+          {
+            "type": "requirement",
+            "ref": "REQ-CORE-002"
+          }
+        ],
+        "priority": "P0"
+      },
+      {
+        "id": "TP-CORE-003",
+        "view": "layered",
+        "title": "AR, GL, fixed asset, and budget flows have ledger and reconciliation assertions",
+        "source": [
+          {
+            "type": "requirement",
+            "ref": "REQ-CORE-003"
+          }
+        ],
+        "priority": "P0"
+      }
+    ]
+  },
+  "coverage_map": {
+    "sources": [
+      {
+        "id": "REQ-CORE-001",
+        "title": "Supplier master-data and bank account control",
+        "priority": "P0",
+        "cases": [
+          "TC-FIN-CORE-001"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "REQ-CORE-002",
+        "title": "VAT invoice red-letter and tax reversal",
+        "priority": "P0",
+        "cases": [
+          "TC-FIN-CORE-002"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "REQ-CORE-003",
+        "title": "AR receipt matching and settlement",
+        "priority": "P0",
+        "cases": [
+          "TC-FIN-CORE-003"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "REQ-CORE-004",
+        "title": "GL manual journal control",
+        "priority": "P0",
+        "cases": [
+          "TC-FIN-CORE-004"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "REQ-CORE-005",
+        "title": "Fixed asset lifecycle accounting",
+        "priority": "P0",
+        "cases": [
+          "TC-FIN-CORE-005"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "REQ-CORE-006",
+        "title": "Budget occupation, over-budget block, and release",
+        "priority": "P0",
+        "cases": [
+          "TC-FIN-CORE-006"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "REQ-CORE-007",
+        "title": "Cross-period cut-off and hard-closed mutation rejection",
+        "priority": "P0",
+        "cases": [
+          "TC-FIN-CORE-007"
+        ],
+        "status": "covered"
+      }
+    ],
+    "test_points": [
+      {
+        "id": "TP-CORE-001",
+        "cases": [
+          "TC-FIN-CORE-001"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "TP-CORE-002",
+        "cases": [
+          "TC-FIN-CORE-002"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "TP-CORE-003",
+        "cases": [
+          "TC-FIN-CORE-003",
+          "TC-FIN-CORE-004",
+          "TC-FIN-CORE-005",
+          "TC-FIN-CORE-006",
+          "TC-FIN-CORE-007"
+        ],
+        "status": "covered"
+      }
+    ],
+    "cross_view": [
+      {
+        "e2e": "TP-CORE-001",
+        "layered": [
+          "TP-CORE-002",
+          "TP-CORE-003"
+        ],
+        "status": "linked"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "id": "TC-FIN-CORE-001",
+      "title": "Supplier bank account change blocks payment until independent approval and SoD pass",
+      "priority": "P0",
+      "level": "security",
+      "type": "security",
+      "traceability": {
+        "requirements": [
+          "REQ-CORE-001"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "CIC-BASIC",
+          "OWASP-API-2023"
+        ],
+        "risks": [
+          "RISK-CORE-001"
+        ],
+        "test_points": [
+          "TP-CORE-001"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Supplier S001 bank account was changed by ACT-MDM and is pending independent approval.",
+        "Payment request PAY-MDM-001 references supplier S001."
+      ],
+      "data": [
+        {
+          "name": "idempotency_key",
+          "value": "MDM-BANK-CHANGE-001",
+          "source": "REQ-CORE-001"
+        },
+        {
+          "name": "duplicate_payment_key",
+          "value": "supplier=S001, amount=800.00, invoice=INV-MDM-001",
+          "source": "RISK-CORE-001"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Attempt to approve the bank account change as the same maintainer.",
+          "input": "actor=ACT-MDM, supplier=S001"
+        },
+        {
+          "action": "Attempt to release duplicate payment before independent approval.",
+          "input": "payment=PAY-MDM-001, duplicate_payment_key=same"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "Same-maintainer approval is forbidden with wrong role / segregation of duties denial.",
+          "observable": "response"
+        },
+        {
+          "assertion": "Approval chain contains no approval from ACT-MDM and requires ACT-FIN-APPROVER.",
+          "observable": "approval_chain"
+        },
+        {
+          "assertion": "Payment status remains approved_not_released and duplicate payment is blocked until bank-account approval completes.",
+          "observable": "payment_status"
+        },
+        {
+          "assertion": "Bank statement has no outgoing payment instruction for PAY-MDM-001.",
+          "observable": "bank_statement"
+        },
+        {
+          "assertion": "Control evidence records sensitive master-data dependency, idempotency key, duplicate payment key, and SoD rule.",
+          "observable": "control_evidence"
+        },
+        {
+          "assertion": "Audit evidence records old/new bank account, actor, timestamp, approval requirement, and release denial.",
+          "observable": "audit_evidence"
+        },
+        {
+          "assertion": "Security log is emitted for forbidden self-approval.",
+          "observable": "log"
+        }
+      ],
+      "finance": {
+        "process": "ap_payment",
+        "business_event": "supplier bank account change before payment",
+        "accounting_event": "no_posting",
+        "financial_assertions": [
+          "no_bank_release",
+          "no_duplicate_payment",
+          "no_posting"
+        ],
+        "control_assertions": [
+          "sensitive_master_data_control",
+          "segregation_of_duties",
+          "idempotency",
+          "audit_evidence"
+        ],
+        "regulatory_refs": [
+          "CIC-BASIC",
+          "OWASP-API-2023"
+        ]
+      },
+      "automation_candidate": "high",
+      "status": "ready",
+      "notes": []
+    },
+    {
+      "id": "TC-FIN-CORE-002",
+      "title": "VAT red-letter invoice reverses original tax and accounting impact exactly once",
+      "priority": "P0",
+      "level": "integration",
+      "type": "state_transition",
+      "traceability": {
+        "requirements": [
+          "REQ-CORE-002"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "STA-INVOICE",
+          "RULE-TAX-REDLETTER",
+          "LAW-ACCOUNTING"
+        ],
+        "risks": [
+          "RISK-CORE-002"
+        ],
+        "test_points": [
+          "TP-CORE-002"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Original VAT invoice INV-TAX-001 is posted in open period 2026-06.",
+        "No prior red-letter invoice exists for INV-TAX-001."
+      ],
+      "data": [
+        {
+          "name": "red_letter_amounts",
+          "value": "tax_amount=60.00 CNY, gross_amount=1060.00 CNY",
+          "source": "REQ-CORE-002"
+        },
+        {
+          "name": "duplicate_invoice_key",
+          "value": "original_invoice=INV-TAX-001, red_letter_no=RL-001",
+          "source": "RISK-CORE-002"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Create red-letter invoice for original invoice INV-TAX-001.",
+          "input": "red_letter=RL-001, gross=1060.00, tax=60.00"
+        },
+        {
+          "action": "Retry red-letter creation with the same request id.",
+          "input": "request_id=REQ-RL-IDEMP-001"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "Invoice status follows valid transition posted -> red_lettered terminal state; invalid duplicate invoice red-letter is idempotent and returns RL-001.",
+          "observable": "invoice_status"
+        },
+        {
+          "assertion": "Tax amount reverses exactly 60.00 CNY and cannot exceed original tax amount.",
+          "observable": "tax_amount"
+        },
+        {
+          "assertion": "Reversal journal voucher is generated exactly once in period 2026-06 and debit_credit_balance holds.",
+          "observable": "journal_voucher"
+        },
+        {
+          "assertion": "Original invoice, red-letter invoice, tax reversal, subledger, GL, and report line reconcile to expected net impact.",
+          "observable": "reconciliation_result"
+        },
+        {
+          "assertion": "Audit evidence links red-letter invoice to original invoice, request id, actor, and rule version.",
+          "observable": "audit_evidence"
+        }
+      ],
+      "finance": {
+        "process": "tax",
+        "business_event": "VAT red-letter invoice reversal",
+        "accounting_event": "reversal",
+        "financial_assertions": [
+          "tax_amount_asserted",
+          "voucher_generated",
+          "debit_credit_balance",
+          "reversal_reconciled",
+          "idempotency"
+        ],
+        "control_assertions": [
+          "duplicate_invoice_prevention",
+          "audit_trace_to_original_invoice"
+        ],
+        "regulatory_refs": [
+          "STA-INVOICE",
+          "LAW-ACCOUNTING"
+        ]
+      },
+      "automation_candidate": "high",
+      "status": "ready",
+      "notes": []
+    },
+    {
+      "id": "TC-FIN-CORE-003",
+      "title": "AR receipt matches bank statement, clears customer open item, and reconciles AR to GL",
+      "priority": "P0",
+      "level": "e2e",
+      "type": "happy_path",
+      "traceability": {
+        "requirements": [
+          "REQ-CORE-003"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "RULE-AR-SETTLEMENT",
+          "LAW-ACCOUNTING"
+        ],
+        "risks": [],
+        "test_points": [
+          "TP-CORE-003"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Customer invoice AR-INV-001 is open for 2000.00 CNY in period 2026-06.",
+        "Bank statement line BNK-AR-001 is available for 2000.00 CNY."
+      ],
+      "data": [
+        {
+          "name": "receipt_amount",
+          "value": "2000.00 CNY",
+          "source": "REQ-CORE-003"
+        },
+        {
+          "name": "cutoff_period",
+          "value": "2026-06 open",
+          "source": "RULE-AR-SETTLEMENT"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Match bank statement line to customer invoice AR-INV-001.",
+          "input": "bank_statement=BNK-AR-001, invoice=AR-INV-001"
+        },
+        {
+          "action": "Post AR receipt settlement.",
+          "input": "period=2026-06"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "Bank statement line is linked to receipt and customer invoice.",
+          "observable": "bank_statement"
+        },
+        {
+          "assertion": "Payment status reaches received and AR open item is cleared.",
+          "observable": "payment_status"
+        },
+        {
+          "assertion": "Settlement journal voucher is generated exactly once in period 2026-06 and debit_credit_balance holds for 2000.00 CNY.",
+          "observable": "journal_voucher"
+        },
+        {
+          "assertion": "AR subledger balance equals GL control account after receipt settlement.",
+          "observable": "subledger_balance"
+        },
+        {
+          "assertion": "Customer invoice, bank statement, AR subledger, GL, and report line reconcile with zero difference.",
+          "observable": "reconciliation_result"
+        },
+        {
+          "assertion": "Audit evidence records matcher, posting actor, bank reference, and settlement voucher id.",
+          "observable": "audit_evidence"
+        }
+      ],
+      "finance": {
+        "process": "ar_receipt",
+        "business_event": "customer receipt settlement",
+        "accounting_event": "settlement",
+        "financial_assertions": [
+          "voucher_generated",
+          "debit_credit_balance",
+          "subledger_gl_reconciled",
+          "bank_statement_reconciled"
+        ],
+        "control_assertions": [
+          "audit_evidence"
+        ],
+        "regulatory_refs": [
+          "LAW-ACCOUNTING"
+        ]
+      },
+      "automation_candidate": "high",
+      "status": "ready",
+      "notes": []
+    },
+    {
+      "id": "TC-FIN-CORE-004",
+      "title": "GL manual journal enforces balance, approval matrix, SoD, and closed-period control",
+      "priority": "P0",
+      "level": "integration",
+      "type": "decision_table",
+      "traceability": {
+        "requirements": [
+          "REQ-CORE-004"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "RULE-GL-JOURNAL",
+          "CIC-BASIC",
+          "LAW-ACCOUNTING"
+        ],
+        "risks": [
+          "RISK-CORE-003"
+        ],
+        "test_points": [
+          "TP-CORE-003"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Period 2026-06 is open and period 2026-05 is hard_closed."
+      ],
+      "data": [
+        {
+          "name": "journal_rows",
+          "value": "balanced_open_allow / imbalanced_open_deny / balanced_hard_closed_deny / self_approval_deny",
+          "source": "REQ-CORE-004"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Submit balanced journal, imbalanced journal, hard-closed-period journal, and self-approved journal.",
+          "input": "periods=2026-06/2026-05, amounts=100.00 debit and credit"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "Balanced open-period journal is approved and posted; imbalanced, hard_closed, and self-approval rows are forbidden.",
+          "observable": "response"
+        },
+        {
+          "assertion": "Approval chain records independent approver and excludes creator self-approval.",
+          "observable": "approval_chain"
+        },
+        {
+          "assertion": "Posted journal voucher is generated exactly once in period 2026-06 and debit_credit_balance holds.",
+          "observable": "journal_voucher"
+        },
+        {
+          "assertion": "Hard-closed period 2026-05 remains terminal hard_closed with no ledger mutation.",
+          "observable": "period_status"
+        },
+        {
+          "assertion": "GL balance and financial report line update only for the allowed open-period journal.",
+          "observable": "financial_report_line"
+        },
+        {
+          "assertion": "Audit evidence records denied wrong role / self-approval and closed-period attempts.",
+          "observable": "audit_evidence"
+        }
+      ],
+      "finance": {
+        "process": "gl_journal",
+        "business_event": "manual journal posting",
+        "accounting_event": "voucher_required",
+        "financial_assertions": [
+          "voucher_generated",
+          "debit_credit_balance",
+          "period_cutoff",
+          "report_line_asserted"
+        ],
+        "control_assertions": [
+          "approval_matrix",
+          "segregation_of_duties",
+          "closed_period_control",
+          "audit_evidence"
+        ],
+        "regulatory_refs": [
+          "LAW-ACCOUNTING",
+          "CIC-BASIC"
+        ]
+      },
+      "automation_candidate": "high",
+      "status": "ready",
+      "notes": []
+    },
+    {
+      "id": "TC-FIN-CORE-005",
+      "title": "Fixed asset capitalization and depreciation post balanced vouchers and reconcile asset subledger to GL",
+      "priority": "P0",
+      "level": "integration",
+      "type": "state_transition",
+      "traceability": {
+        "requirements": [
+          "REQ-CORE-005"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "RULE-FA-LIFECYCLE",
+          "LAW-ACCOUNTING"
+        ],
+        "risks": [],
+        "test_points": [
+          "TP-CORE-003"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Asset FA-001 is acquired for 12000.00 CNY and period 2026-06 is open.",
+        "Useful life is 12 months and residual value is 0.00 CNY."
+      ],
+      "data": [
+        {
+          "name": "asset_amounts",
+          "value": "capitalization=12000.00 CNY, monthly_depreciation=1000.00 CNY",
+          "source": "REQ-CORE-005"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Capitalize asset FA-001.",
+          "input": "amount=12000.00, period=2026-06"
+        },
+        {
+          "action": "Run first depreciation and attempt invalid disposal before capitalization is complete.",
+          "input": "depreciation=1000.00"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "Asset status follows valid transition acquired -> capitalized -> depreciating; invalid disposal before capitalization is rejected.",
+          "observable": "source_document"
+        },
+        {
+          "assertion": "Capitalization and depreciation journal vouchers are generated once and debit_credit_balance holds for each voucher.",
+          "observable": "journal_voucher"
+        },
+        {
+          "assertion": "Asset subledger carrying amount is 11000.00 CNY after first depreciation.",
+          "observable": "subledger_balance"
+        },
+        {
+          "assertion": "Asset subledger reconciles to fixed-asset GL and depreciation expense report line.",
+          "observable": "reconciliation_result"
+        },
+        {
+          "assertion": "Audit evidence records asset card, useful life, capitalization date, depreciation run id, and invalid transition denial.",
+          "observable": "audit_evidence"
+        }
+      ],
+      "finance": {
+        "process": "fixed_asset",
+        "business_event": "fixed asset capitalization and depreciation",
+        "accounting_event": "voucher_required",
+        "financial_assertions": [
+          "voucher_generated",
+          "debit_credit_balance",
+          "asset_subledger_gl_reconciled",
+          "depreciation_asserted"
+        ],
+        "control_assertions": [
+          "state_transition_control",
+          "audit_evidence"
+        ],
+        "regulatory_refs": [
+          "LAW-ACCOUNTING"
+        ]
+      },
+      "automation_candidate": "medium",
+      "status": "ready",
+      "notes": []
+    },
+    {
+      "id": "TC-FIN-CORE-006",
+      "title": "Budget occupation blocks over-budget request and releases exactly once on cancellation",
+      "priority": "P0",
+      "level": "integration",
+      "type": "boundary",
+      "traceability": {
+        "requirements": [
+          "REQ-CORE-006"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "RULE-BUDGET-CONTROL",
+          "CIC-BASIC"
+        ],
+        "risks": [
+          "RISK-CORE-004"
+        ],
+        "test_points": [
+          "TP-CORE-003"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Budget center BUD-001 has available amount 1000.00 CNY."
+      ],
+      "data": [
+        {
+          "name": "budget_amounts",
+          "value": "999.99/1000.00/1000.01 CNY",
+          "source": "REQ-CORE-006"
+        },
+        {
+          "name": "idempotency_key",
+          "value": "BUD-CANCEL-001",
+          "source": "RISK-CORE-004"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Submit budget occupation requests at 999.99, 1000.00, and 1000.01 CNY.",
+          "input": "amounts=999.99/1000.00/1000.01"
+        },
+        {
+          "action": "Cancel an occupied request twice with the same idempotency key.",
+          "input": "idempotency_key=BUD-CANCEL-001"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "999.99 and 1000.00 CNY occupy budget; 1000.01 CNY is blocked as over-budget.",
+          "observable": "budget_occupation"
+        },
+        {
+          "assertion": "Cancellation releases occupied budget exactly once; retry is idempotent and does not double release.",
+          "observable": "control_evidence"
+        },
+        {
+          "assertion": "No payment status is created for over-budget blocked request.",
+          "observable": "payment_status"
+        },
+        {
+          "assertion": "Budget occupation, source document, subledger/GL placeholder, and report impact reconcile to configured rule.",
+          "observable": "reconciliation_result"
+        },
+        {
+          "assertion": "Audit evidence records occupation, over-budget denial, cancellation, and idempotent retry.",
+          "observable": "audit_evidence"
+        }
+      ],
+      "finance": {
+        "process": "budget",
+        "business_event": "budget occupation and cancellation",
+        "accounting_event": "no_posting",
+        "financial_assertions": [
+          "budget_occupation",
+          "budget_release_once",
+          "over_budget_blocked",
+          "idempotency"
+        ],
+        "control_assertions": [
+          "budget_control",
+          "audit_evidence"
+        ],
+        "regulatory_refs": [
+          "CIC-BASIC"
+        ]
+      },
+      "automation_candidate": "high",
+      "status": "ready",
+      "notes": []
+    },
+    {
+      "id": "TC-FIN-CORE-007",
+      "title": "Cross-period cut-off assigns impact to correct period and rejects hard-closed mutation",
+      "priority": "P0",
+      "level": "integration",
+      "type": "boundary",
+      "traceability": {
+        "requirements": [
+          "REQ-CORE-007"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "RULE-PERIOD-CUTOFF",
+          "LAW-ACCOUNTING"
+        ],
+        "risks": [
+          "RISK-CORE-003"
+        ],
+        "test_points": [
+          "TP-CORE-003"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Period 2026-06 closes at 2026-06-30T23:59:59 and period 2026-05 is hard_closed."
+      ],
+      "data": [
+        {
+          "name": "cutoff_times",
+          "value": "2026-06-30T23:59:58 / 2026-06-30T23:59:59 / 2026-07-01T00:00:00",
+          "source": "REQ-CORE-007"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Submit accounting-impacting documents around cut-off and attempt backdated mutation in hard_closed period.",
+          "input": "times=2026-06-30T23:59:58/2026-06-30T23:59:59/2026-07-01T00:00:00, backdate=2026-05"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "Before and exactly at cut-off are assigned to 2026-06; after cut-off is assigned to 2026-07 or rejected by policy.",
+          "observable": "period_status"
+        },
+        {
+          "assertion": "Backdated mutation into hard_closed 2026-05 is forbidden and terminal hard_closed state is preserved.",
+          "observable": "period_status"
+        },
+        {
+          "assertion": "Allowed journal vouchers are posted only in assigned periods and debit_credit_balance holds.",
+          "observable": "journal_voucher"
+        },
+        {
+          "assertion": "Financial report line impact appears only in the assigned period.",
+          "observable": "financial_report_line"
+        },
+        {
+          "assertion": "Reconciliation separates 2026-06 and 2026-07 impact without cross-period leakage.",
+          "observable": "reconciliation_result"
+        },
+        {
+          "assertion": "Audit evidence records cut-off decision, rejected hard_closed mutation, actor, and rule version.",
+          "observable": "audit_evidence"
+        }
+      ],
+      "finance": {
+        "process": "gl_journal",
+        "business_event": "cross-period cut-off and closed-period mutation",
+        "accounting_event": "voucher_required",
+        "financial_assertions": [
+          "period_cutoff",
+          "voucher_generated",
+          "debit_credit_balance",
+          "report_line_period_asserted"
+        ],
+        "control_assertions": [
+          "closed_period_control",
+          "audit_evidence"
+        ],
+        "regulatory_refs": [
+          "LAW-ACCOUNTING",
+          "CIC-BASIC"
+        ]
+      },
+      "automation_candidate": "high",
+      "status": "ready",
+      "notes": []
+    }
+  ],
+  "open_questions": [
+    {
+      "id": "Q-CORE-001",
+      "question": "Which internal account codes, tax codes, asset classes, and budget dimensions apply for each Xiaomi legal entity?",
+      "impact": "blocks_p0",
+      "owner": "finance"
+    }
+  ],
+  "suite_layers": {
+    "smoke": [
+      "TC-FIN-CORE-001",
+      "TC-FIN-CORE-002",
+      "TC-FIN-CORE-004"
+    ],
+    "p0_gate": [
+      "TC-FIN-CORE-001",
+      "TC-FIN-CORE-002",
+      "TC-FIN-CORE-003",
+      "TC-FIN-CORE-004",
+      "TC-FIN-CORE-005",
+      "TC-FIN-CORE-006",
+      "TC-FIN-CORE-007"
+    ],
+    "regression": [
+      "TC-FIN-CORE-001",
+      "TC-FIN-CORE-002",
+      "TC-FIN-CORE-003",
+      "TC-FIN-CORE-004",
+      "TC-FIN-CORE-005",
+      "TC-FIN-CORE-006",
+      "TC-FIN-CORE-007"
+    ],
+    "full": [
+      "TC-FIN-CORE-001",
+      "TC-FIN-CORE-002",
+      "TC-FIN-CORE-003",
+      "TC-FIN-CORE-004",
+      "TC-FIN-CORE-005",
+      "TC-FIN-CORE-006",
+      "TC-FIN-CORE-007"
+    ],
+    "exploratory": [
+      "CHARTER-FIN-CORE-001"
+    ]
+  },
+  "quality_gates": {
+    "p0_sources_covered": true,
+    "no_happy_path_only": true,
+    "all_cases_have_traceability": true,
+    "all_cases_have_observable_expected": true,
+    "boundary_cases_have_concrete_values": true,
+    "state_cases_include_invalid_transitions": true,
+    "security_cases_include_negative_authorization": true,
+    "e2e_layer_cross_check_complete": true,
+    "finance_voucher_or_ledger_asserted": true,
+    "finance_debit_credit_balance_asserted": true,
+    "finance_period_cutoff_asserted": true,
+    "finance_reconciliation_asserted": true,
+    "finance_control_evidence_asserted": true
+  }
+}
+
