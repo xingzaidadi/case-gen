@@ -24,6 +24,24 @@
       "prompt": "评审一组已有测试用例，判断是否只有 happy path，并补充异常路径、边界路径和状态转换用例。",
       "expected_output": "Identifies happy-path bias, proposes exception and boundary cases, and maps additions to risks and sources.",
       "files": []
+    },
+    {
+      "id": 4,
+      "name": "skeleton_from_test_points",
+      "prompt": "根据测试点清单生成 T04.1 用例骨架，不填充最终断言，只保证 traceability、priority、suite layer 初始结构正确。",
+      "expected_output": "Creates a structured case skeleton with draft cases mapped to the input test points.",
+      "files": [
+        "evals/skeleton/test_points.json"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "execution_feedback_classification",
+      "prompt": "检查一次执行结果，确认失败 P0 用例有 failure_class、evidence 和 defect_id，并说明是否应转成 regression。",
+      "expected_output": "Validates execution feedback and classifies failures before case changes.",
+      "files": [
+        "evals/execution-feedback/results_sample.json"
+      ]
     }
   ]
 }

@@ -128,6 +128,12 @@ Unless the user only asks for a short list, create or propose structured cases f
 
 Do not write final Markdown as the only source of truth when the user needs maintainable cases. Markdown is a rendering target; structured cases are the source.
 
+Use scripts when a file output is requested:
+- `scripts/create_case_skeleton.py` for T04.1 skeleton generation from test points
+- `scripts/render_markdown.py` for Markdown delivery
+- `scripts/render_gherkin.py` for Gherkin delivery
+- `scripts/export_xlsx.py` for Excel delivery
+
 ### 7. Self-Check Gates
 
 Before finalizing, run this checklist:
@@ -158,6 +164,8 @@ Merge duplicate cases only when setup, action, expected result, priority, and fa
 ### 9. Execution Feedback
 
 When the user provides test results, failed cases, flaky behavior, or defect ids, read `references/execution-feedback-loop.md`. Classify failures before changing cases. Convert fixed defects into regression cases.
+
+Run `scripts/execution_feedback_check.py` when `execution_results` are present.
 
 ## Output Contract
 

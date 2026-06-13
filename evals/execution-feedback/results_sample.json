@@ -1,0 +1,76 @@
+{
+  "metadata": {
+    "suite_id": "execution-feedback-sample",
+    "title": "Execution feedback sample",
+    "mode": "api",
+    "assumptions": [
+      "Sample shows failed P0 triage and evidence requirements."
+    ]
+  },
+  "cases": [
+    {
+      "id": "TC-AUTH-001",
+      "title": "Reject missing actor",
+      "priority": "P0",
+      "level": "api",
+      "type": "security",
+      "traceability": {
+        "requirements": [
+          "REQ-AUTH-001"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "RULE:AUTH-REQUIRED"
+        ],
+        "risks": [],
+        "test_points": [
+          "TP-AUTH-001"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Protected API is available."
+      ],
+      "data": [],
+      "steps": [
+        {
+          "action": "Call API without actor.",
+          "input": "GET /api/jobs"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "HTTP status is 401 or documented auth error.",
+          "observable": "response"
+        }
+      ],
+      "automation_candidate": "high",
+      "status": "ready"
+    }
+  ],
+  "execution_results": {
+    "run_id": "RUN-001",
+    "environment": "local",
+    "started_at": "2026-06-13T11:00:00+08:00",
+    "cases": [
+      {
+        "case_id": "TC-AUTH-001",
+        "result": "fail",
+        "failure_class": "product_bug",
+        "evidence": [
+          {
+            "type": "response",
+            "ref": "HTTP 200 returned for missing actor"
+          },
+          {
+            "type": "log",
+            "ref": "auth middleware did not run"
+          }
+        ],
+        "defect_id": "BUG-AUTH-001",
+        "notes": "Keep as regression after fix."
+      }
+    ]
+  }
+}

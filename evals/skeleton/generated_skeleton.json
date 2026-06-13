@@ -1,0 +1,140 @@
+{
+  "metadata": {
+    "suite_id": "skeleton-eval",
+    "title": "skeleton-eval case skeleton",
+    "generated_at": "2026-06-13",
+    "mode": "mixed",
+    "assumptions": [
+      "Generated as a skeleton from test points; fill TODO fields before use."
+    ]
+  },
+  "coverage_map": {
+    "sources": [],
+    "test_points": [
+      {
+        "id": "TP-E2E-001",
+        "cases": [
+          "TC-001"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "TP-API-001",
+        "cases": [
+          "TC-002"
+        ],
+        "status": "covered"
+      }
+    ],
+    "cross_view": []
+  },
+  "cases": [
+    {
+      "id": "TC-001",
+      "title": "User completes primary order lock flow",
+      "priority": "P0",
+      "level": "e2e",
+      "type": "negative",
+      "traceability": {
+        "requirements": [
+          "REQ-ORDER-LOCK-001"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [],
+        "risks": [],
+        "test_points": [
+          "TP-E2E-001"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "TODO: fill concrete preconditions"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "action": "TODO: fill action",
+          "input": ""
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "TODO: fill observable assertion",
+          "observable": "response"
+        }
+      ],
+      "automation_candidate": "medium",
+      "status": "draft"
+    },
+    {
+      "id": "TC-002",
+      "title": "Reject lock request when quota exceeds 6",
+      "priority": "P0",
+      "level": "api",
+      "type": "negative",
+      "traceability": {
+        "requirements": [
+          "REQ-ORDER-LOCK-002"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "RULE:QUOTA-LIMIT"
+        ],
+        "risks": [],
+        "test_points": [
+          "TP-API-001"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "TODO: fill concrete preconditions"
+      ],
+      "data": [],
+      "steps": [
+        {
+          "action": "TODO: fill action",
+          "input": ""
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "TODO: fill observable assertion",
+          "observable": "response"
+        }
+      ],
+      "automation_candidate": "medium",
+      "status": "draft"
+    }
+  ],
+  "suite_layers": {
+    "smoke": [
+      "TC-001",
+      "TC-002"
+    ],
+    "p0_gate": [
+      "TC-001",
+      "TC-002"
+    ],
+    "regression": [
+      "TC-001",
+      "TC-002"
+    ],
+    "full": [
+      "TC-001",
+      "TC-002"
+    ],
+    "exploratory": []
+  },
+  "quality_gates": {
+    "p0_sources_covered": true,
+    "no_happy_path_only": true,
+    "all_cases_have_traceability": true,
+    "all_cases_have_observable_expected": true,
+    "boundary_cases_have_concrete_values": true,
+    "state_cases_include_invalid_transitions": true,
+    "security_cases_include_negative_authorization": true,
+    "e2e_layer_cross_check_complete": false
+  }
+}

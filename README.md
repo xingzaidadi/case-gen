@@ -23,8 +23,11 @@ case-gen/
 ├── scripts/
 │   ├── validate_cases.py
 │   ├── coverage_check.py
+│   ├── create_case_skeleton.py
 │   ├── render_markdown.py
-│   └── render_gherkin.py
+│   ├── render_gherkin.py
+│   ├── export_xlsx.py
+│   └── execution_feedback_check.py
 ├── evals/
 │   ├── evals.json
 │   └── sample_cases.json
@@ -51,6 +54,8 @@ python C:\Users\MI\.codex\skills\case-gen\scripts\validate_cases.py C:\Users\MI\
 python C:\Users\MI\.codex\skills\case-gen\scripts\coverage_check.py C:\Users\MI\.codex\skills\case-gen\evals\vcb-like-backend\expected_cases.json
 python C:\Users\MI\.codex\skills\case-gen\scripts\render_markdown.py C:\Users\MI\.codex\skills\case-gen\evals\vcb-like-backend\expected_cases.json -o C:\Users\MI\.codex\skills\case-gen\evals\vcb-like-backend\rendered.md
 python C:\Users\MI\.codex\skills\case-gen\scripts\render_gherkin.py C:\Users\MI\.codex\skills\case-gen\evals\vcb-like-backend\expected_cases.json -o C:\Users\MI\.codex\skills\case-gen\evals\vcb-like-backend\rendered.feature
+python C:\Users\MI\.codex\skills\case-gen\scripts\create_case_skeleton.py C:\Users\MI\.codex\skills\case-gen\evals\skeleton\test_points.json -o C:\Users\MI\.codex\skills\case-gen\evals\skeleton\generated_skeleton.json --suite-id skeleton-eval
+python C:\Users\MI\.codex\skills\case-gen\scripts\execution_feedback_check.py C:\Users\MI\.codex\skills\case-gen\evals\execution-feedback\results_sample.json
 ```
 
 ## Current P0 Capability
@@ -63,6 +68,9 @@ python C:\Users\MI\.codex\skills\case-gen\scripts\render_gherkin.py C:\Users\MI\
 - Case pruning and suite layering: smoke, P0 gate, regression, full, exploratory.
 - Execution feedback loop: failure classification and defect-to-regression flow.
 - Renderers: Markdown and Gherkin output from structured case JSON/YAML.
+- Excel export: xlsx output for QA/test-management handoff when `openpyxl` is available.
+- Skeleton generation: T04.1 draft cases from test points.
+- Execution feedback validation: checks failed/blocked/flaky cases have classification and evidence.
 
 ## Sync Policy
 

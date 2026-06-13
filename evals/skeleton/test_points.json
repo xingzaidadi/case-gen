@@ -1,0 +1,32 @@
+{
+  "test_points": [
+    {
+      "id": "TP-E2E-001",
+      "view": "e2e",
+      "title": "User completes primary order lock flow",
+      "priority": "P0",
+      "source": [
+        {
+          "type": "requirement",
+          "ref": "REQ-ORDER-LOCK-001"
+        }
+      ]
+    },
+    {
+      "id": "TP-API-001",
+      "view": "layered",
+      "title": "Reject lock request when quota exceeds 6",
+      "priority": "P0",
+      "source": [
+        {
+          "type": "requirement",
+          "ref": "REQ-ORDER-LOCK-002"
+        },
+        {
+          "type": "rule",
+          "ref": "RULE:QUOTA-LIMIT"
+        }
+      ]
+    }
+  ]
+}
