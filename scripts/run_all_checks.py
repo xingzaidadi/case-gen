@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -12,7 +13,9 @@ from pathlib import Path
 def run(label: str, command: list[str], cwd: Path) -> bool:
     print(f"\n== {label} ==")
     print(" ".join(command))
-    result = subprocess.run(command, cwd=str(cwd), text=True)  # noqa: S603
+    env = os.environ.copy()
+    env["PYTHONUTF8"] = "1"
+    result = subprocess.run(command, cwd=str(cwd), env=env, text=True)  # noqa: S603
     if result.returncode == 0:
         print(f"PASS: {label}")
         return True
@@ -22,6 +25,18 @@ def run(label: str, command: list[str], cwd: Path) -> bool:
 
 def existing(path: Path) -> bool:
     return path.exists()
+
+
+def default_quick_validate(root: Path) -> Path:
+    candidates = [
+        root.parent / ".system" / "skill-creator" / "scripts" / "quick_validate.py",
+        Path.home() / ".codex" / "skills" / ".system" / "skill-creator" / "scripts" / "quick_validate.py",
+        Path.home() / ".agents" / "skills" / "skill-creator" / "scripts" / "quick_validate.py",
+    ]
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    return candidates[0]
 
 
 def main() -> int:
@@ -42,7 +57,7 @@ def main() -> int:
     evals = root / "evals"
     python = sys.executable
 
-    quick_validate = Path(args.quick_validate).resolve() if args.quick_validate else root.parent / ".system" / "skill-creator" / "scripts" / "quick_validate.py"
+    quick_validate = Path(args.quick_validate).resolve() if args.quick_validate else default_quick_validate(root)
 
     checks: list[tuple[str, list[str]]] = []
     if existing(quick_validate):
@@ -150,4 +165,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

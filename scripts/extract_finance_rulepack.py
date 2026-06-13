@@ -76,6 +76,15 @@ def read_file(path: Path) -> str:
     return path.read_text(encoding="utf-8", errors="replace")
 
 
+def source_label(path: Path) -> str:
+    """Return a stable source path for generated eval artifacts."""
+    resolved = path.resolve()
+    try:
+        return resolved.relative_to(Path.cwd().resolve()).as_posix()
+    except ValueError:
+        return str(resolved)
+
+
 def slug(value: str, prefix: str, max_len: int = 48) -> str:
     text = value.strip().upper()
     text = re.sub(r"[^A-Z0-9\u4e00-\u9fff]+", "-", text)
@@ -139,7 +148,7 @@ def extract_rulepack(paths: list[Path], rulepack_id: str, owner: str) -> dict[st
             "owner": owner,
             "updated_at": date.today().isoformat(),
             "status": "draft",
-            "source_files": [str(path) for path, _ in docs],
+            "source_files": [source_label(path) for path, _ in docs],
         }
     }
     for section in SECTIONS:
@@ -148,7 +157,7 @@ def extract_rulepack(paths: list[Path], rulepack_id: str, owner: str) -> dict[st
     seen_by_section = {section: set() for section in SECTIONS}
 
     for path, text in docs:
-        source = str(path)
+        source = source_label(path)
         for line in matching_lines(text, r"legal entity|company code|法人|公司代码|账套"):
             add_item(
                 rulepack["legal_entities"],

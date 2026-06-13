@@ -6,8 +6,8 @@
     "updated_at": "2026-06-13",
     "status": "draft",
     "source_rulepacks": [
-      "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\ap_module_rulepack.json",
-      "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\tax_module_rulepack.json"
+      "evals/finance-rulepack-merge/ap_module_rulepack.json",
+      "evals/finance-rulepack-merge/tax_module_rulepack.json"
     ],
     "merge_summary": {
       "legal_entities": 1,
@@ -30,7 +30,7 @@
       "description": "Placeholder legal entity for AP module.",
       "base_currency": "CNY",
       "sources": [
-        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\ap_module_rulepack.json"
+        "evals/finance-rulepack-merge/ap_module_rulepack.json"
       ]
     }
   ],
@@ -40,7 +40,7 @@
       "name": "AP payment posting timing",
       "description": "AP settlement posting occurs after bank success in this module sample.",
       "sources": [
-        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\ap_module_rulepack.json"
+        "evals/finance-rulepack-merge/ap_module_rulepack.json"
       ]
     },
     {
@@ -48,7 +48,7 @@
       "name": "Monthly cut-off policy",
       "description": "Accounting impact is assigned by posting timestamp and hard-closed periods reject mutation.",
       "sources": [
-        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\tax_module_rulepack.json"
+        "evals/finance-rulepack-merge/tax_module_rulepack.json"
       ]
     }
   ],
@@ -59,7 +59,7 @@
       "description": "Control account for AP open items.",
       "account_type": "liability",
       "sources": [
-        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\ap_module_rulepack.json"
+        "evals/finance-rulepack-merge/ap_module_rulepack.json"
       ]
     },
     {
@@ -68,7 +68,7 @@
       "description": "Bank cash account for payment settlement.",
       "account_type": "asset",
       "sources": [
-        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\ap_module_rulepack.json"
+        "evals/finance-rulepack-merge/ap_module_rulepack.json"
       ]
     },
     {
@@ -77,7 +77,7 @@
       "description": "Fixed asset cost account.",
       "account_type": "asset",
       "sources": [
-        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\tax_module_rulepack.json"
+        "evals/finance-rulepack-merge/tax_module_rulepack.json"
       ]
     }
   ],
@@ -90,7 +90,7 @@
       "direction": "input",
       "red_letter_allowed": true,
       "sources": [
-        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\tax_module_rulepack.json"
+        "evals/finance-rulepack-merge/tax_module_rulepack.json"
       ]
     }
   ],
@@ -100,7 +100,7 @@
       "name": "Supplier bank account change approval",
       "description": "Supplier bank account change requires independent finance approval.",
       "sources": [
-        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\ap_module_rulepack.json"
+        "evals/finance-rulepack-merge/ap_module_rulepack.json"
       ]
     },
     {
@@ -108,7 +108,7 @@
       "name": "Manual journal approval",
       "description": "Manual journal requires independent approver before posting.",
       "sources": [
-        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\tax_module_rulepack.json"
+        "evals/finance-rulepack-merge/tax_module_rulepack.json"
       ]
     }
   ],
@@ -118,7 +118,7 @@
       "name": "Supplier bank account change and payment release conflict",
       "description": "The actor changing supplier bank account cannot release payment to that supplier.",
       "sources": [
-        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\ap_module_rulepack.json"
+        "evals/finance-rulepack-merge/ap_module_rulepack.json"
       ]
     },
     {
@@ -126,7 +126,7 @@
       "name": "Manual journal create and approve conflict",
       "description": "Manual journal creator cannot approve or post the same journal.",
       "sources": [
-        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\tax_module_rulepack.json"
+        "evals/finance-rulepack-merge/tax_module_rulepack.json"
       ]
     }
   ],
@@ -136,7 +136,7 @@
       "name": "Duplicate payment prevention",
       "description": "Duplicate business key or replayed payment request does not create a second payment.",
       "sources": [
-        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\ap_module_rulepack.json"
+        "evals/finance-rulepack-merge/ap_module_rulepack.json"
       ]
     },
     {
@@ -144,7 +144,7 @@
       "name": "Budget release once",
       "description": "Cancellation or failure releases occupied budget exactly once.",
       "sources": [
-        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\ap_module_rulepack.json"
+        "evals/finance-rulepack-merge/ap_module_rulepack.json"
       ]
     },
     {
@@ -152,7 +152,7 @@
       "name": "Closed period mutation control",
       "description": "Hard-closed periods reject posting, reversal, and backdated financial mutation.",
       "sources": [
-        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\tax_module_rulepack.json"
+        "evals/finance-rulepack-merge/tax_module_rulepack.json"
       ]
     }
   ],
@@ -162,7 +162,7 @@
       "name": "Bank payment callback placeholder",
       "description": "Bank callback carries payment status, bank reference, amount, currency, and failure reason.",
       "sources": [
-        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\ap_module_rulepack.json"
+        "evals/finance-rulepack-merge/ap_module_rulepack.json"
       ]
     },
     {
@@ -170,7 +170,7 @@
       "name": "Tax invoice status placeholder",
       "description": "Tax platform provides invoice status, red-letter status, and tax amount.",
       "sources": [
-        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\tax_module_rulepack.json"
+        "evals/finance-rulepack-merge/tax_module_rulepack.json"
       ]
     }
   ],
@@ -180,7 +180,7 @@
       "name": "Audit log placeholder",
       "description": "Audit evidence contains actor, timestamp, before/after values, rule id, and source document id.",
       "sources": [
-        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\ap_module_rulepack.json"
+        "evals/finance-rulepack-merge/ap_module_rulepack.json"
       ]
     },
     {
@@ -188,7 +188,7 @@
       "name": "Voucher persistence placeholder",
       "description": "Voucher header and lines are observable by voucher id, source document id, period, amount, and account.",
       "sources": [
-        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\tax_module_rulepack.json"
+        "evals/finance-rulepack-merge/tax_module_rulepack.json"
       ]
     }
   ],
@@ -198,7 +198,7 @@
       "name": "Duplicate payment placeholder incident",
       "description": "Placeholder incident for duplicate payment regression coverage.",
       "sources": [
-        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\ap_module_rulepack.json"
+        "evals/finance-rulepack-merge/ap_module_rulepack.json"
       ]
     }
   ],
@@ -208,7 +208,7 @@
       "name": "AP happy path placeholder data",
       "description": "Supplier, invoice, bank account, period, and budget data for AP payment regression.",
       "sources": [
-        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\ap_module_rulepack.json"
+        "evals/finance-rulepack-merge/ap_module_rulepack.json"
       ]
     },
     {
@@ -216,7 +216,7 @@
       "name": "Tax red-letter placeholder data",
       "description": "Original invoice, red-letter invoice, tax amount, and period data for tax regression.",
       "sources": [
-        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\tax_module_rulepack.json"
+        "evals/finance-rulepack-merge/tax_module_rulepack.json"
       ]
     }
   ]

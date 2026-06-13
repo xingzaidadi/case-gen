@@ -36,6 +36,15 @@ def as_list(value: Any) -> list[Any]:
     return value if isinstance(value, list) else []
 
 
+def source_label(path: Path) -> str:
+    """Return a stable source path for generated eval artifacts."""
+    resolved = path.resolve()
+    try:
+        return resolved.relative_to(Path.cwd().resolve()).as_posix()
+    except ValueError:
+        return str(resolved)
+
+
 def normalized_item(item: dict[str, Any]) -> str:
     return json.dumps(item, ensure_ascii=False, sort_keys=True)
 
@@ -48,7 +57,7 @@ def merge_rulepacks(paths: list[Path], rulepack_id: str, owner: str, prefer: str
             "owner": owner,
             "updated_at": date.today().isoformat(),
             "status": "draft",
-            "source_rulepacks": [str(path) for path in paths],
+            "source_rulepacks": [source_label(path) for path in paths],
         }
     }
     for section in SECTIONS:
@@ -59,6 +68,7 @@ def merge_rulepacks(paths: list[Path], rulepack_id: str, owner: str, prefer: str
 
     for path in paths:
         data = load_json(path)
+        source = source_label(path)
         for section in SECTIONS:
             for item in as_list(data.get(section)):
                 if not isinstance(item, dict):
@@ -68,8 +78,8 @@ def merge_rulepacks(paths: list[Path], rulepack_id: str, owner: str, prefer: str
                     continue
                 item = dict(item)
                 sources = as_list(item.get("sources"))
-                if str(path) not in sources:
-                    sources.append(str(path))
+                if source not in sources:
+                    sources.append(source)
                 item["sources"] = sources
 
                 if item_id not in seen:
@@ -122,4 +132,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
