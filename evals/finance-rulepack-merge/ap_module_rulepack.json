@@ -1,0 +1,94 @@
+{
+  "metadata": {
+    "rulepack_id": "ap-module-sample",
+    "version": "0.1.0",
+    "owner": "finance-system-team",
+    "updated_at": "2026-06-13",
+    "status": "draft"
+  },
+  "legal_entities": [
+    {
+      "id": "LE-XM-CN-01",
+      "name": "Xiaomi China placeholder entity",
+      "description": "Placeholder legal entity for AP module.",
+      "base_currency": "CNY"
+    }
+  ],
+  "accounting_policies": [
+    {
+      "id": "POLICY-AP-POST-ON-BANK-SUCCESS",
+      "name": "AP payment posting timing",
+      "description": "AP settlement posting occurs after bank success in this module sample."
+    }
+  ],
+  "chart_of_accounts": [
+    {
+      "id": "ACC-AP-PAYABLE",
+      "name": "Accounts payable placeholder",
+      "description": "Control account for AP open items.",
+      "account_type": "liability"
+    },
+    {
+      "id": "ACC-BANK-CASH",
+      "name": "Bank cash placeholder",
+      "description": "Bank cash account for payment settlement.",
+      "account_type": "asset"
+    }
+  ],
+  "tax_codes": [],
+  "approval_matrices": [
+    {
+      "id": "APPROVAL-SUPPLIER-BANK-CHANGE",
+      "name": "Supplier bank account change approval",
+      "description": "Supplier bank account change requires independent finance approval."
+    }
+  ],
+  "segregation_of_duties": [
+    {
+      "id": "SOD-SUPPLIER-BANK-PAYMENT",
+      "name": "Supplier bank account change and payment release conflict",
+      "description": "The actor changing supplier bank account cannot release payment to that supplier."
+    }
+  ],
+  "finance_controls": [
+    {
+      "id": "CTRL-DUPLICATE-PAYMENT",
+      "name": "Duplicate payment prevention",
+      "description": "Duplicate business key or replayed payment request does not create a second payment."
+    },
+    {
+      "id": "CTRL-BUDGET-RELEASE-ONCE",
+      "name": "Budget release once",
+      "description": "Cancellation or failure releases occupied budget exactly once."
+    }
+  ],
+  "integration_points": [
+    {
+      "id": "INT-BANK-PAYMENT-CALLBACK",
+      "name": "Bank payment callback placeholder",
+      "description": "Bank callback carries payment status, bank reference, amount, currency, and failure reason."
+    }
+  ],
+  "data_observability": [
+    {
+      "id": "OBS-AUDIT-LOG",
+      "name": "Audit log placeholder",
+      "description": "Audit evidence contains actor, timestamp, before/after values, rule id, and source document id."
+    }
+  ],
+  "historical_incidents": [
+    {
+      "id": "INC-DUP-PAYMENT-PLACEHOLDER",
+      "name": "Duplicate payment placeholder incident",
+      "description": "Placeholder incident for duplicate payment regression coverage."
+    }
+  ],
+  "test_data_profiles": [
+    {
+      "id": "DATA-AP-HAPPY-PATH",
+      "name": "AP happy path placeholder data",
+      "description": "Supplier, invoice, bank account, period, and budget data for AP payment regression."
+    }
+  ]
+}
+

@@ -1,0 +1,79 @@
+{
+  "metadata": {
+    "rulepack_id": "tax-gl-module-sample",
+    "version": "0.1.0",
+    "owner": "finance-system-team",
+    "updated_at": "2026-06-13",
+    "status": "draft"
+  },
+  "legal_entities": [],
+  "accounting_policies": [
+    {
+      "id": "POLICY-PERIOD-CUTOFF",
+      "name": "Monthly cut-off policy",
+      "description": "Accounting impact is assigned by posting timestamp and hard-closed periods reject mutation."
+    }
+  ],
+  "chart_of_accounts": [
+    {
+      "id": "ACC-FA-COST",
+      "name": "Fixed asset cost placeholder",
+      "description": "Fixed asset cost account.",
+      "account_type": "asset"
+    }
+  ],
+  "tax_codes": [
+    {
+      "id": "TAX-VAT-IN-06",
+      "name": "Input VAT 6 percent placeholder",
+      "description": "Input VAT placeholder tax code used by reimbursement and AP invoice examples.",
+      "rate": "0.06",
+      "direction": "input",
+      "red_letter_allowed": true
+    }
+  ],
+  "approval_matrices": [
+    {
+      "id": "APPROVAL-GL-MANUAL-JOURNAL",
+      "name": "Manual journal approval",
+      "description": "Manual journal requires independent approver before posting."
+    }
+  ],
+  "segregation_of_duties": [
+    {
+      "id": "SOD-JOURNAL-CREATE-APPROVE",
+      "name": "Manual journal create and approve conflict",
+      "description": "Manual journal creator cannot approve or post the same journal."
+    }
+  ],
+  "finance_controls": [
+    {
+      "id": "CTRL-CLOSED-PERIOD-NO-POST",
+      "name": "Closed period mutation control",
+      "description": "Hard-closed periods reject posting, reversal, and backdated financial mutation."
+    }
+  ],
+  "integration_points": [
+    {
+      "id": "INT-TAX-INVOICE-STATUS",
+      "name": "Tax invoice status placeholder",
+      "description": "Tax platform provides invoice status, red-letter status, and tax amount."
+    }
+  ],
+  "data_observability": [
+    {
+      "id": "OBS-VOUCHER-TABLE",
+      "name": "Voucher persistence placeholder",
+      "description": "Voucher header and lines are observable by voucher id, source document id, period, amount, and account."
+    }
+  ],
+  "historical_incidents": [],
+  "test_data_profiles": [
+    {
+      "id": "DATA-TAX-REDLETTER",
+      "name": "Tax red-letter placeholder data",
+      "description": "Original invoice, red-letter invoice, tax amount, and period data for tax regression."
+    }
+  ]
+}
+

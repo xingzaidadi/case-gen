@@ -99,6 +99,16 @@
         "evals/finance-rulepack-extraction/source-docs/finance-tables.sql",
         "evals/finance-rulepack-extraction/source-docs/accounts.csv"
       ]
+    },
+    {
+      "id": 12,
+      "name": "finance_rulepack_merge_and_full_check",
+      "prompt": "把 AP、税务、GL 等模块化财务 rulepack 合并成一个项目 rulepack，并一键运行全部 case-gen 校验，确认合并后的规则包和所有 eval 仍然通过。",
+      "expected_output": "Merges modular rulepacks, validates the merged rulepack, and runs the one-command full validation suite.",
+      "files": [
+        "evals/finance-rulepack-merge/ap_module_rulepack.json",
+        "evals/finance-rulepack-merge/tax_module_rulepack.json"
+      ]
     }
   ]
 }

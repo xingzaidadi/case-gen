@@ -169,6 +169,8 @@ When a finance project rulepack is provided, run `scripts/finance_rulepack_check
 
 When the user provides raw finance materials but no rulepack, use `scripts/extract_finance_rulepack.py` to create a draft rulepack. After generating or reviewing cases, use `scripts/finance_rule_gap_report.py` to summarize missing internal rules and confirmation needs.
 
+For repeated local validation, use `scripts/run_all_checks.py`. For modular project rules, use `scripts/merge_finance_rulepacks.py` to combine AP, tax, GL, budget, or close rulepacks before case generation.
+
 ### 8. Prune And Layer The Suite
 
 For non-trivial outputs, read `references/case-pruning.md` and assign each case to one or more suite layers:

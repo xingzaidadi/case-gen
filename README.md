@@ -49,6 +49,7 @@ python C:\Users\MI\.codex\skills\.system\skill-creator\scripts\quick_validate.py
 Validate structured cases:
 
 ```powershell
+python C:\Users\MI\.codex\skills\case-gen\scripts\run_all_checks.py
 python C:\Users\MI\.codex\skills\case-gen\scripts\validate_cases.py C:\Users\MI\.codex\skills\case-gen\evals\sample_cases.json
 python C:\Users\MI\.codex\skills\case-gen\scripts\coverage_check.py C:\Users\MI\.codex\skills\case-gen\evals\sample_cases.json
 python C:\Users\MI\.codex\skills\case-gen\scripts\validate_cases.py C:\Users\MI\.codex\skills\case-gen\evals\vcb-like-backend\expected_cases.json
@@ -77,6 +78,8 @@ python C:\Users\MI\.codex\skills\case-gen\scripts\finance_case_rulepack_check.py
 python C:\Users\MI\.codex\skills\case-gen\scripts\extract_finance_rulepack.py C:\Users\MI\.codex\skills\case-gen\evals\finance-rulepack-extraction\source-docs -o C:\Users\MI\.codex\skills\case-gen\evals\finance-rulepack-extraction\draft_rulepack.json --rulepack-id xiaomi-finance-extracted-sample --owner finance-system-team
 python C:\Users\MI\.codex\skills\case-gen\scripts\finance_rulepack_check.py C:\Users\MI\.codex\skills\case-gen\evals\finance-rulepack-extraction\draft_rulepack.json
 python C:\Users\MI\.codex\skills\case-gen\scripts\finance_rule_gap_report.py C:\Users\MI\.codex\skills\case-gen\evals\finance-rulepack\rulepack_cases.json --rulepack C:\Users\MI\.codex\skills\case-gen\evals\finance-rulepack\sample_rulepack.json -o C:\Users\MI\.codex\skills\case-gen\evals\finance-rulepack\gap_report.md
+python C:\Users\MI\.codex\skills\case-gen\scripts\merge_finance_rulepacks.py C:\Users\MI\.codex\skills\case-gen\evals\finance-rulepack-merge\ap_module_rulepack.json C:\Users\MI\.codex\skills\case-gen\evals\finance-rulepack-merge\tax_module_rulepack.json -o C:\Users\MI\.codex\skills\case-gen\evals\finance-rulepack-merge\merged_rulepack.json --rulepack-id xiaomi-finance-merged-sample
+python C:\Users\MI\.codex\skills\case-gen\scripts\finance_rulepack_check.py C:\Users\MI\.codex\skills\case-gen\evals\finance-rulepack-merge\merged_rulepack.json
 ```
 
 ## Current P0 Capability
@@ -92,7 +95,7 @@ python C:\Users\MI\.codex\skills\case-gen\scripts\finance_rule_gap_report.py C:\
 - Excel export: xlsx output for QA/test-management handoff when `openpyxl` is available.
 - Skeleton generation: T04.1 draft cases from test points.
 - Execution feedback validation: checks failed/blocked/flaky cases have classification and evidence.
-- Finance Domain Adapter v1: finance model, event model, process patterns, control matrix, finance assertion library, regulatory-source labels, AP payment / expense reimbursement / period close / core-process evals, project rulepack support, draft rulepack extraction, gap reports, and finance coverage/rulepack checkers.
+- Finance Domain Adapter v1: finance model, event model, process patterns, control matrix, finance assertion library, regulatory-source labels, AP payment / expense reimbursement / period close / core-process evals, project rulepack support, draft rulepack extraction, modular rulepack merge, gap reports, one-command validation, and finance coverage/rulepack checkers.
 
 ## Sync Policy
 

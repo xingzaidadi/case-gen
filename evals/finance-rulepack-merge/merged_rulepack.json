@@ -1,0 +1,223 @@
+{
+  "metadata": {
+    "rulepack_id": "xiaomi-finance-merged-sample",
+    "version": "0.1.0-merged",
+    "owner": "finance-system-team",
+    "updated_at": "2026-06-13",
+    "status": "draft",
+    "source_rulepacks": [
+      "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\ap_module_rulepack.json",
+      "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\tax_module_rulepack.json"
+    ],
+    "merge_summary": {
+      "legal_entities": 1,
+      "accounting_policies": 2,
+      "chart_of_accounts": 3,
+      "tax_codes": 1,
+      "approval_matrices": 2,
+      "segregation_of_duties": 2,
+      "finance_controls": 3,
+      "integration_points": 2,
+      "data_observability": 2,
+      "historical_incidents": 1,
+      "test_data_profiles": 2
+    }
+  },
+  "legal_entities": [
+    {
+      "id": "LE-XM-CN-01",
+      "name": "Xiaomi China placeholder entity",
+      "description": "Placeholder legal entity for AP module.",
+      "base_currency": "CNY",
+      "sources": [
+        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\ap_module_rulepack.json"
+      ]
+    }
+  ],
+  "accounting_policies": [
+    {
+      "id": "POLICY-AP-POST-ON-BANK-SUCCESS",
+      "name": "AP payment posting timing",
+      "description": "AP settlement posting occurs after bank success in this module sample.",
+      "sources": [
+        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\ap_module_rulepack.json"
+      ]
+    },
+    {
+      "id": "POLICY-PERIOD-CUTOFF",
+      "name": "Monthly cut-off policy",
+      "description": "Accounting impact is assigned by posting timestamp and hard-closed periods reject mutation.",
+      "sources": [
+        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\tax_module_rulepack.json"
+      ]
+    }
+  ],
+  "chart_of_accounts": [
+    {
+      "id": "ACC-AP-PAYABLE",
+      "name": "Accounts payable placeholder",
+      "description": "Control account for AP open items.",
+      "account_type": "liability",
+      "sources": [
+        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\ap_module_rulepack.json"
+      ]
+    },
+    {
+      "id": "ACC-BANK-CASH",
+      "name": "Bank cash placeholder",
+      "description": "Bank cash account for payment settlement.",
+      "account_type": "asset",
+      "sources": [
+        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\ap_module_rulepack.json"
+      ]
+    },
+    {
+      "id": "ACC-FA-COST",
+      "name": "Fixed asset cost placeholder",
+      "description": "Fixed asset cost account.",
+      "account_type": "asset",
+      "sources": [
+        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\tax_module_rulepack.json"
+      ]
+    }
+  ],
+  "tax_codes": [
+    {
+      "id": "TAX-VAT-IN-06",
+      "name": "Input VAT 6 percent placeholder",
+      "description": "Input VAT placeholder tax code used by reimbursement and AP invoice examples.",
+      "rate": "0.06",
+      "direction": "input",
+      "red_letter_allowed": true,
+      "sources": [
+        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\tax_module_rulepack.json"
+      ]
+    }
+  ],
+  "approval_matrices": [
+    {
+      "id": "APPROVAL-SUPPLIER-BANK-CHANGE",
+      "name": "Supplier bank account change approval",
+      "description": "Supplier bank account change requires independent finance approval.",
+      "sources": [
+        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\ap_module_rulepack.json"
+      ]
+    },
+    {
+      "id": "APPROVAL-GL-MANUAL-JOURNAL",
+      "name": "Manual journal approval",
+      "description": "Manual journal requires independent approver before posting.",
+      "sources": [
+        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\tax_module_rulepack.json"
+      ]
+    }
+  ],
+  "segregation_of_duties": [
+    {
+      "id": "SOD-SUPPLIER-BANK-PAYMENT",
+      "name": "Supplier bank account change and payment release conflict",
+      "description": "The actor changing supplier bank account cannot release payment to that supplier.",
+      "sources": [
+        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\ap_module_rulepack.json"
+      ]
+    },
+    {
+      "id": "SOD-JOURNAL-CREATE-APPROVE",
+      "name": "Manual journal create and approve conflict",
+      "description": "Manual journal creator cannot approve or post the same journal.",
+      "sources": [
+        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\tax_module_rulepack.json"
+      ]
+    }
+  ],
+  "finance_controls": [
+    {
+      "id": "CTRL-DUPLICATE-PAYMENT",
+      "name": "Duplicate payment prevention",
+      "description": "Duplicate business key or replayed payment request does not create a second payment.",
+      "sources": [
+        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\ap_module_rulepack.json"
+      ]
+    },
+    {
+      "id": "CTRL-BUDGET-RELEASE-ONCE",
+      "name": "Budget release once",
+      "description": "Cancellation or failure releases occupied budget exactly once.",
+      "sources": [
+        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\ap_module_rulepack.json"
+      ]
+    },
+    {
+      "id": "CTRL-CLOSED-PERIOD-NO-POST",
+      "name": "Closed period mutation control",
+      "description": "Hard-closed periods reject posting, reversal, and backdated financial mutation.",
+      "sources": [
+        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\tax_module_rulepack.json"
+      ]
+    }
+  ],
+  "integration_points": [
+    {
+      "id": "INT-BANK-PAYMENT-CALLBACK",
+      "name": "Bank payment callback placeholder",
+      "description": "Bank callback carries payment status, bank reference, amount, currency, and failure reason.",
+      "sources": [
+        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\ap_module_rulepack.json"
+      ]
+    },
+    {
+      "id": "INT-TAX-INVOICE-STATUS",
+      "name": "Tax invoice status placeholder",
+      "description": "Tax platform provides invoice status, red-letter status, and tax amount.",
+      "sources": [
+        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\tax_module_rulepack.json"
+      ]
+    }
+  ],
+  "data_observability": [
+    {
+      "id": "OBS-AUDIT-LOG",
+      "name": "Audit log placeholder",
+      "description": "Audit evidence contains actor, timestamp, before/after values, rule id, and source document id.",
+      "sources": [
+        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\ap_module_rulepack.json"
+      ]
+    },
+    {
+      "id": "OBS-VOUCHER-TABLE",
+      "name": "Voucher persistence placeholder",
+      "description": "Voucher header and lines are observable by voucher id, source document id, period, amount, and account.",
+      "sources": [
+        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\tax_module_rulepack.json"
+      ]
+    }
+  ],
+  "historical_incidents": [
+    {
+      "id": "INC-DUP-PAYMENT-PLACEHOLDER",
+      "name": "Duplicate payment placeholder incident",
+      "description": "Placeholder incident for duplicate payment regression coverage.",
+      "sources": [
+        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\ap_module_rulepack.json"
+      ]
+    }
+  ],
+  "test_data_profiles": [
+    {
+      "id": "DATA-AP-HAPPY-PATH",
+      "name": "AP happy path placeholder data",
+      "description": "Supplier, invoice, bank account, period, and budget data for AP payment regression.",
+      "sources": [
+        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\ap_module_rulepack.json"
+      ]
+    },
+    {
+      "id": "DATA-TAX-REDLETTER",
+      "name": "Tax red-letter placeholder data",
+      "description": "Original invoice, red-letter invoice, tax amount, and period data for tax regression.",
+      "sources": [
+        "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-merge\\tax_module_rulepack.json"
+      ]
+    }
+  ]
+}
