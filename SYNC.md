@@ -29,6 +29,9 @@ After edits:
 $env:PYTHONUTF8='1'
 python C:\Users\MI\.codex\skills\.system\skill-creator\scripts\quick_validate.py C:\Users\MI\.codex\skills\case-gen
 python C:\Users\MI\.codex\skills\case-gen\scripts\validate_cases.py C:\Users\MI\.codex\skills\case-gen\evals\sample_cases.json
+python C:\Users\MI\.codex\skills\case-gen\scripts\coverage_check.py C:\Users\MI\.codex\skills\case-gen\evals\sample_cases.json
+python C:\Users\MI\.codex\skills\case-gen\scripts\validate_cases.py C:\Users\MI\.codex\skills\case-gen\evals\vcb-like-backend\expected_cases.json
+python C:\Users\MI\.codex\skills\case-gen\scripts\coverage_check.py C:\Users\MI\.codex\skills\case-gen\evals\vcb-like-backend\expected_cases.json
 ```
 
 ## Notes
@@ -36,4 +39,3 @@ python C:\Users\MI\.codex\skills\case-gen\scripts\validate_cases.py C:\Users\MI\
 - Do not make future updates only in GitHub or only on the desktop.
 - Do not turn `case-gen` back into a VCB-only skill. Keep VCB in `references/vcb-case-patterns.md` as a domain adapter.
 - Keep `SKILL.md` concise. Move detailed methods and templates into `references/`.
-

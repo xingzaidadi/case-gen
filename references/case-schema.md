@@ -33,6 +33,26 @@ test_model:
           ref: string
       priority: P0|P1|P2
 
+coverage_map:
+  sources:
+    - id: REQ-001
+      title: string
+      priority: P0|P1|P2
+      cases:
+        - TC-001
+      status: covered|partial|missing|deferred
+  test_points:
+    - id: TP-001
+      cases:
+        - TC-001
+      status: covered|partial|missing|deferred
+  cross_view:
+    - e2e: TP-E2E-001
+      layered:
+        - TP-API-001
+        - TP-SVC-001
+      status: linked|missing-layer|missing-e2e|deferred
+
 cases:
   - id: TC-001
     title: string
@@ -63,6 +83,22 @@ cases:
     status: draft|ready|blocked
     notes:
       - string
+
+open_questions:
+  - id: Q-001
+    question: string
+    impact: blocks_p0|affects_p1|nice_to_have
+    owner: user|dev|qa|product|unknown
+
+quality_gates:
+  p0_sources_covered: true|false
+  no_happy_path_only: true|false
+  all_cases_have_traceability: true|false
+  all_cases_have_observable_expected: true|false
+  boundary_cases_have_concrete_values: true|false
+  state_cases_include_invalid_transitions: true|false
+  security_cases_include_negative_authorization: true|false
+  e2e_layer_cross_check_complete: true|false
 ```
 
 ## Minimal Required Fields
@@ -78,6 +114,36 @@ Every case must have:
 
 Every `expected` item must be observable. Avoid expectations like "works correctly".
 
+## Coverage Map Rules
+
+Use `coverage_map` whenever the output has more than a short ad hoc list.
+
+Required behavior:
+- Every P0 source or test point must be `covered` or explicitly `deferred` with an open question.
+- `missing` P0 coverage is a blocker and must be called out before finalizing.
+- Cross-view links should connect E2E test points to supporting layered test points.
+- Cases not referenced by any source or test point are suspect; keep them only when explicitly marked `inferred`.
+
+Example:
+
+```yaml
+coverage_map:
+  sources:
+    - id: REQ-AUTH-001
+      title: Missing actor is rejected
+      priority: P0
+      cases: [TC-AUTH-001]
+      status: covered
+  test_points:
+    - id: TP-API-001
+      cases: [TC-AUTH-001]
+      status: covered
+  cross_view:
+    - e2e: TP-E2E-LOGIN-001
+      layered: [TP-API-001]
+      status: linked
+```
+
 ## Traceability Rules
 
 Use source references:
@@ -89,6 +155,21 @@ Use source references:
 - Inferred: `INF:missing explicit rule; derived from security checklist`
 
 If local line numbers are unavailable, use the closest section title and mark the source as approximate.
+
+## Quality Gate Rules
+
+Set `quality_gates` after case generation. A gate can be `false`, but the output must explain why.
+
+Recommended blocker behavior:
+- `p0_sources_covered = false` blocks final approval.
+- `all_cases_have_observable_expected = false` blocks final approval.
+- `all_cases_have_traceability = false` blocks final approval unless all orphan cases are explicitly inferred.
+- `no_happy_path_only = false` blocks non-trivial suites.
+
+Technique-specific gates:
+- Boundary cases must contain concrete values such as `9/10/11`, `2026-06-13T10:00:00Z`, or `N-1/N/N+1`.
+- State transition cases must include at least one invalid transition and terminal-state behavior when a state model exists.
+- Security/control suites must include missing identity, wrong identity/role, and cross-resource or cross-tenant access where applicable.
 
 ## Markdown Rendering Template
 
@@ -124,4 +205,3 @@ Feature: {feature name}
     When {action}
     Then {observable assertion}
 ```
-

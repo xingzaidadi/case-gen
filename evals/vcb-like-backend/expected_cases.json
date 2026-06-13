@@ -1,0 +1,522 @@
+{
+  "metadata": {
+    "suite_id": "vcb-like-job-control",
+    "title": "VCB-like Job API control-plane cases",
+    "source_files": [
+      {
+        "path": "input-design.md",
+        "lines": "REQ-AUTH-001..REQ-AUDIT-001"
+      },
+      {
+        "path": "input-controller.java",
+        "lines": "JobController"
+      }
+    ],
+    "generated_at": "2026-06-13",
+    "mode": "security-control",
+    "assumptions": [
+      "Actor identity is injected by middleware before controller execution.",
+      "Audit and idempotency services are implemented outside the sample controller."
+    ]
+  },
+  "test_model": {
+    "actors": [
+      {
+        "id": "A",
+        "role": "owner"
+      },
+      {
+        "id": "B",
+        "role": "non-owner"
+      }
+    ],
+    "risks": [
+      {
+        "id": "RISK-001",
+        "description": "Cross-user Job reads or writes expose or mutate another user's data.",
+        "priority": "P0"
+      }
+    ],
+    "test_points": [
+      {
+        "id": "TP-E2E-001",
+        "view": "e2e",
+        "title": "Unauthorized actor cannot access another user's Job",
+        "source": [
+          {
+            "type": "requirement",
+            "ref": "REQ-RES-001"
+          }
+        ],
+        "priority": "P0"
+      },
+      {
+        "id": "TP-API-001",
+        "view": "layered",
+        "title": "Missing actor identity is rejected",
+        "source": [
+          {
+            "type": "requirement",
+            "ref": "REQ-AUTH-001"
+          }
+        ],
+        "priority": "P0"
+      },
+      {
+        "id": "TP-API-002",
+        "view": "layered",
+        "title": "Idempotent replay does not repeat close mutation",
+        "source": [
+          {
+            "type": "requirement",
+            "ref": "REQ-IDMP-001"
+          }
+        ],
+        "priority": "P0"
+      }
+    ]
+  },
+  "coverage_map": {
+    "sources": [
+      {
+        "id": "REQ-AUTH-001",
+        "title": "Reject missing actor",
+        "priority": "P0",
+        "cases": [
+          "TC-JOB-001"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "REQ-RES-001",
+        "title": "Reject cross-user read/write",
+        "priority": "P0",
+        "cases": [
+          "TC-JOB-002",
+          "TC-JOB-003"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "REQ-SCOPE-001",
+        "title": "Reject scope mismatch",
+        "priority": "P0",
+        "cases": [
+          "TC-JOB-004"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "REQ-IDMP-001",
+        "title": "Replay is idempotent",
+        "priority": "P0",
+        "cases": [
+          "TC-JOB-005",
+          "TC-JOB-006"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "REQ-AUDIT-001",
+        "title": "Denial audit evidence",
+        "priority": "P1",
+        "cases": [
+          "TC-JOB-003"
+        ],
+        "status": "covered"
+      }
+    ],
+    "test_points": [
+      {
+        "id": "TP-E2E-001",
+        "cases": [
+          "TC-JOB-002",
+          "TC-JOB-003"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "TP-API-001",
+        "cases": [
+          "TC-JOB-001"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "TP-API-002",
+        "cases": [
+          "TC-JOB-005",
+          "TC-JOB-006"
+        ],
+        "status": "covered"
+      }
+    ],
+    "cross_view": [
+      {
+        "e2e": "TP-E2E-001",
+        "layered": [
+          "TP-API-001",
+          "TP-API-002"
+        ],
+        "status": "linked"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "id": "TC-JOB-001",
+      "title": "Reject missing actor identity when reading Job",
+      "priority": "P0",
+      "level": "api",
+      "type": "security",
+      "traceability": {
+        "requirements": [
+          "REQ-AUTH-001"
+        ],
+        "code": [
+          "CODE:input-controller.java:JobController.getJob"
+        ],
+        "api": [],
+        "rules": [
+          "RULE:VCB-AUTH-01"
+        ],
+        "risks": [
+          "RISK-001"
+        ],
+        "test_points": [
+          "TP-API-001"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Job A exists."
+      ],
+      "data": [
+        {
+          "name": "job_id",
+          "value": "job-a-001",
+          "source": "input-design.md"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Call read Job without actor identity.",
+          "input": "GET /api/jobs/job-a-001"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "HTTP status is 401 or documented auth failure code.",
+          "observable": "response"
+        }
+      ],
+      "automation_candidate": "high",
+      "status": "ready"
+    },
+    {
+      "id": "TC-JOB-002",
+      "title": "Reject cross-user Job read",
+      "priority": "P0",
+      "level": "api",
+      "type": "security",
+      "traceability": {
+        "requirements": [
+          "REQ-RES-001"
+        ],
+        "code": [
+          "CODE:input-controller.java:JobController.getJob"
+        ],
+        "api": [],
+        "rules": [
+          "RULE:VCB-RES-01"
+        ],
+        "risks": [
+          "RISK-001"
+        ],
+        "test_points": [
+          "TP-E2E-001"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Job B belongs to user B."
+      ],
+      "data": [
+        {
+          "name": "actor_open_id",
+          "value": "A",
+          "source": "input-design.md"
+        },
+        {
+          "name": "job_id",
+          "value": "job-b-001",
+          "source": "input-design.md"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Call read Job as user A for user B's resource.",
+          "input": "GET /api/jobs/job-b-001 with actor_open_id=A"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "HTTP status is 403 and response body does not include B's Job data.",
+          "observable": "response"
+        },
+        {
+          "assertion": "Denial is recorded with actor/resource/action/result/request_id when request_id is present.",
+          "observable": "log"
+        }
+      ],
+      "automation_candidate": "high",
+      "status": "ready"
+    },
+    {
+      "id": "TC-JOB-003",
+      "title": "Reject cross-user Job close and preserve state",
+      "priority": "P0",
+      "level": "api",
+      "type": "security",
+      "traceability": {
+        "requirements": [
+          "REQ-RES-001",
+          "REQ-AUDIT-001"
+        ],
+        "code": [
+          "CODE:input-controller.java:JobController.closeJob"
+        ],
+        "api": [],
+        "rules": [
+          "RULE:VCB-RES-02",
+          "RULE:VCB-AUDIT-01"
+        ],
+        "risks": [
+          "RISK-001"
+        ],
+        "test_points": [
+          "TP-E2E-001"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Job B status is RUNNING."
+      ],
+      "data": [
+        {
+          "name": "request_id",
+          "value": "rid-cross-user-001",
+          "source": "test data"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Call close Job as user A for user B's resource.",
+          "input": "POST /api/jobs/job-b-001/close with actor_open_id=A and request_id=rid-cross-user-001"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "HTTP status is 403.",
+          "observable": "response"
+        },
+        {
+          "assertion": "Job B remains RUNNING.",
+          "observable": "db"
+        },
+        {
+          "assertion": "Audit contains actor=A, resource=job-b-001, action=close, result=forbidden, request_id=rid-cross-user-001.",
+          "observable": "log"
+        },
+        {
+          "assertion": "owner_forbidden metric increments by 1.",
+          "observable": "metric"
+        }
+      ],
+      "automation_candidate": "high",
+      "status": "ready"
+    },
+    {
+      "id": "TC-JOB-004",
+      "title": "Reject Job close when scope scene does not match",
+      "priority": "P0",
+      "level": "api",
+      "type": "negative",
+      "traceability": {
+        "requirements": [
+          "REQ-SCOPE-001"
+        ],
+        "code": [
+          "CODE:input-controller.java:CloseRequest"
+        ],
+        "api": [],
+        "rules": [
+          "RULE:VCB-SCOPE-01"
+        ],
+        "risks": [
+          "RISK-001"
+        ],
+        "test_points": [],
+        "inferred": false
+      },
+      "preconditions": [
+        "User A owns Job A."
+      ],
+      "data": [
+        {
+          "name": "scene_pair",
+          "value": "scene_type=chat, scene_chat_id=unrelated-room",
+          "source": "REQ-SCOPE-001"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Call close Job with mismatched scene scope.",
+          "input": "POST /api/jobs/job-a-001/close with mismatched scene_type/scene_chat_id"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "HTTP status is 403 and mutation is not applied.",
+          "observable": "response"
+        },
+        {
+          "assertion": "cross_scene_reject metric increments by 1.",
+          "observable": "metric"
+        }
+      ],
+      "automation_candidate": "high",
+      "status": "ready"
+    },
+    {
+      "id": "TC-JOB-005",
+      "title": "Replay request_id within 5 minute window does not repeat close mutation",
+      "priority": "P0",
+      "level": "api",
+      "type": "boundary",
+      "traceability": {
+        "requirements": [
+          "REQ-IDMP-001"
+        ],
+        "code": [
+          "CODE:input-controller.java:CloseRequest.requestId"
+        ],
+        "api": [],
+        "rules": [
+          "RULE:VCB-IDMP-01"
+        ],
+        "risks": [
+          "RISK-001"
+        ],
+        "test_points": [
+          "TP-API-002"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "User A owns Job A and Job A is RUNNING."
+      ],
+      "data": [
+        {
+          "name": "idempotency_window",
+          "value": "5 minutes; test at 4min59s/5min/5min01s",
+          "source": "REQ-IDMP-001"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Submit close request with request_id=rid-close-001.",
+          "input": "POST /api/jobs/job-a-001/close"
+        },
+        {
+          "action": "Replay the same request at 4min59s, 5min, and 5min01s according to product policy.",
+          "input": "same request_id=rid-close-001"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "Within the 5 minute window the mutation is not repeated and documented prior-result behavior is returned.",
+          "observable": "response"
+        },
+        {
+          "assertion": "Job A is closed only once.",
+          "observable": "db"
+        }
+      ],
+      "automation_candidate": "medium",
+      "status": "ready"
+    },
+    {
+      "id": "TC-JOB-006",
+      "title": "Concurrent same request_id only applies one close mutation",
+      "priority": "P1",
+      "level": "integration",
+      "type": "regression",
+      "traceability": {
+        "requirements": [
+          "REQ-IDMP-001"
+        ],
+        "code": [
+          "CODE:input-controller.java:JobController.closeJob"
+        ],
+        "api": [],
+        "rules": [
+          "RULE:VCB-IDMP-02"
+        ],
+        "risks": [
+          "RISK-001"
+        ],
+        "test_points": [
+          "TP-API-002"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "User A owns Job A and Job A is RUNNING."
+      ],
+      "data": [
+        {
+          "name": "parallelism",
+          "value": "10 concurrent requests with request_id=rid-close-concurrent-001",
+          "source": "test data"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Send 10 concurrent close requests with the same request_id.",
+          "input": "request_id=rid-close-concurrent-001"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "Exactly one mutation is applied; the others return documented idempotent duplicate behavior.",
+          "observable": "db"
+        },
+        {
+          "assertion": "idempotent_drop metric increments for duplicate requests.",
+          "observable": "metric"
+        }
+      ],
+      "automation_candidate": "medium",
+      "status": "ready"
+    }
+  ],
+  "open_questions": [
+    {
+      "id": "Q-001",
+      "question": "What is the documented status code for missing actor identity: 401 or 403?",
+      "impact": "affects_p1",
+      "owner": "product"
+    }
+  ],
+  "quality_gates": {
+    "p0_sources_covered": true,
+    "no_happy_path_only": true,
+    "all_cases_have_traceability": true,
+    "all_cases_have_observable_expected": true,
+    "boundary_cases_have_concrete_values": true,
+    "state_cases_include_invalid_transitions": true,
+    "security_cases_include_negative_authorization": true,
+    "e2e_layer_cross_check_complete": true
+  }
+}

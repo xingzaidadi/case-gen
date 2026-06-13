@@ -41,7 +41,17 @@ Validate structured cases:
 
 ```powershell
 python C:\Users\MI\.codex\skills\case-gen\scripts\validate_cases.py C:\Users\MI\.codex\skills\case-gen\evals\sample_cases.json
+python C:\Users\MI\.codex\skills\case-gen\scripts\coverage_check.py C:\Users\MI\.codex\skills\case-gen\evals\sample_cases.json
+python C:\Users\MI\.codex\skills\case-gen\scripts\coverage_check.py C:\Users\MI\.codex\skills\case-gen\evals\vcb-like-backend\expected_cases.json
 ```
+
+## Current P0 Capability
+
+- Technique Selection Matrix: maps input signals to test design techniques and required case shapes.
+- Coverage map schema: connects sources, test points, cross-view links, and cases.
+- Quality gates: records whether P0 coverage, traceability, observability, boundary values, state checks, and security negative cases are present.
+- `coverage_check.py`: performs coverage-quality checks beyond structural validation.
+- `evals/vcb-like-backend`: a realistic VCB-like backend adapter eval with design input, controller input, and expected cases.
 
 ## Sync Policy
 
@@ -52,4 +62,3 @@ This skill is maintained in three locations:
 3. GitHub repository: `https://github.com/xingzaidadi/case-gen`
 
 See `SYNC.md` before changing files.
-

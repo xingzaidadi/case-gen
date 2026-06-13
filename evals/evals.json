@@ -13,7 +13,10 @@
       "name": "vcb_like_backend_adapter",
       "prompt": "给一个 Java Controller 和设计文档生成鉴权、owner 隔离、scope、request_id 幂等、审计和指标相关测试用例。",
       "expected_output": "Uses generic case-gen workflow plus VCB-like adapter rules, but clearly marks which cases are domain-derived.",
-      "files": []
+      "files": [
+        "evals/vcb-like-backend/input-design.md",
+        "evals/vcb-like-backend/input-controller.java"
+      ]
     },
     {
       "id": 3,

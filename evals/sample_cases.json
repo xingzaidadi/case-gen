@@ -7,6 +7,29 @@
       "This file exists only to validate the schema checker."
     ]
   },
+  "coverage_map": {
+    "sources": [
+      {
+        "id": "REQ-SAMPLE-001",
+        "title": "Protected APIs reject missing identity",
+        "priority": "P0",
+        "cases": [
+          "TC-SAMPLE-001"
+        ],
+        "status": "covered"
+      }
+    ],
+    "test_points": [
+      {
+        "id": "TP-001",
+        "cases": [
+          "TC-SAMPLE-001"
+        ],
+        "status": "covered"
+      }
+    ],
+    "cross_view": []
+  },
   "cases": [
     {
       "id": "TC-SAMPLE-001",
@@ -43,10 +66,24 @@
         {
           "assertion": "HTTP status is 401 or documented auth failure code.",
           "observable": "response"
+        },
+        {
+          "assertion": "Authentication denial is logged with actor=anonymous and result=denied.",
+          "observable": "log"
         }
       ],
       "automation_candidate": "high",
       "status": "draft"
     }
-  ]
+  ],
+  "quality_gates": {
+    "p0_sources_covered": true,
+    "no_happy_path_only": true,
+    "all_cases_have_traceability": true,
+    "all_cases_have_observable_expected": true,
+    "boundary_cases_have_concrete_values": true,
+    "state_cases_include_invalid_transitions": true,
+    "security_cases_include_negative_authorization": true,
+    "e2e_layer_cross_check_complete": true
+  }
 }

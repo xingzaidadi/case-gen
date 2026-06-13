@@ -103,7 +103,7 @@ Cross-check:
 
 ### 5. Select Design Techniques
 
-Use the smallest set of techniques that fits the risk:
+Read `references/industry-methods.md` and apply its Technique Selection Matrix. Use the smallest set of techniques that fits the risk:
 - Equivalence partitioning for input classes
 - Boundary value analysis for numeric, date, length, count, and time-window rules
 - Decision tables for multi-condition business rules
@@ -118,7 +118,8 @@ Use the smallest set of techniques that fits the risk:
 
 Unless the user only asks for a short list, create or propose structured cases first:
 - `cases.yaml` or `cases.json`
-- Optional `coverage-map.md`
+- `coverage_map` inside the structured file
+- Optional rendered `coverage-map.md`
 - Optional rendered Markdown table
 - Optional Excel-ready rows
 - Optional Gherkin `.feature`
@@ -139,7 +140,7 @@ Before finalizing, run this checklist:
 - E2E and layered test points have been cross-checked.
 - Generated cases are executable enough for a tester or automation engineer to follow.
 
-If structured case files are produced, run `scripts/validate_cases.py` when practical.
+If structured case files are produced, run `scripts/validate_cases.py` when practical. Run `scripts/coverage_check.py` for suites with `coverage_map`, P0 requirements, security/control cases, state transitions, or boundary-heavy rules.
 
 ## Output Contract
 
@@ -166,6 +167,11 @@ Default case fields:
 - `automation_candidate`
 - `status`
 
+For maintainable outputs, also include:
+- `coverage_map`
+- `open_questions`
+- `quality_gates`
+
 ## Boundaries
 
 Do not:
@@ -174,4 +180,3 @@ Do not:
 - Generate only happy paths unless the user explicitly asks for smoke tests.
 - Modify production code while designing cases unless the user asks for test implementation.
 - Claim coverage is complete without a traceability map.
-
