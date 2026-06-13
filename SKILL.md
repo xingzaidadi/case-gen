@@ -167,6 +167,8 @@ For finance structured case files, also run `scripts/finance_coverage_check.py` 
 
 When a finance project rulepack is provided, run `scripts/finance_rulepack_check.py` on the rulepack and `scripts/finance_case_rulepack_check.py` on the generated cases plus the rulepack.
 
+When the user provides raw finance materials but no rulepack, use `scripts/extract_finance_rulepack.py` to create a draft rulepack. After generating or reviewing cases, use `scripts/finance_rule_gap_report.py` to summarize missing internal rules and confirmation needs.
+
 ### 8. Prune And Layer The Suite
 
 For non-trivial outputs, read `references/case-pruning.md` and assign each case to one or more suite layers:

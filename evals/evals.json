@@ -88,6 +88,17 @@
         "evals/finance-rulepack/sample_rulepack.json",
         "evals/finance-rulepack/rulepack_cases.json"
       ]
+    },
+    {
+      "id": 11,
+      "name": "finance_rulepack_extraction_and_gap_report",
+      "prompt": "从 PRD、SQL DDL、CSV/Excel 等材料抽取财务 rulepack 草稿，并对已有财务用例输出内部规则缺口报告，指出哪些规则是占位、哪些 P0 用例缺内部规则 ID。",
+      "expected_output": "Creates a draft rulepack from source materials, validates it, and generates a Markdown gap report for case/rulepack alignment.",
+      "files": [
+        "evals/finance-rulepack-extraction/source-docs/expense-prd.md",
+        "evals/finance-rulepack-extraction/source-docs/finance-tables.sql",
+        "evals/finance-rulepack-extraction/source-docs/accounts.csv"
+      ]
     }
   ]
 }

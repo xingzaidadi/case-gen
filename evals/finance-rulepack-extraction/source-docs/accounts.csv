@@ -1,0 +1,5 @@
+account_code,account_name,process,report_line
+2202,Accounts payable,ap_payment,liabilities.accounts_payable
+1002,Bank cash,treasury,assets.cash_and_bank
+1601,Fixed asset cost,fixed_asset,assets.fixed_assets
+

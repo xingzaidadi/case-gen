@@ -104,6 +104,7 @@
         "rules": [
           "SOD-SUPPLIER-BANK-PAYMENT",
           "CTRL-DUPLICATE-PAYMENT",
+          "APPROVAL-SUPPLIER-BANK-CHANGE",
           "INT-BANK-PAYMENT-CALLBACK",
           "OBS-AUDIT-LOG"
         ],
@@ -122,7 +123,7 @@
       "data": [
         {
           "name": "rulepack_refs",
-          "value": "SOD-SUPPLIER-BANK-PAYMENT, CTRL-DUPLICATE-PAYMENT, INT-BANK-PAYMENT-CALLBACK, OBS-AUDIT-LOG",
+          "value": "SOD-SUPPLIER-BANK-PAYMENT, APPROVAL-SUPPLIER-BANK-CHANGE, CTRL-DUPLICATE-PAYMENT, INT-BANK-PAYMENT-CALLBACK, OBS-AUDIT-LOG",
           "source": "sample_rulepack.json"
         }
       ],
@@ -165,6 +166,7 @@
         ],
         "control_assertions": [
           "SOD-SUPPLIER-BANK-PAYMENT",
+          "APPROVAL-SUPPLIER-BANK-CHANGE",
           "CTRL-DUPLICATE-PAYMENT",
           "OBS-AUDIT-LOG"
         ],

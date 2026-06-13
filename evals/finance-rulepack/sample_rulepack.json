@@ -78,6 +78,12 @@
       "name": "Manual journal approval",
       "description": "Manual journal requires independent approver before posting.",
       "process": "gl_journal"
+    },
+    {
+      "id": "APPROVAL-SUPPLIER-BANK-CHANGE",
+      "name": "Supplier bank account change approval",
+      "description": "Supplier bank account change requires independent finance approval before payment release.",
+      "process": "supplier_master_data"
     }
   ],
   "segregation_of_duties": [
@@ -154,4 +160,3 @@
     }
   ]
 }
-

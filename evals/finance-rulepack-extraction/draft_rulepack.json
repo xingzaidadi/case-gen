@@ -1,0 +1,320 @@
+{
+  "metadata": {
+    "rulepack_id": "xiaomi-finance-extracted-sample",
+    "version": "0.1.0-draft",
+    "owner": "finance-system-team",
+    "updated_at": "2026-06-13",
+    "status": "draft",
+    "source_files": [
+      "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\accounts.csv",
+      "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md",
+      "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\finance-tables.sql"
+    ],
+    "extraction_summary": {
+      "legal_entities": 1,
+      "accounting_policies": 1,
+      "chart_of_accounts": 5,
+      "tax_codes": 4,
+      "approval_matrices": 3,
+      "segregation_of_duties": 1,
+      "finance_controls": 5,
+      "integration_points": 3,
+      "data_observability": 6,
+      "historical_incidents": 2,
+      "test_data_profiles": 7
+    },
+    "confidence": "draft-needs-review"
+  },
+  "legal_entities": [
+    {
+      "id": "LE-LEGAL-ENTITY-XM-CN-01-BASE-CURRENCY-CNY-MONTHLY",
+      "name": "Legal entity: XM-CN-01, base currency CNY, monthly period calendar.",
+      "description": "Extracted legal-entity signal from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md: Legal entity: XM-CN-01, base currency CNY, monthly period calendar.",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md",
+      "needs_confirmation": true
+    }
+  ],
+  "accounting_policies": [
+    {
+      "id": "POLICY-HARD-CLOSED-PERIOD-REJECTS-POSTING-AND-REVERSAL",
+      "name": "- Hard closed period rejects posting and reversal.",
+      "description": "Extracted accounting policy from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md: - Hard closed period rejects posting and reversal.",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md",
+      "needs_confirmation": true
+    }
+  ],
+  "chart_of_accounts": [
+    {
+      "id": "ACC-ACCOUNT-CODE-ACCOUNT-NAME-PROCESS-REPORT-LINE",
+      "name": "account_code | account_name | process | report_line",
+      "description": "Extracted account mapping from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\accounts.csv: account_code | account_name | process | report_line",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\accounts.csv",
+      "needs_confirmation": true
+    },
+    {
+      "id": "ACC-2202",
+      "name": "2202 | Accounts payable | ap_payment | liabilities.accounts_payable",
+      "description": "Extracted account mapping from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\accounts.csv: 2202 | Accounts payable | ap_payment | liabilities.accounts_payable",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\accounts.csv",
+      "needs_confirmation": true
+    },
+    {
+      "id": "ACC-1601",
+      "name": "1601 | Fixed asset cost | fixed_asset | assets.fixed_assets",
+      "description": "Extracted account mapping from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\accounts.csv: 1601 | Fixed asset cost | fixed_asset | assets.fixed_assets",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\accounts.csv",
+      "needs_confirmation": true
+    },
+    {
+      "id": "ACC-ACCOUNTING-PERIOD-VARCHAR-16",
+      "name": "accounting_period varchar(16),",
+      "description": "Extracted account mapping from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\finance-tables.sql: accounting_period varchar(16),",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\finance-tables.sql",
+      "needs_confirmation": true
+    },
+    {
+      "id": "ACC-ACCOUNT-CODE-VARCHAR-32",
+      "name": "account_code varchar(32),",
+      "description": "Extracted account mapping from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\finance-tables.sql: account_code varchar(32),",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\finance-tables.sql",
+      "needs_confirmation": true
+    }
+  ],
+  "tax_codes": [
+    {
+      "id": "TAX-TAX",
+      "name": "Tax:",
+      "description": "Extracted tax rule from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md: Tax:",
+      "rate": "unknown",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md",
+      "needs_confirmation": true
+    },
+    {
+      "id": "TAX-INPUT-VAT-TAX-CODE-TAX-VAT-IN-06-USES-6-RATE-FOR",
+      "name": "- Input VAT tax code TAX-VAT-IN-06 uses 6% rate for eligible travel service invo",
+      "description": "Extracted tax rule from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md: - Input VAT tax code TAX-VAT-IN-06 uses 6% rate for eligible travel service invoices.",
+      "rate": "0.06",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md",
+      "needs_confirmation": true
+    },
+    {
+      "id": "TAX-RED-LETTER-INVOICE-MUST-TRACE-TO-ORIGINAL-INVOIC",
+      "name": "- Red-letter invoice must trace to original invoice and reverse tax amount.",
+      "description": "Extracted tax rule from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md: - Red-letter invoice must trace to original invoice and reverse tax amount.",
+      "rate": "unknown",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md",
+      "needs_confirmation": true
+    },
+    {
+      "id": "TAX-TAX-INVOICE-STATUS-API-RETURNS-INVOICE-STATUS-TA",
+      "name": "- Tax invoice status API returns invoice status, tax amount, and red-letter stat",
+      "description": "Extracted tax rule from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md: - Tax invoice status API returns invoice status, tax amount, and red-letter status.",
+      "rate": "unknown",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md",
+      "needs_confirmation": true
+    }
+  ],
+  "approval_matrices": [
+    {
+      "id": "APPROVAL-EXPENSE-REIMBURSEMENT-APPROVAL",
+      "name": "Expense reimbursement approval:",
+      "description": "Extracted approval rule from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md: Expense reimbursement approval:",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md",
+      "needs_confirmation": true
+    },
+    {
+      "id": "APPROVAL-500-00-CNY-DIRECT-MANAGER-APPROVAL",
+      "name": "- <= 500.00 CNY: direct manager approval.",
+      "description": "Extracted approval rule from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md: - <= 500.00 CNY: direct manager approval.",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md",
+      "needs_confirmation": true
+    },
+    {
+      "id": "APPROVAL-500-00-CNY-DEPARTMENT-HEAD-PLUS-FINANCE-REVIEWER",
+      "name": "- > 500.00 CNY: department head plus finance reviewer approval.",
+      "description": "Extracted approval rule from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md: - > 500.00 CNY: department head plus finance reviewer approval.",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md",
+      "needs_confirmation": true
+    }
+  ],
+  "segregation_of_duties": [
+    {
+      "id": "SOD-REQUESTER-CANNOT-APPROVE-THE-SAME-REIMBURSEMENT",
+      "name": "- Requester cannot approve the same reimbursement. This is a SoD rule.",
+      "description": "Extracted SoD rule from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md: - Requester cannot approve the same reimbursement. This is a SoD rule.",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md",
+      "needs_confirmation": true
+    }
+  ],
+  "finance_controls": [
+    {
+      "id": "CTRL-CONTROLS",
+      "name": "Controls:",
+      "description": "Extracted finance control from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md: Controls:",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md",
+      "needs_confirmation": true
+    },
+    {
+      "id": "CTRL-CLOSED-PERIOD-NO-POST",
+      "name": "- Hard closed period rejects posting and reversal.",
+      "description": "Extracted finance control from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md: - Hard closed period rejects posting and reversal.",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md",
+      "needs_confirmation": true
+    },
+    {
+      "id": "CTRL-DUPLICATE-INVOICE-MUST-NOT-CREATE-DUPLICATE-REIM",
+      "name": "- Duplicate invoice must not create duplicate reimbursement.",
+      "description": "Extracted finance control from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md: - Duplicate invoice must not create duplicate reimbursement.",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md",
+      "needs_confirmation": true
+    },
+    {
+      "id": "CTRL-BUDGET-CANCELLATION-RELEASES-BUDGET-EXACTLY-ONCE",
+      "name": "- Budget cancellation releases budget exactly once and retry is idempotent.",
+      "description": "Extracted finance control from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md: - Budget cancellation releases budget exactly once and retry is idempotent.",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md",
+      "needs_confirmation": true
+    },
+    {
+      "id": "CTRL-2025-DUPLICATE-PAYMENT-PRODUCTION-DEFECT-RETRIED",
+      "name": "- 2025 duplicate payment production defect: retried payment callback created a s",
+      "description": "Extracted finance control from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md: - 2025 duplicate payment production defect: retried payment callback created a second settlement voucher.",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md",
+      "needs_confirmation": true
+    }
+  ],
+  "integration_points": [
+    {
+      "id": "INT-BANK-PAYMENT-CALLBACK-INCLUDES-PAYMENT-STATUS-BA",
+      "name": "- Bank payment callback includes payment status, bank reference, amount, currenc",
+      "description": "Extracted integration point from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md: - Bank payment callback includes payment status, bank reference, amount, currency, and failure reason.",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md",
+      "needs_confirmation": true
+    },
+    {
+      "id": "INT-TAX-INVOICE-STATUS-API-RETURNS-INVOICE-STATUS-TA",
+      "name": "- Tax invoice status API returns invoice status, tax amount, and red-letter stat",
+      "description": "Extracted integration point from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md: - Tax invoice status API returns invoice status, tax amount, and red-letter status.",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md",
+      "needs_confirmation": true
+    },
+    {
+      "id": "INT-2025-DUPLICATE-PAYMENT-PRODUCTION-DEFECT-RETRIED",
+      "name": "- 2025 duplicate payment production defect: retried payment callback created a s",
+      "description": "Extracted integration point from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md: - 2025 duplicate payment production defect: retried payment callback created a second settlement voucher.",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md",
+      "needs_confirmation": true
+    }
+  ],
+  "data_observability": [
+    {
+      "id": "OBS-2025-DUPLICATE-PAYMENT-PRODUCTION-DEFECT-RETRIED",
+      "name": "- 2025 duplicate payment production defect: retried payment callback created a s",
+      "description": "Extracted observability signal from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md: - 2025 duplicate payment production defect: retried payment callback created a second settlement voucher.",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md",
+      "needs_confirmation": true
+    },
+    {
+      "id": "OBS-CREATE-TABLE-FIN-VOUCHER-HEADER",
+      "name": "CREATE TABLE fin_voucher_header (",
+      "description": "Extracted observability signal from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\finance-tables.sql: CREATE TABLE fin_voucher_header (",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\finance-tables.sql",
+      "needs_confirmation": true
+    },
+    {
+      "id": "OBS-VOUCHER-ID-VARCHAR-64",
+      "name": "voucher_id varchar(64),",
+      "description": "Extracted observability signal from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\finance-tables.sql: voucher_id varchar(64),",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\finance-tables.sql",
+      "needs_confirmation": true
+    },
+    {
+      "id": "OBS-CREATE-TABLE-FIN-VOUCHER-LINE",
+      "name": "CREATE TABLE fin_voucher_line (",
+      "description": "Extracted observability signal from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\finance-tables.sql: CREATE TABLE fin_voucher_line (",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\finance-tables.sql",
+      "needs_confirmation": true
+    },
+    {
+      "id": "OBS-CREATE-TABLE-FINANCE-AUDIT-LOG",
+      "name": "CREATE TABLE finance_audit_log (",
+      "description": "Extracted observability signal from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\finance-tables.sql: CREATE TABLE finance_audit_log (",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\finance-tables.sql",
+      "needs_confirmation": true
+    },
+    {
+      "id": "OBS-AUDIT-ID-VARCHAR-64",
+      "name": "audit_id varchar(64),",
+      "description": "Extracted observability signal from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\finance-tables.sql: audit_id varchar(64),",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\finance-tables.sql",
+      "needs_confirmation": true
+    }
+  ],
+  "historical_incidents": [
+    {
+      "id": "INC-INCIDENT",
+      "name": "Incident:",
+      "description": "Extracted incident signal from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md: Incident:",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md",
+      "needs_confirmation": true
+    },
+    {
+      "id": "INC-2025-DUPLICATE-PAYMENT-PRODUCTION-DEFECT-RETRIED",
+      "name": "- 2025 duplicate payment production defect: retried payment callback created a s",
+      "description": "Extracted incident signal from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md: - 2025 duplicate payment production defect: retried payment callback created a second settlement voucher.",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md",
+      "needs_confirmation": true
+    }
+  ],
+  "test_data_profiles": [
+    {
+      "id": "DATA-LEGAL-ENTITY-XM-CN-01-BASE-CURRENCY-CNY-MONTHLY",
+      "name": "Legal entity: XM-CN-01, base currency CNY, monthly period calendar.",
+      "description": "Extracted test-data signal from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md: Legal entity: XM-CN-01, base currency CNY, monthly period calendar.",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md",
+      "needs_confirmation": true
+    },
+    {
+      "id": "DATA-INPUT-VAT-TAX-CODE-TAX-VAT-IN-06-USES-6-RATE-FOR",
+      "name": "- Input VAT tax code TAX-VAT-IN-06 uses 6% rate for eligible travel service invo",
+      "description": "Extracted test-data signal from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md: - Input VAT tax code TAX-VAT-IN-06 uses 6% rate for eligible travel service invoices.",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md",
+      "needs_confirmation": true
+    },
+    {
+      "id": "DATA-RED-LETTER-INVOICE-MUST-TRACE-TO-ORIGINAL-INVOIC",
+      "name": "- Red-letter invoice must trace to original invoice and reverse tax amount.",
+      "description": "Extracted test-data signal from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md: - Red-letter invoice must trace to original invoice and reverse tax amount.",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md",
+      "needs_confirmation": true
+    },
+    {
+      "id": "DATA-DUPLICATE-INVOICE-MUST-NOT-CREATE-DUPLICATE-REIM",
+      "name": "- Duplicate invoice must not create duplicate reimbursement.",
+      "description": "Extracted test-data signal from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md: - Duplicate invoice must not create duplicate reimbursement.",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md",
+      "needs_confirmation": true
+    },
+    {
+      "id": "DATA-BUDGET-CANCELLATION-RELEASES-BUDGET-EXACTLY-ONCE",
+      "name": "- Budget cancellation releases budget exactly once and retry is idempotent.",
+      "description": "Extracted test-data signal from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md: - Budget cancellation releases budget exactly once and retry is idempotent.",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md",
+      "needs_confirmation": true
+    },
+    {
+      "id": "DATA-BANK-PAYMENT-CALLBACK-INCLUDES-PAYMENT-STATUS-BA",
+      "name": "- Bank payment callback includes payment status, bank reference, amount, currenc",
+      "description": "Extracted test-data signal from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md: - Bank payment callback includes payment status, bank reference, amount, currency, and failure reason.",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md",
+      "needs_confirmation": true
+    },
+    {
+      "id": "DATA-TAX-INVOICE-STATUS-API-RETURNS-INVOICE-STATUS-TA",
+      "name": "- Tax invoice status API returns invoice status, tax amount, and red-letter stat",
+      "description": "Extracted test-data signal from C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md: - Tax invoice status API returns invoice status, tax amount, and red-letter status.",
+      "source": "C:\\Users\\MI\\.codex\\skills\\case-gen\\evals\\finance-rulepack-extraction\\source-docs\\expense-prd.md",
+      "needs_confirmation": true
+    }
+  ]
+}
