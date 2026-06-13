@@ -1,0 +1,754 @@
+{
+  "metadata": {
+    "suite_id": "finance-period-close",
+    "title": "Finance Period Close Domain Coverage Eval",
+    "source_files": [
+      {
+        "path": "evals/finance-period-close/input-requirement.md",
+        "lines": "1-24"
+      }
+    ],
+    "generated_at": "2026-06-13",
+    "mode": "mixed",
+    "assumptions": [
+      "Month-end close may generate closing or adjustment vouchers according to RULE-GL-CLOSE.",
+      "Close prerequisites are represented by deterministic system checks."
+    ]
+  },
+  "test_model": {
+    "actors": [
+      {
+        "id": "ACT-CLOSE-OP",
+        "role": "period close operator"
+      },
+      {
+        "id": "ACT-CLOSE-APPROVER",
+        "role": "independent close approver"
+      },
+      {
+        "id": "ACT-GL",
+        "role": "GL accountant"
+      },
+      {
+        "id": "ACT-AUDITOR",
+        "role": "audit reviewer"
+      }
+    ],
+    "risks": [
+      {
+        "id": "RISK-CLOSE-001",
+        "description": "Close completes while prerequisite exceptions remain.",
+        "priority": "P0"
+      },
+      {
+        "id": "RISK-CLOSE-002",
+        "description": "Hard-closed period is mutated by backdated posting or reversal.",
+        "priority": "P0"
+      },
+      {
+        "id": "RISK-CLOSE-003",
+        "description": "Reopen is approved by the same operator or without evidence.",
+        "priority": "P0"
+      }
+    ],
+    "test_points": [
+      {
+        "id": "TP-CLOSE-E2E-001",
+        "view": "e2e",
+        "title": "Month-end close moves open to hard_closed with balanced closing voucher and reconciliation",
+        "source": [
+          {
+            "type": "requirement",
+            "ref": "REQ-CLOSE-001"
+          }
+        ],
+        "priority": "P0"
+      },
+      {
+        "id": "TP-CLOSE-CTRL-001",
+        "view": "layered",
+        "title": "Prerequisites, idempotent retry, reopen SoD, and audit evidence are enforced",
+        "source": [
+          {
+            "type": "risk",
+            "ref": "RISK-CLOSE-001"
+          }
+        ],
+        "priority": "P0"
+      },
+      {
+        "id": "TP-CLOSE-ACCT-001",
+        "view": "layered",
+        "title": "Closed-period cut-off, adjustment voucher, debit-credit balance, and report readiness are asserted",
+        "source": [
+          {
+            "type": "rule",
+            "ref": "RULE-GL-CLOSE"
+          }
+        ],
+        "priority": "P0"
+      }
+    ]
+  },
+  "coverage_map": {
+    "sources": [
+      {
+        "id": "REQ-CLOSE-001",
+        "title": "Month-end close flow",
+        "priority": "P0",
+        "cases": [
+          "TC-FIN-CLOSE-001",
+          "TC-FIN-CLOSE-002"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "REQ-CLOSE-002",
+        "title": "Hard close blocks posting, reversal, and backdated mutation",
+        "priority": "P0",
+        "cases": [
+          "TC-FIN-CLOSE-003",
+          "TC-FIN-CLOSE-006"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "REQ-CLOSE-003",
+        "title": "Privileged reopen requires independent approval and audit evidence",
+        "priority": "P0",
+        "cases": [
+          "TC-FIN-CLOSE-005"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "RULE-GL-CLOSE",
+        "title": "Closing voucher, adjustment posting, subledger/GL/report reconciliation",
+        "priority": "P0",
+        "cases": [
+          "TC-FIN-CLOSE-001",
+          "TC-FIN-CLOSE-004",
+          "TC-FIN-CLOSE-005"
+        ],
+        "status": "covered"
+      }
+    ],
+    "test_points": [
+      {
+        "id": "TP-CLOSE-E2E-001",
+        "cases": [
+          "TC-FIN-CLOSE-001"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "TP-CLOSE-CTRL-001",
+        "cases": [
+          "TC-FIN-CLOSE-002",
+          "TC-FIN-CLOSE-005"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "TP-CLOSE-ACCT-001",
+        "cases": [
+          "TC-FIN-CLOSE-001",
+          "TC-FIN-CLOSE-003",
+          "TC-FIN-CLOSE-004",
+          "TC-FIN-CLOSE-006"
+        ],
+        "status": "covered"
+      }
+    ],
+    "cross_view": [
+      {
+        "e2e": "TP-CLOSE-E2E-001",
+        "layered": [
+          "TP-CLOSE-CTRL-001",
+          "TP-CLOSE-ACCT-001"
+        ],
+        "status": "linked"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "id": "TC-FIN-CLOSE-001",
+      "title": "Month-end close completes from open to hard_closed with balanced closing voucher and reconciliation",
+      "priority": "P0",
+      "level": "e2e",
+      "type": "happy_path",
+      "traceability": {
+        "requirements": [
+          "REQ-CLOSE-001"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "RULE-GL-CLOSE",
+          "LAW-ACCOUNTING",
+          "CIC-BASIC"
+        ],
+        "risks": [],
+        "test_points": [
+          "TP-CLOSE-E2E-001",
+          "TP-CLOSE-ACCT-001"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Legal entity XM-CN-01 period 2026-06 is open.",
+        "All prerequisite close checks are passed with zero exception count."
+      ],
+      "data": [
+        {
+          "name": "period",
+          "value": "2026-06",
+          "source": "REQ-CLOSE-001"
+        },
+        {
+          "name": "close_job_id",
+          "value": "CLOSE-202606-XM-CN-01",
+          "source": "REQ-CLOSE-001"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Run prerequisite checks for period 2026-06.",
+          "input": "legal_entity=XM-CN-01, period=2026-06"
+        },
+        {
+          "action": "Submit close approval and execute soft close then hard close.",
+          "input": "operator=ACT-CLOSE-OP, approver=ACT-CLOSE-APPROVER"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "Period status transitions open -> soft_closed -> hard_closed with terminal hard_closed state.",
+          "observable": "period_status"
+        },
+        {
+          "assertion": "Closing journal voucher is generated exactly once in period 2026-06 and debit_credit_balance holds: debit equals credit.",
+          "observable": "journal_voucher"
+        },
+        {
+          "assertion": "Subledger balances reconcile to GL control accounts after close.",
+          "observable": "reconciliation_result"
+        },
+        {
+          "assertion": "Financial report line readiness is published for period 2026-06.",
+          "observable": "financial_report_line"
+        },
+        {
+          "assertion": "Audit evidence records prerequisite results, close approval chain, close job id, and terminal state timestamp.",
+          "observable": "audit_evidence"
+        }
+      ],
+      "finance": {
+        "process": "gl_journal",
+        "business_event": "month-end period close",
+        "accounting_event": "voucher_required",
+        "financial_assertions": [
+          "closing_voucher_generated",
+          "debit_credit_balance",
+          "subledger_gl_reconciled",
+          "financial_report_ready"
+        ],
+        "control_assertions": [
+          "approval_matrix",
+          "audit_evidence",
+          "terminal_period_state"
+        ],
+        "regulatory_refs": [
+          "LAW-ACCOUNTING",
+          "CIC-BASIC"
+        ]
+      },
+      "automation_candidate": "high",
+      "status": "ready",
+      "notes": []
+    },
+    {
+      "id": "TC-FIN-CLOSE-002",
+      "title": "Close is blocked when prerequisite exceptions remain, and retry is idempotent",
+      "priority": "P0",
+      "level": "integration",
+      "type": "negative",
+      "traceability": {
+        "requirements": [
+          "REQ-CLOSE-001"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "CIC-BASIC"
+        ],
+        "risks": [
+          "RISK-CLOSE-001"
+        ],
+        "test_points": [
+          "TP-CLOSE-CTRL-001"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Period 2026-06 is open.",
+        "Prerequisite check has one unreconciled subledger difference and one unposted voucher."
+      ],
+      "data": [
+        {
+          "name": "request_id",
+          "value": "REQ-CLOSE-IDEMP-001",
+          "source": "RISK-CLOSE-001"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Attempt to hard close period while prerequisite exceptions remain.",
+          "input": "period=2026-06, request_id=REQ-CLOSE-IDEMP-001"
+        },
+        {
+          "action": "Retry the same close request after timeout.",
+          "input": "request_id=REQ-CLOSE-IDEMP-001"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "Close is rejected and period status remains open because prerequisite exceptions remain.",
+          "observable": "period_status"
+        },
+        {
+          "assertion": "Retry is idempotent and does not create duplicate close tasks or duplicate closing vouchers.",
+          "observable": "control_evidence"
+        },
+        {
+          "assertion": "No journal voucher is generated; debit_credit_balance is unchanged.",
+          "observable": "journal_voucher"
+        },
+        {
+          "assertion": "Reconciliation result shows prerequisite difference and blocks report-line readiness.",
+          "observable": "reconciliation_result"
+        },
+        {
+          "assertion": "Audit evidence records failed prerequisite names and exception counts.",
+          "observable": "audit_evidence"
+        }
+      ],
+      "finance": {
+        "process": "gl_journal",
+        "business_event": "period close with prerequisite exceptions",
+        "accounting_event": "no_posting",
+        "financial_assertions": [
+          "no_duplicate_close",
+          "no_duplicate_voucher",
+          "debit_credit_balance",
+          "reconciliation_blocks_close"
+        ],
+        "control_assertions": [
+          "prerequisite_control",
+          "idempotency",
+          "audit_evidence"
+        ],
+        "regulatory_refs": [
+          "CIC-BASIC"
+        ]
+      },
+      "automation_candidate": "high",
+      "status": "ready",
+      "notes": []
+    },
+    {
+      "id": "TC-FIN-CLOSE-003",
+      "title": "Hard-closed period rejects invalid posting, reversal, and sensitive mutation",
+      "priority": "P0",
+      "level": "integration",
+      "type": "state_transition",
+      "traceability": {
+        "requirements": [
+          "REQ-CLOSE-002"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "RULE-GL-CLOSE",
+          "LAW-ACCOUNTING"
+        ],
+        "risks": [
+          "RISK-CLOSE-002"
+        ],
+        "test_points": [
+          "TP-CLOSE-ACCT-001"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Period 2026-06 is hard_closed."
+      ],
+      "data": [
+        {
+          "name": "mutation_types",
+          "value": "manual_journal_posting / reversal / backdated_document",
+          "source": "REQ-CLOSE-002"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Attempt manual posting, reversal, and backdated document mutation in hard_closed period.",
+          "input": "period=2026-06"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "Invalid transition from hard_closed to posted/reversed is forbidden and terminal hard_closed state is preserved.",
+          "observable": "period_status"
+        },
+        {
+          "assertion": "No journal voucher or reversal voucher is generated in hard_closed period; debit_credit_balance is unchanged.",
+          "observable": "journal_voucher"
+        },
+        {
+          "assertion": "GL balance and report line remain unchanged.",
+          "observable": "general_ledger_balance"
+        },
+        {
+          "assertion": "Audit evidence records closed-period mutation denial.",
+          "observable": "audit_evidence"
+        }
+      ],
+      "finance": {
+        "process": "gl_journal",
+        "business_event": "closed-period mutation attempt",
+        "accounting_event": "no_posting",
+        "financial_assertions": [
+          "period_cutoff",
+          "no_closed_period_posting",
+          "debit_credit_balance"
+        ],
+        "control_assertions": [
+          "closed_period_control",
+          "audit_evidence"
+        ],
+        "regulatory_refs": [
+          "LAW-ACCOUNTING",
+          "CIC-BASIC"
+        ]
+      },
+      "automation_candidate": "high",
+      "status": "ready",
+      "notes": []
+    },
+    {
+      "id": "TC-FIN-CLOSE-004",
+      "title": "Soft close blocks normal posting but allows approved adjustment voucher",
+      "priority": "P0",
+      "level": "integration",
+      "type": "decision_table",
+      "traceability": {
+        "requirements": [
+          "REQ-CLOSE-002"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "RULE-GL-CLOSE"
+        ],
+        "risks": [
+          "RISK-CLOSE-002"
+        ],
+        "test_points": [
+          "TP-CLOSE-ACCT-001"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Period 2026-06 is soft_closed."
+      ],
+      "data": [
+        {
+          "name": "decision_rows",
+          "value": "normal business posting=deny; approved adjustment journal=allow; unapproved adjustment journal=deny",
+          "source": "REQ-CLOSE-002"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Submit normal business posting, approved adjustment, and unapproved adjustment in soft_closed period.",
+          "input": "period=2026-06"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "Normal posting and unapproved adjustment are rejected; approved adjustment is posted.",
+          "observable": "period_status"
+        },
+        {
+          "assertion": "Approved adjustment journal voucher is generated exactly once and debit_credit_balance holds.",
+          "observable": "journal_voucher"
+        },
+        {
+          "assertion": "Subledger, GL, and report line reconciliation is recalculated after approved adjustment.",
+          "observable": "reconciliation_result"
+        },
+        {
+          "assertion": "Approval chain and audit evidence identify adjustment reason and approver.",
+          "observable": "approval_chain"
+        }
+      ],
+      "finance": {
+        "process": "gl_journal",
+        "business_event": "soft-close adjustment posting",
+        "accounting_event": "adjustment",
+        "financial_assertions": [
+          "adjustment_voucher_generated",
+          "debit_credit_balance",
+          "reconciliation_recomputed"
+        ],
+        "control_assertions": [
+          "approval_matrix",
+          "audit_evidence"
+        ],
+        "regulatory_refs": [
+          "CIC-BASIC"
+        ]
+      },
+      "automation_candidate": "high",
+      "status": "ready",
+      "notes": []
+    },
+    {
+      "id": "TC-FIN-CLOSE-005",
+      "title": "Privileged reopen requires independent approval and rejects same-operator approval",
+      "priority": "P0",
+      "level": "security",
+      "type": "security",
+      "traceability": {
+        "requirements": [
+          "REQ-CLOSE-003"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "CIC-BASIC",
+          "OWASP-API-2023"
+        ],
+        "risks": [
+          "RISK-CLOSE-003"
+        ],
+        "test_points": [
+          "TP-CLOSE-CTRL-001",
+          "TP-CLOSE-ACCT-001"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Period 2026-06 is hard_closed.",
+        "ACT-CLOSE-OP created reopen request REOPEN-202606-001."
+      ],
+      "data": [
+        {
+          "name": "reopen_reason",
+          "value": "approved audit adjustment",
+          "source": "REQ-CLOSE-003"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Attempt reopen approval as same operator, then as independent approver.",
+          "input": "period=2026-06, request=REOPEN-202606-001"
+        },
+        {
+          "action": "Post approved adjustment and reclose the period.",
+          "input": "adjustment_amount=100.00 CNY"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "Same-operator reopen approval is forbidden with wrong role / segregation of duties denial.",
+          "observable": "response"
+        },
+        {
+          "assertion": "Independent approval moves period hard_closed -> reopened -> reclosed with full traceability.",
+          "observable": "period_status"
+        },
+        {
+          "assertion": "Adjustment journal voucher is generated once and debit_credit_balance holds for 100.00 CNY.",
+          "observable": "journal_voucher"
+        },
+        {
+          "assertion": "Reclosed period recomputes subledger/GL/report reconciliation with zero unexplained difference.",
+          "observable": "reconciliation_result"
+        },
+        {
+          "assertion": "Audit evidence records reopen reason, same-operator denial, independent approver, adjustment voucher, and reclose timestamp.",
+          "observable": "audit_evidence"
+        },
+        {
+          "assertion": "Security log is emitted for forbidden same-operator approval.",
+          "observable": "log"
+        }
+      ],
+      "finance": {
+        "process": "gl_journal",
+        "business_event": "period reopen and adjustment",
+        "accounting_event": "adjustment",
+        "financial_assertions": [
+          "adjustment_voucher_generated",
+          "debit_credit_balance",
+          "subledger_gl_reconciled"
+        ],
+        "control_assertions": [
+          "segregation_of_duties",
+          "reopen_approval",
+          "audit_evidence"
+        ],
+        "regulatory_refs": [
+          "CIC-BASIC",
+          "OWASP-API-2023"
+        ]
+      },
+      "automation_candidate": "high",
+      "status": "ready",
+      "notes": []
+    },
+    {
+      "id": "TC-FIN-CLOSE-006",
+      "title": "Cut-off boundary assigns documents to the correct accounting period",
+      "priority": "P0",
+      "level": "integration",
+      "type": "boundary",
+      "traceability": {
+        "requirements": [
+          "REQ-CLOSE-002"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "RULE-GL-CLOSE",
+          "LAW-ACCOUNTING"
+        ],
+        "risks": [
+          "RISK-CLOSE-002"
+        ],
+        "test_points": [
+          "TP-CLOSE-ACCT-001"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Period 2026-06 closes at 2026-06-30T23:59:59."
+      ],
+      "data": [
+        {
+          "name": "cutoff_times",
+          "value": "2026-06-30T23:59:58 / 2026-06-30T23:59:59 / 2026-07-01T00:00:00",
+          "source": "REQ-CLOSE-002"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Submit three documents around the cut-off boundary.",
+          "input": "times=2026-06-30T23:59:58/2026-06-30T23:59:59/2026-07-01T00:00:00"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "Documents before and exactly at cut-off are assigned to 2026-06; the document after cut-off is assigned to 2026-07 or rejected by policy.",
+          "observable": "period_status"
+        },
+        {
+          "assertion": "Allowed postings generate journal vouchers in the assigned accounting period and debit_credit_balance holds.",
+          "observable": "journal_voucher"
+        },
+        {
+          "assertion": "GL and report line impacts appear only in the assigned period.",
+          "observable": "financial_report_line"
+        },
+        {
+          "assertion": "Reconciliation result separates 2026-06 and 2026-07 impacts without cross-period leakage.",
+          "observable": "reconciliation_result"
+        },
+        {
+          "assertion": "Audit evidence records cut-off decision, source timestamp, assigned period, and rule version.",
+          "observable": "audit_evidence"
+        }
+      ],
+      "finance": {
+        "process": "gl_journal",
+        "business_event": "period cut-off posting",
+        "accounting_event": "voucher_required",
+        "financial_assertions": [
+          "period_cutoff",
+          "voucher_generated",
+          "debit_credit_balance",
+          "report_line_period_asserted"
+        ],
+        "control_assertions": [
+          "cutoff_control"
+        ],
+        "regulatory_refs": [
+          "LAW-ACCOUNTING"
+        ]
+      },
+      "automation_candidate": "high",
+      "status": "ready",
+      "notes": []
+    }
+  ],
+  "open_questions": [
+    {
+      "id": "Q-CLOSE-001",
+      "question": "Which prerequisite checks are hard blockers versus warnings for each legal entity?",
+      "impact": "blocks_p0",
+      "owner": "finance"
+    }
+  ],
+  "suite_layers": {
+    "smoke": [
+      "TC-FIN-CLOSE-001",
+      "TC-FIN-CLOSE-002",
+      "TC-FIN-CLOSE-005"
+    ],
+    "p0_gate": [
+      "TC-FIN-CLOSE-001",
+      "TC-FIN-CLOSE-002",
+      "TC-FIN-CLOSE-003",
+      "TC-FIN-CLOSE-004",
+      "TC-FIN-CLOSE-005",
+      "TC-FIN-CLOSE-006"
+    ],
+    "regression": [
+      "TC-FIN-CLOSE-001",
+      "TC-FIN-CLOSE-002",
+      "TC-FIN-CLOSE-003",
+      "TC-FIN-CLOSE-004",
+      "TC-FIN-CLOSE-005",
+      "TC-FIN-CLOSE-006"
+    ],
+    "full": [
+      "TC-FIN-CLOSE-001",
+      "TC-FIN-CLOSE-002",
+      "TC-FIN-CLOSE-003",
+      "TC-FIN-CLOSE-004",
+      "TC-FIN-CLOSE-005",
+      "TC-FIN-CLOSE-006"
+    ],
+    "exploratory": [
+      "CHARTER-FIN-CLOSE-001"
+    ]
+  },
+  "quality_gates": {
+    "p0_sources_covered": true,
+    "no_happy_path_only": true,
+    "all_cases_have_traceability": true,
+    "all_cases_have_observable_expected": true,
+    "boundary_cases_have_concrete_values": true,
+    "state_cases_include_invalid_transitions": true,
+    "security_cases_include_negative_authorization": true,
+    "e2e_layer_cross_check_complete": true,
+    "finance_voucher_or_ledger_asserted": true,
+    "finance_debit_credit_balance_asserted": true,
+    "finance_period_cutoff_asserted": true,
+    "finance_reconciliation_asserted": true,
+    "finance_control_evidence_asserted": true
+  }
+}

@@ -51,6 +51,24 @@
       "files": [
         "evals/finance-ap-payment/input-requirement.md"
       ]
+    },
+    {
+      "id": 7,
+      "name": "finance_expense_reimbursement_adapter",
+      "prompt": "根据小米财务共享的员工费用报销需求生成测试用例，必须覆盖发票唯一性、税额、审批边界、预算占用/释放、员工付款、凭证、借贷平衡、账期截止、SoD 和审计证据。",
+      "expected_output": "Uses the finance adapter to produce structured reimbursement cases with invoice/tax, budget, payment, voucher, reconciliation, control, and audit assertions.",
+      "files": [
+        "evals/finance-expense-reimbursement/input-requirement.md"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "finance_period_close_adapter",
+      "prompt": "根据小米财务共享的月结关账需求生成测试用例，必须覆盖前置检查、open/soft_closed/hard_closed 状态、关账幂等、重开审批、关账后禁止过账、跨期截止、凭证借贷平衡、总账对账、报表就绪和审计证据。",
+      "expected_output": "Uses the finance adapter to produce structured period-close cases with period-state, cut-off, close/reopen controls, voucher, reconciliation, report-line, SoD, and audit assertions.",
+      "files": [
+        "evals/finance-period-close/input-requirement.md"
+      ]
     }
   ]
 }

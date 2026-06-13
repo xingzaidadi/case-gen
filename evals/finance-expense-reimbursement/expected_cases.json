@@ -1,0 +1,757 @@
+{
+  "metadata": {
+    "suite_id": "finance-expense-reimbursement",
+    "title": "Finance Expense Reimbursement Domain Coverage Eval",
+    "source_files": [
+      {
+        "path": "evals/finance-expense-reimbursement/input-requirement.md",
+        "lines": "1-24"
+      }
+    ],
+    "generated_at": "2026-06-13",
+    "mode": "mixed",
+    "assumptions": [
+      "Budget control is enabled.",
+      "Employee payable voucher rules are represented as RULE-EXP-POSTING."
+    ]
+  },
+  "test_model": {
+    "actors": [
+      {
+        "id": "ACT-EMP",
+        "role": "employee requester"
+      },
+      {
+        "id": "ACT-MGR",
+        "role": "direct manager"
+      },
+      {
+        "id": "ACT-DEPT",
+        "role": "department head"
+      },
+      {
+        "id": "ACT-FIN",
+        "role": "finance reviewer"
+      }
+    ],
+    "risks": [
+      {
+        "id": "RISK-EXP-001",
+        "description": "Duplicate or invalid invoice causes duplicate reimbursement or tax error.",
+        "priority": "P0"
+      },
+      {
+        "id": "RISK-EXP-002",
+        "description": "Requester self-approval bypasses reimbursement control.",
+        "priority": "P0"
+      },
+      {
+        "id": "RISK-EXP-003",
+        "description": "Closed-period posting corrupts month-end cut-off.",
+        "priority": "P0"
+      }
+    ],
+    "test_points": [
+      {
+        "id": "TP-EXP-E2E-001",
+        "view": "e2e",
+        "title": "Approved reimbursement pays employee, posts voucher, consumes budget, and reconciles",
+        "source": [
+          {
+            "type": "requirement",
+            "ref": "REQ-EXP-001"
+          }
+        ],
+        "priority": "P0"
+      },
+      {
+        "id": "TP-EXP-CTRL-001",
+        "view": "layered",
+        "title": "Invoice uniqueness, invoice status, tax amount, approval matrix, and SoD are enforced",
+        "source": [
+          {
+            "type": "risk",
+            "ref": "RISK-EXP-001"
+          }
+        ],
+        "priority": "P0"
+      },
+      {
+        "id": "TP-EXP-ACCT-001",
+        "view": "layered",
+        "title": "Voucher, debit-credit balance, period, employee payable, and GL reconciliation are asserted",
+        "source": [
+          {
+            "type": "rule",
+            "ref": "RULE-EXP-POSTING"
+          }
+        ],
+        "priority": "P0"
+      }
+    ]
+  },
+  "coverage_map": {
+    "sources": [
+      {
+        "id": "REQ-EXP-001",
+        "title": "Employee expense reimbursement E2E flow",
+        "priority": "P0",
+        "cases": [
+          "TC-FIN-EXP-001",
+          "TC-FIN-EXP-006"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "REQ-EXP-002",
+        "title": "Approval boundary at 500.00 CNY",
+        "priority": "P0",
+        "cases": [
+          "TC-FIN-EXP-003"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "REQ-EXP-003",
+        "title": "Hard-closed periods reject posting and reversal",
+        "priority": "P0",
+        "cases": [
+          "TC-FIN-EXP-005"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "RULE-EXP-POSTING",
+        "title": "Reimbursement posting and employee payable settlement",
+        "priority": "P0",
+        "cases": [
+          "TC-FIN-EXP-001",
+          "TC-FIN-EXP-005",
+          "TC-FIN-EXP-006"
+        ],
+        "status": "covered"
+      }
+    ],
+    "test_points": [
+      {
+        "id": "TP-EXP-E2E-001",
+        "cases": [
+          "TC-FIN-EXP-001"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "TP-EXP-CTRL-001",
+        "cases": [
+          "TC-FIN-EXP-002",
+          "TC-FIN-EXP-003",
+          "TC-FIN-EXP-004"
+        ],
+        "status": "covered"
+      },
+      {
+        "id": "TP-EXP-ACCT-001",
+        "cases": [
+          "TC-FIN-EXP-001",
+          "TC-FIN-EXP-005",
+          "TC-FIN-EXP-006"
+        ],
+        "status": "covered"
+      }
+    ],
+    "cross_view": [
+      {
+        "e2e": "TP-EXP-E2E-001",
+        "layered": [
+          "TP-EXP-CTRL-001",
+          "TP-EXP-ACCT-001"
+        ],
+        "status": "linked"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "id": "TC-FIN-EXP-001",
+      "title": "Approved expense reimbursement consumes budget, pays employee, posts balanced voucher, and reconciles",
+      "priority": "P0",
+      "level": "e2e",
+      "type": "happy_path",
+      "traceability": {
+        "requirements": [
+          "REQ-EXP-001"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "RULE-EXP-POSTING",
+          "LAW-ACCOUNTING",
+          "CIC-BASIC"
+        ],
+        "risks": [],
+        "test_points": [
+          "TP-EXP-E2E-001",
+          "TP-EXP-ACCT-001"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Accounting period 2026-06 is open.",
+        "Expense report EXP-001 has valid VAT invoice INV-EXP-001 and available budget."
+      ],
+      "data": [
+        {
+          "name": "reimbursement_amount",
+          "value": "530.00 CNY",
+          "source": "REQ-EXP-001"
+        },
+        {
+          "name": "tax_amount",
+          "value": "30.00 CNY",
+          "source": "REQ-EXP-001"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Submit expense report and validate invoice, tax amount, cost center, project, and budget.",
+          "input": "expense=EXP-001, invoice=INV-EXP-001, amount=530.00"
+        },
+        {
+          "action": "Approve with department head and finance reviewer, then release employee payment.",
+          "input": "approvers=ACT-DEPT,ACT-FIN"
+        },
+        {
+          "action": "Receive bank success and run reimbursement posting.",
+          "input": "period=2026-06"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "Invoice status is validated and linked to expense report EXP-001.",
+          "observable": "invoice_status"
+        },
+        {
+          "assertion": "Tax amount is 30.00 CNY and reimbursement amount is 530.00 CNY with configured rounding.",
+          "observable": "tax_amount"
+        },
+        {
+          "assertion": "Budget occupation is created at submission and consumed after successful payment.",
+          "observable": "budget_occupation"
+        },
+        {
+          "assertion": "Approval chain records department head and finance reviewer before payment release.",
+          "observable": "approval_chain"
+        },
+        {
+          "assertion": "Payment status reaches paid and bank receipt matches employee, account, amount, currency, and reference.",
+          "observable": "payment_status"
+        },
+        {
+          "assertion": "Bank receipt is linked as paid evidence.",
+          "observable": "bank_receipt"
+        },
+        {
+          "assertion": "Journal voucher is generated exactly once in period 2026-06 and debit_credit_balance holds: debit equals credit for 530.00 CNY.",
+          "observable": "journal_voucher"
+        },
+        {
+          "assertion": "Employee payable subledger clears and GL balance reflects reimbursement settlement.",
+          "observable": "subledger_balance"
+        },
+        {
+          "assertion": "Expense report, invoice, payment, bank receipt, subledger, GL, and report line reconcile with zero difference.",
+          "observable": "reconciliation_result"
+        }
+      ],
+      "finance": {
+        "process": "expense_reimbursement",
+        "business_event": "employee expense reimbursement payment",
+        "accounting_event": "settlement",
+        "financial_assertions": [
+          "voucher_generated",
+          "debit_credit_balance",
+          "budget_consumed",
+          "tax_amount_asserted",
+          "subledger_gl_reconciled"
+        ],
+        "control_assertions": [
+          "approval_matrix",
+          "segregation_of_duties",
+          "audit_evidence"
+        ],
+        "regulatory_refs": [
+          "LAW-ACCOUNTING",
+          "CIC-BASIC"
+        ]
+      },
+      "automation_candidate": "high",
+      "status": "ready",
+      "notes": []
+    },
+    {
+      "id": "TC-FIN-EXP-002",
+      "title": "Duplicate or invalid invoice blocks reimbursement and tax recognition",
+      "priority": "P0",
+      "level": "api",
+      "type": "negative",
+      "traceability": {
+        "requirements": [
+          "REQ-EXP-001"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "STA-INVOICE",
+          "CIC-BASIC"
+        ],
+        "risks": [
+          "RISK-EXP-001"
+        ],
+        "test_points": [
+          "TP-EXP-CTRL-001"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Invoice INV-DUP-EXP-001 was used by another paid expense report."
+      ],
+      "data": [
+        {
+          "name": "invoice_number",
+          "value": "INV-DUP-EXP-001",
+          "source": "RISK-EXP-001"
+        },
+        {
+          "name": "request_id",
+          "value": "REQ-EXP-IDEMP-001",
+          "source": "RISK-EXP-001"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Submit reimbursement with duplicate invoice and same business key.",
+          "input": "invoice=INV-DUP-EXP-001"
+        },
+        {
+          "action": "Retry the same submit request after timeout.",
+          "input": "request_id=REQ-EXP-IDEMP-001"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "Duplicate invoice is rejected and no expense report payable is created.",
+          "observable": "response"
+        },
+        {
+          "assertion": "Invoice status remains used_by_existing_report and is not relinked.",
+          "observable": "invoice_status"
+        },
+        {
+          "assertion": "No tax amount is recognized for the rejected reimbursement.",
+          "observable": "tax_amount"
+        },
+        {
+          "assertion": "Retry with same request id is idempotent and does not create a second draft.",
+          "observable": "control_evidence"
+        }
+      ],
+      "finance": {
+        "process": "expense_reimbursement",
+        "business_event": "duplicate invoice reimbursement submission",
+        "accounting_event": "no_posting",
+        "financial_assertions": [
+          "no_duplicate_reimbursement",
+          "no_tax_recognition"
+        ],
+        "control_assertions": [
+          "duplicate_prevention",
+          "idempotency"
+        ],
+        "regulatory_refs": [
+          "STA-INVOICE",
+          "CIC-BASIC"
+        ]
+      },
+      "automation_candidate": "high",
+      "status": "ready",
+      "notes": []
+    },
+    {
+      "id": "TC-FIN-EXP-003",
+      "title": "Approval matrix boundary at 500.00 CNY selects the required approvers",
+      "priority": "P0",
+      "level": "integration",
+      "type": "boundary",
+      "traceability": {
+        "requirements": [
+          "REQ-EXP-002"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "CIC-BASIC"
+        ],
+        "risks": [],
+        "test_points": [
+          "TP-EXP-CTRL-001"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Approval limit is 500.00 CNY."
+      ],
+      "data": [
+        {
+          "name": "approval_amounts",
+          "value": "499.99/500.00/500.01 CNY",
+          "source": "REQ-EXP-002"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Submit expense reports at 499.99, 500.00, and 500.01 CNY.",
+          "input": "amounts=499.99/500.00/500.01"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "499.99 and 500.00 CNY route to direct manager; 500.01 CNY routes to department head plus finance reviewer.",
+          "observable": "approval_chain"
+        },
+        {
+          "assertion": "Control evidence records the approval matrix branch and amount used for the decision.",
+          "observable": "control_evidence"
+        }
+      ],
+      "finance": {
+        "process": "expense_reimbursement",
+        "business_event": "expense approval routing",
+        "accounting_event": "no_posting",
+        "financial_assertions": [
+          "amount_boundary_checked"
+        ],
+        "control_assertions": [
+          "approval_matrix",
+          "limit_boundary"
+        ],
+        "regulatory_refs": [
+          "CIC-BASIC"
+        ]
+      },
+      "automation_candidate": "high",
+      "status": "ready",
+      "notes": []
+    },
+    {
+      "id": "TC-FIN-EXP-004",
+      "title": "Requester self-approval and expired delegation are forbidden with SoD audit evidence",
+      "priority": "P0",
+      "level": "security",
+      "type": "security",
+      "traceability": {
+        "requirements": [
+          "REQ-EXP-001"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "CIC-BASIC",
+          "OWASP-API-2023"
+        ],
+        "risks": [
+          "RISK-EXP-002"
+        ],
+        "test_points": [
+          "TP-EXP-CTRL-001"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Employee ACT-EMP submitted expense report EXP-SOD-001.",
+        "Delegation for ACT-MGR-DELEGATE expired yesterday."
+      ],
+      "data": [
+        {
+          "name": "actors",
+          "value": "ACT-EMP self-approval, ACT-MGR-DELEGATE expired delegation",
+          "source": "RISK-EXP-002"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Attempt approval as requester and as expired delegate.",
+          "input": "expense=EXP-SOD-001"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "Approval is forbidden for self-approval and expired delegation; expense status remains submitted.",
+          "observable": "response"
+        },
+        {
+          "assertion": "Approval chain contains no invalid approver node.",
+          "observable": "approval_chain"
+        },
+        {
+          "assertion": "Audit evidence records segregation of duties denial and delegation expiry reason.",
+          "observable": "audit_evidence"
+        },
+        {
+          "assertion": "Security log is emitted for wrong role / SoD denial.",
+          "observable": "log"
+        }
+      ],
+      "finance": {
+        "process": "expense_reimbursement",
+        "business_event": "expense approval",
+        "accounting_event": "no_posting",
+        "financial_assertions": [
+          "no_payment_release",
+          "no_posting"
+        ],
+        "control_assertions": [
+          "segregation_of_duties",
+          "self_approval_denied",
+          "delegation_validity",
+          "audit_evidence"
+        ],
+        "regulatory_refs": [
+          "CIC-BASIC",
+          "OWASP-API-2023"
+        ]
+      },
+      "automation_candidate": "high",
+      "status": "ready",
+      "notes": []
+    },
+    {
+      "id": "TC-FIN-EXP-005",
+      "title": "Hard-closed period rejects reimbursement posting and preserves cut-off",
+      "priority": "P0",
+      "level": "integration",
+      "type": "state_transition",
+      "traceability": {
+        "requirements": [
+          "REQ-EXP-003"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "RULE-EXP-POSTING",
+          "LAW-ACCOUNTING"
+        ],
+        "risks": [
+          "RISK-EXP-003"
+        ],
+        "test_points": [
+          "TP-EXP-ACCT-001"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Accounting period 2026-05 is hard_closed.",
+        "Expense report EXP-CLOSE-001 is approved but not posted."
+      ],
+      "data": [
+        {
+          "name": "cutoff_times",
+          "value": "2026-05-31T23:59:59 / 2026-06-01T00:00:00 / 2026-06-01T00:00:01",
+          "source": "REQ-EXP-003"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Attempt to post reimbursement voucher into hard_closed period 2026-05.",
+          "input": "period=2026-05, posting_time=2026-06-01T00:00:00"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "Invalid transition from approved to posted is rejected because period 2026-05 is hard_closed.",
+          "observable": "period_status"
+        },
+        {
+          "assertion": "No journal voucher is created in the closed period; debit_credit_balance is unchanged.",
+          "observable": "journal_voucher"
+        },
+        {
+          "assertion": "Employee payable subledger and GL balances remain unchanged.",
+          "observable": "general_ledger_balance"
+        },
+        {
+          "assertion": "Audit evidence records closed-period cut-off denial.",
+          "observable": "audit_evidence"
+        }
+      ],
+      "finance": {
+        "process": "expense_reimbursement",
+        "business_event": "closed-period reimbursement posting",
+        "accounting_event": "no_posting",
+        "financial_assertions": [
+          "period_cutoff",
+          "no_closed_period_posting",
+          "debit_credit_balance"
+        ],
+        "control_assertions": [
+          "closed_period_control",
+          "audit_evidence"
+        ],
+        "regulatory_refs": [
+          "LAW-ACCOUNTING",
+          "CIC-BASIC"
+        ]
+      },
+      "automation_candidate": "high",
+      "status": "ready",
+      "notes": []
+    },
+    {
+      "id": "TC-FIN-EXP-006",
+      "title": "Bank rejection or voided invoice after approval keeps reimbursement unpaid and unreconciled",
+      "priority": "P0",
+      "level": "integration",
+      "type": "negative",
+      "traceability": {
+        "requirements": [
+          "REQ-EXP-001"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "RULE-EXP-POSTING",
+          "STA-INVOICE"
+        ],
+        "risks": [
+          "RISK-EXP-001"
+        ],
+        "test_points": [
+          "TP-EXP-E2E-001",
+          "TP-EXP-ACCT-001"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Expense report EXP-BANK-001 is approved and sent to bank.",
+        "Invoice INV-EXP-VOID-001 becomes voided before payment confirmation."
+      ],
+      "data": [
+        {
+          "name": "bank_result",
+          "value": "rejected: employee bank account invalid",
+          "source": "REQ-EXP-001"
+        }
+      ],
+      "steps": [
+        {
+          "action": "Receive bank rejection and invoice void status update.",
+          "input": "expense=EXP-BANK-001"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "Invoice status becomes voided_exception and blocks payment completion.",
+          "observable": "invoice_status"
+        },
+        {
+          "assertion": "Payment status becomes bank_rejected and employee payable remains open.",
+          "observable": "payment_status"
+        },
+        {
+          "assertion": "Bank statement records rejected instruction and no paid bank receipt is attached.",
+          "observable": "bank_statement"
+        },
+        {
+          "assertion": "No settlement journal voucher is posted in period 2026-06; debit_credit_balance remains unchanged.",
+          "observable": "journal_voucher"
+        },
+        {
+          "assertion": "Budget occupation follows configured exception policy and reconciliation shows no clearing difference.",
+          "observable": "reconciliation_result"
+        },
+        {
+          "assertion": "Audit evidence links bank rejection and voided invoice exception.",
+          "observable": "audit_evidence"
+        }
+      ],
+      "finance": {
+        "process": "expense_reimbursement",
+        "business_event": "bank rejection after expense approval",
+        "accounting_event": "no_posting",
+        "financial_assertions": [
+          "no_settlement_on_bank_rejection",
+          "invoice_status_blocks_payment",
+          "debit_credit_balance",
+          "subledger_gl_reconciled"
+        ],
+        "control_assertions": [
+          "exception_workflow",
+          "audit_evidence"
+        ],
+        "regulatory_refs": [
+          "STA-INVOICE",
+          "CIC-BASIC"
+        ]
+      },
+      "automation_candidate": "high",
+      "status": "ready",
+      "notes": []
+    }
+  ],
+  "open_questions": [
+    {
+      "id": "Q-EXP-001",
+      "question": "Which reimbursement categories are VAT deductible and which require tax transfer-out?",
+      "impact": "affects_p1",
+      "owner": "finance"
+    }
+  ],
+  "suite_layers": {
+    "smoke": [
+      "TC-FIN-EXP-001",
+      "TC-FIN-EXP-002",
+      "TC-FIN-EXP-004"
+    ],
+    "p0_gate": [
+      "TC-FIN-EXP-001",
+      "TC-FIN-EXP-002",
+      "TC-FIN-EXP-003",
+      "TC-FIN-EXP-004",
+      "TC-FIN-EXP-005",
+      "TC-FIN-EXP-006"
+    ],
+    "regression": [
+      "TC-FIN-EXP-001",
+      "TC-FIN-EXP-002",
+      "TC-FIN-EXP-003",
+      "TC-FIN-EXP-004",
+      "TC-FIN-EXP-005",
+      "TC-FIN-EXP-006"
+    ],
+    "full": [
+      "TC-FIN-EXP-001",
+      "TC-FIN-EXP-002",
+      "TC-FIN-EXP-003",
+      "TC-FIN-EXP-004",
+      "TC-FIN-EXP-005",
+      "TC-FIN-EXP-006"
+    ],
+    "exploratory": [
+      "CHARTER-FIN-EXP-001"
+    ]
+  },
+  "quality_gates": {
+    "p0_sources_covered": true,
+    "no_happy_path_only": true,
+    "all_cases_have_traceability": true,
+    "all_cases_have_observable_expected": true,
+    "boundary_cases_have_concrete_values": true,
+    "state_cases_include_invalid_transitions": true,
+    "security_cases_include_negative_authorization": true,
+    "e2e_layer_cross_check_complete": true,
+    "finance_voucher_or_ledger_asserted": true,
+    "finance_debit_credit_balance_asserted": true,
+    "finance_period_cutoff_asserted": true,
+    "finance_reconciliation_asserted": true,
+    "finance_control_evidence_asserted": true
+  }
+}
