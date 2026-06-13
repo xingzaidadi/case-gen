@@ -1,0 +1,26 @@
+{
+  "skill_name": "case-gen",
+  "evals": [
+    {
+      "id": 1,
+      "name": "prd_to_dual_view_cases",
+      "prompt": "根据一个订单锁定功能 PRD 生成测试点和测试用例，要求包含 E2E 维度、分层维度、边界值和权限异常。",
+      "expected_output": "Produces a dual-view coverage map, structured cases, boundary cases, negative permission cases, and self-check notes.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "vcb_like_backend_adapter",
+      "prompt": "给一个 Java Controller 和设计文档生成鉴权、owner 隔离、scope、request_id 幂等、审计和指标相关测试用例。",
+      "expected_output": "Uses generic case-gen workflow plus VCB-like adapter rules, but clearly marks which cases are domain-derived.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "legacy_happy_path_review",
+      "prompt": "评审一组已有测试用例，判断是否只有 happy path，并补充异常路径、边界路径和状态转换用例。",
+      "expected_output": "Identifies happy-path bias, proposes exception and boundary cases, and maps additions to risks and sources.",
+      "files": []
+    }
+  ]
+}

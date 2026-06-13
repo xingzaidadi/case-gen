@@ -1,0 +1,52 @@
+{
+  "metadata": {
+    "suite_id": "sample-suite",
+    "title": "Sample generated cases",
+    "mode": "api",
+    "assumptions": [
+      "This file exists only to validate the schema checker."
+    ]
+  },
+  "cases": [
+    {
+      "id": "TC-SAMPLE-001",
+      "title": "Reject missing identity",
+      "priority": "P0",
+      "level": "api",
+      "type": "negative",
+      "traceability": {
+        "requirements": [
+          "REQ:sample.md:1"
+        ],
+        "code": [],
+        "api": [],
+        "rules": [
+          "RULE:AUTH-REQUIRED"
+        ],
+        "risks": [],
+        "test_points": [
+          "TP-001"
+        ],
+        "inferred": false
+      },
+      "preconditions": [
+        "Protected API is available."
+      ],
+      "data": [],
+      "steps": [
+        {
+          "action": "Call protected endpoint without identity.",
+          "input": "GET /api/sample"
+        }
+      ],
+      "expected": [
+        {
+          "assertion": "HTTP status is 401 or documented auth failure code.",
+          "observable": "response"
+        }
+      ],
+      "automation_candidate": "high",
+      "status": "draft"
+    }
+  ]
+}
